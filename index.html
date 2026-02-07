@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Sacha Rozencwajg - Anesthésiste-Réanimateur & Enseignant en IA à la Faculté de médecine. Solutions intelligentes à l'intersection de la médecine et de l'intelligence artificielle.">
+    <meta name="keywords" content="IA, Médecine, Anesthésie, Enseignement, Santé, Machine Learning">
+    <title>Sacha Rozencwajg | Médecin & Enseignant en IA</title>
+
+    <!-- Using system fonts (SF Pro) for Apple-like design -->
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- ===========================
+         Header & Navigation
+         =========================== -->
+    <header class="header" id="header">
+        <div class="container header__inner">
+            <a href="#" class="header__logo">
+                <img src="photo-sacha.jpg" alt="Sacha Rozencwajg" class="header__logo-photo">
+                <span>Sacha Rozencwajg</span>
+            </a>
+
+            <nav class="nav" id="nav">
+                <a href="#about" class="nav__link">À propos</a>
+                <a href="#projects" class="nav__link">Projets</a>
+                <a href="#research" class="nav__link">Recherche</a>
+                <a href="#teaching" class="nav__link">Enseignement</a>
+                <a href="#publications" class="nav__link">Publications</a>
+                <a href="#contact" class="nav__link">Contact</a>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: var(--space-2);">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
+                    <svg class="theme-toggle__icon theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42">
+                        </path>
+                    </svg>
+                    <svg class="theme-toggle__icon theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                <button class="nav__toggle" id="navToggle" aria-label="Ouvrir le menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===========================
+         Hero Section
+         =========================== -->
+    <section class="hero" id="about">
+        <div class="container">
+            <div class="hero__grid">
+                <div class="hero__content">
+                    <h1 class="hero__title">
+                        Anesthésiste-Réanimateur & <br>
+                        <span class="hero__title-accent">Enseignant en IA</span>
+                    </h1>
+
+                    <p class="hero__subtitle">
+                        Je fais le lien entre la médecine clinique et l'intelligence artificielle,
+                        en développant des solutions IA pratiques qui améliorent la prise en charge
+                        des patients et la pratique médicale.
+                    </p>
+
+                    <div class="hero__actions">
+                        <a href="#projects" class="btn btn--primary">
+                            Voir mes projets
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                        <a href="#contact" class="btn btn--secondary">
+                            Me contacter
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero__image">
+                    <div class="hero__image-wrapper">
+                        <img src="photo-sacha.jpg" alt="Sacha Rozencwajg" class="hero__photo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Projects / Vibecode Section
+         =========================== -->
+    <section class="section section--alt" id="projects">
+        <div class="container">
+            <header class="section__header">
+                <p class="section__overline">Vibecode</p>
+                <h2 class="section__title">Applications IA</h2>
+                <p class="section__description">
+                    Des outils pratiques à l'intersection de la médecine et de l'IA,
+                    conçus pour résoudre des problèmes concrets en santé.
+                </p>
+            </header>
+
+            <div class="card-grid">
+                <!-- Project 1: Gemini Medical Assistant -->
+                <article class="project-card">
+                    <div class="project-card__image"
+                        style="display: flex; align-items: center; justify-content: center;">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)"
+                            stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <div class="project-card__content">
+                        <div class="project-card__tags">
+                            <span class="tag">IA / LLM</span>
+                            <span class="tag tag--teal">Santé</span>
+                        </div>
+                        <h3 class="project-card__title">Assistant Médical IA</h3>
+                        <p class="project-card__description">
+                            Un assistant intelligent propulsé par Gemini, conçu pour aider les
+                            professionnels de santé avec leurs questions cliniques et la documentation.
+                        </p>
+                        <a href="https://gemini.google.com/app/ea0dc1d49e3b0e5c" target="_blank" rel="noopener"
+                            class="card__link">
+                            Essayer en ligne
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 2: Placeholder for future projects -->
+                <article class="card">
+                    <div class="card__icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card__title">Bientôt disponible</h3>
+                    <p class="card__description">
+                        De nouveaux outils IA pour la santé sont en cours de développement.
+                        Restez connectés pour les prochaines mises à jour.
+                    </p>
+                    <span class="tag tag--purple">En développement</span>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Research Section
+         =========================== -->
+    <section class="section" id="research">
+        <div class="container">
+            <header class="section__header">
+                <p class="section__overline">Recherche</p>
+                <h2 class="section__title">Thématiques de recherche</h2>
+            </header>
+
+            <div class="card-grid">
+                <!-- Research Theme 1: AI -->
+                <article class="card card--featured">
+                    <div class="card__icon card__icon--ai">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <span class="card__badge">Thématique principale</span>
+                    <h3 class="card__title">Intelligence Artificielle en Médecine</h3>
+                    <p class="card__description">
+                        Développement et évaluation d'outils IA pour l'aide à la décision clinique,
+                        l'optimisation des soins périopératoires et l'analyse de données médicales.
+                        Focus sur les Large Language Models (LLM) et leur application en santé.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">LLM</span>
+                        <span class="tag tag--teal">Aide à la décision</span>
+                        <span class="tag tag--purple">Machine Learning</span>
+                    </div>
+                </article>
+
+                <!-- Research Theme 2: ECMO/CEC -->
+                <article class="card card--featured">
+                    <div class="card__icon card__icon--cec">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    <span class="card__badge">Thématique clinique</span>
+                    <h3 class="card__title">Circulation Extracorporelle</h3>
+                    <p class="card__description">
+                        Recherche sur l'ECMO (Oxygénation par Membrane Extracorporelle) et les techniques
+                        de circulation extracorporelle en réanimation. Optimisation des protocoles
+                        et amélioration des outcomes patients.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">ECMO</span>
+                        <span class="tag tag--teal">Réanimation</span>
+                        <span class="tag tag--purple">Chirurgie cardiaque</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Teaching Section
+         =========================== -->
+    <section class="section section--alt" id="teaching">
+        <div class="container">
+            <header class="section__header">
+                <p class="section__overline">Enseignement</p>
+                <h2 class="section__title">Formation & Pédagogie</h2>
+                <p class="section__description">
+                    Transmettre les connaissances sur l'IA appliquée à la médecine
+                    aux professionnels de santé et aux étudiants.
+                </p>
+            </header>
+
+            <div class="card-grid">
+                <!-- UE Paris Saclay -->
+                <article class="card">
+                    <div class="card__icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card__title">UE Paris-Saclay</h3>
+                    <p class="card__description">
+                        Unité d'enseignement sur l'intelligence artificielle en médecine
+                        à la Faculté de médecine de l'Université Paris-Saclay.
+                    </p>
+                    <a href="https://docs.google.com/document/d/1P4_PpdzA_g3cufWmq0z-xw85Ty1x3l2_DQvmrxPReCQ/edit?usp=sharing"
+                        target="_blank" rel="noopener" class="card__link">
+                        Voir les supports de cours
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                            <path d="M15 3h6v6M10 14L21 3"></path>
+                        </svg>
+                    </a>
+                </article>
+
+                <!-- Workshops -->
+                <article class="card">
+                    <div class="card__icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card__title">Formations & Ateliers</h3>
+                    <p class="card__description">
+                        Animations d'ateliers pratiques sur l'utilisation des outils IA
+                        (ChatGPT, Gemini, Claude) pour les professionnels de santé.
+                    </p>
+                    <a href="#contact" class="card__link">
+                        Organiser une formation
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </article>
+
+                <!-- Thesis supervision -->
+                <article class="card">
+                    <div class="card__icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                            </polygon>
+                        </svg>
+                    </div>
+                    <h3 class="card__title">Encadrement de thèses</h3>
+                    <p class="card__description">
+                        Direction et co-direction de thèses de médecine et de master
+                        sur les applications de l'IA en anesthésie-réanimation.
+                    </p>
+                    <a href="#contact" class="card__link">
+                        Proposer un sujet
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Publications Section
+         =========================== -->
+    <section class="section" id="publications">
+        <div class="container">
+            <header class="section__header">
+                <p class="section__overline">Publications</p>
+                <h2 class="section__title">Articles scientifiques</h2>
+                <p class="section__description">
+                    Publications dans des revues à comité de lecture en anesthésie,
+                    réanimation et intelligence artificielle.
+                </p>
+            </header>
+
+            <div class="publications-list">
+                <!-- Real PubMed publications -->
+                <article class="publication-card">
+                    <div class="publication-card__year">2025</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/41367735/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Assessment of a brief point-of-care ultrasound training workshop among a large cohort of
+                                medical students
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            [...] <strong>Rozencwajg S</strong> [...]
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Quantitative Imaging in Medicine and Surgery</em>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2025</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/41318097/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Generative artificial intelligence and peer reviewing: Preserve judgment, restore trust
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Benhamou D
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2023</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/36899029/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Effect of flow change on brain injury during an experimental model of differential
+                                hypoxaemia in cardiogenic shock supported by ECMO
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Heinsar S, Wildi K, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Scientific Reports</em>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2023</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/36871626/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Elevating scientific writing with ChatGPT: A guide for reviewers, editors… and authors
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Bhardwaj M
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2022</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/35803576/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Management of patients with severe acute pancreatitis
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Caillard A, Vardon-Bounes F, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2022</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/35609777/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Enhanced recovery after cardiac surgery under CPB or off pump
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Carillion A, <strong>Rozencwajg S</strong>, Abou Arab O, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                        </p>
+                    </div>
+                </article>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--space-10);">
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rozencwajg+S&sort=date" target="_blank" rel="noopener"
+                    class="btn btn--secondary">
+                    Voir les 39 publications sur PubMed
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Opinions / Blog Section
+         =========================== -->
+    <section class="section section--alt" id="opinions">
+        <div class="container">
+            <header class="section__header">
+                <p class="section__overline">Réflexions</p>
+                <h2 class="section__title">Opinions sur l'IA en médecine</h2>
+                <p class="section__description">
+                    Perspectives et réflexions sur le rôle croissant de l'intelligence
+                    artificielle dans les soins et la pratique clinique.
+                </p>
+            </header>
+
+            <div class="card-grid" style="max-width: 800px; margin: 0 auto;">
+                <!-- Opinion 1 -->
+                <article class="blog-card">
+                    <div class="blog-card__date">
+                        <span class="blog-card__date-day">15</span>
+                        <span class="blog-card__date-month">Jan</span>
+                    </div>
+                    <div class="blog-card__content">
+                        <h3 class="blog-card__title">L'usage de l'IA en pratique clinique</h3>
+                        <p class="blog-card__excerpt">
+                            Explorer les applications pratiques, les limites et les considérations
+                            éthiques de l'implémentation des outils IA dans la pratique médicale quotidienne.
+                        </p>
+                        <a href="https://docs.google.com/document/d/1Y20_O5j8x0EjsKt8qxjOTSf6uNm7t3Y9M5UNjM6aOTI/edit?usp=sharing"
+                            target="_blank" rel="noopener" class="blog-card__read-more">
+                            Lire l'article →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Contact Section
+         =========================== -->
+    <section class="section" id="contact">
+        <div class="container">
+            <header class="section__header">
+                <p class="section__overline">Contact</p>
+                <h2 class="section__title">Me contacter</h2>
+                <p class="section__description">
+                    Intéressé par du conseil, une collaboration, ou simplement discuter
+                    d'IA en médecine ? N'hésitez pas à me contacter.
+                </p>
+            </header>
+
+            <div class="card-grid" style="max-width: 600px; margin: 0 auto;">
+                <a href="mailto:sacha.rozencwajg@gmail.com" class="card" style="text-align: center; cursor: pointer;">
+                    <div class="card__icon" style="margin: 0 auto var(--space-5);">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="card__title">M'envoyer un email</h3>
+                    <p class="card__description">
+                        sacha.rozencwajg@gmail.com
+                    </p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Footer
+         =========================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__brand">
+                    <p class="footer__logo">Sacha Rozencwajg</p>
+                    <p class="footer__tagline">
+                        Anesthésiste-Réanimateur et Enseignant en IA à la Faculté de médecine, basé à Paris.
+                        Construire l'avenir de la santé, une solution intelligente à la fois.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="footer__title">Navigation</h4>
+                    <nav class="footer__links">
+                        <a href="#about" class="footer__link">À propos</a>
+                        <a href="#projects" class="footer__link">Projets</a>
+                        <a href="#research" class="footer__link">Recherche</a>
+                        <a href="#teaching" class="footer__link">Enseignement</a>
+                        <a href="#publications" class="footer__link">Publications</a>
+                    </nav>
+                </div>
+
+                <div>
+                    <h4 class="footer__title">Contact</h4>
+                    <nav class="footer__links">
+                        <a href="mailto:sacha.rozencwajg@gmail.com" class="footer__link">Email</a>
+                        <a href="https://www.linkedin.com/in/sacha-rozencwajg" target="_blank" rel="noopener"
+                            class="footer__link">LinkedIn</a>
+                        <a href="https://github.com" target="_blank" rel="noopener" class="footer__link">GitHub</a>
+                    </nav>
+                </div>
+
+                <div>
+                    <h4 class="footer__title">Ressources</h4>
+                    <nav class="footer__links">
+                        <a href="https://gemini.google.com/app/ea0dc1d49e3b0e5c" target="_blank" rel="noopener"
+                            class="footer__link">Assistant Médical IA</a>
+                        <a href="https://docs.google.com/document/d/1P4_PpdzA_g3cufWmq0z-xw85Ty1x3l2_DQvmrxPReCQ/edit?usp=sharing"
+                            target="_blank" rel="noopener" class="footer__link">UE Paris Saclay</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 Sacha Rozencwajg. Tous droits réservés.
+                </p>
+                <div class="footer__socials">
+                    <a href="mailto:sacha.rozencwajg@gmail.com" class="footer__social" aria-label="Email">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sacha-rozencwajg" target="_blank" rel="noopener"
+                        class="footer__social" aria-label="LinkedIn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener" class="footer__social"
+                        aria-label="GitHub">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>
