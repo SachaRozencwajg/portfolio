@@ -646,6 +646,176 @@ ol {
 }
 
 /* ===========================
+   Timeline - Multi-Lane CV
+   =========================== */
+.timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.timeline__track {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.timeline__track::before {
+    content: '';
+    position: absolute;
+    top: 80px;
+    left: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: var(--border-color);
+    border-radius: 1px;
+}
+
+.timeline__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.timeline__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.timeline__icon--medical {
+    background: linear-gradient(135deg, #0071e3 0%, #40a9ff 100%);
+    color: white;
+}
+
+.timeline__icon--entrepreneur {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+    color: white;
+}
+
+.timeline__icon--academic {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+}
+
+.timeline__title {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.timeline__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.timeline__item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    padding-left: var(--space-8);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    position: relative;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.timeline__item::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid var(--bg-card);
+}
+
+.timeline__track--medical .timeline__item::before {
+    background: #0071e3;
+}
+
+.timeline__track--entrepreneur .timeline__item::before {
+    background: #7c3aed;
+}
+
+.timeline__track--academic .timeline__item::before {
+    background: #059669;
+}
+
+.timeline__item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.timeline__year {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.timeline__label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.timeline__role {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    font-weight: var(--font-medium);
+    margin-top: 2px;
+}
+
+/* Timeline Responsive */
+@media (max-width: 1024px) {
+    .timeline {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .timeline__track {
+        padding: var(--space-4);
+    }
+
+    .timeline__items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+    }
+
+    .timeline__track::before {
+        display: none;
+    }
+
+    .timeline__item::before {
+        display: none;
+    }
+
+    .timeline__item {
+        padding-left: var(--space-4);
+    }
+}
+
+@media (max-width: 640px) {
+    .timeline__items {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===========================
    Cards - Apple Style  
    =========================== */
 .card-grid {
