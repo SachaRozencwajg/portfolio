@@ -779,6 +779,34 @@ ol {
     margin-top: 2px;
 }
 
+/* Timeline with logos (LinkedIn style) */
+.timeline__item--with-logo {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding-left: var(--space-4);
+}
+
+.timeline__item--with-logo::before {
+    display: none;
+}
+
+.timeline__logo {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    object-fit: contain;
+    background: white;
+    padding: 2px;
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.timeline__content {
+    display: flex;
+    flex-direction: column;
+}
+
 /* Timeline Responsive */
 @media (max-width: 1024px) {
     .timeline {
