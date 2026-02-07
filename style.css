@@ -844,6 +844,26 @@ ol {
     background: linear-gradient(135deg, #5c2d91 0%, #7b3db5 100%);
 }
 
+/* Clickable timeline items */
+a.timeline__item--clickable {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+a.timeline__item--clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+a.timeline__item--clickable:hover .timeline__label,
+a.timeline__item--clickable:hover .timeline__role,
+a.timeline__item--clickable:hover .timeline__year {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* Timeline Responsive */
 @media (max-width: 1024px) {
     .timeline {
