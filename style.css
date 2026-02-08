@@ -942,6 +942,28 @@ a.timeline__item--clickable:hover .timeline__year {
     color: white;
 }
 
+/* Card header with logo (icon + logo side by side) */
+.card__header-with-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.card__header-with-logo .card__icon {
+    margin-bottom: 0;
+}
+
+.card__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    object-fit: contain;
+    background: white;
+    padding: 4px;
+    border: 1px solid var(--border-color);
+}
+
 .card__title {
     font-size: var(--text-xl);
     font-weight: var(--font-semibold);
