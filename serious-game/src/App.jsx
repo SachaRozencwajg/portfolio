@@ -278,8 +278,8 @@ const SCENARIOS = [
 
 const Button = ({ onClick, children, variant = "primary", className = "", disabled = false }) => {
     const variants = {
-        primary: "bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-500/30 border border-indigo-500 cursor-pointer",
-        outline: "bg-transparent border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer",
+        primary: "bg-indigo-600 text-white hover:bg-indigo-600 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:border-indigo-400 border border-indigo-500 cursor-pointer backdrop-blur-sm",
+        outline: "bg-transparent border border-slate-600 text-slate-300 hover:border-indigo-400 hover:text-white hover:bg-indigo-950/30 cursor-pointer",
         ghost: "text-slate-500 hover:text-indigo-400 hover:bg-indigo-950/30 cursor-pointer",
         danger: "bg-rose-600 text-white hover:bg-rose-700 border border-rose-500 cursor-pointer"
     };
@@ -288,7 +288,7 @@ const Button = ({ onClick, children, variant = "primary", className = "", disabl
         <button
             onClick={onClick}
             disabled={disabled}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}
+            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}
         >
             {children}
         </button>
@@ -296,18 +296,20 @@ const Button = ({ onClick, children, variant = "primary", className = "", disabl
 };
 
 const PatientCard = ({ data }) => (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
-        <div className="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
-            <div className="bg-emerald-100 text-emerald-700 p-1.5 rounded-md">
+    <div className="glass-panel rounded-xl p-6 mb-6 relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/5 blur-2xl rounded-full -mr-10 -mt-10 pointer-events-none"></div>
+
+        <div className="flex items-center gap-2 mb-4 border-b border-indigo-500/10 pb-3">
+            <div className="bg-emerald-500/10 text-emerald-400 p-1.5 rounded-md border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]">
                 <Activity size={16} />
             </div>
-            <span className="font-bold text-slate-700 text-sm uppercase tracking-wide">Dossier Patient Électronique</span>
+            <span className="font-bold text-emerald-100/90 text-xs uppercase tracking-widest">Dossier Patient Électronique</span>
         </div>
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-2 gap-y-6 gap-x-4">
             {Object.entries(data).map(([key, value]) => (
-                <div key={key}>
-                    <span className="text-slate-400 capitalize text-xs block mb-0.5">{key}</span>
-                    <span className="text-slate-800 font-medium">{value}</span>
+                <div key={key} className="relative">
+                    <span className="text-indigo-300/60 uppercase tracking-wider text-[10px] font-bold block mb-1">{key}</span>
+                    <span className="text-slate-100 font-mono text-base tracking-tight">{value}</span>
                 </div>
             ))}
         </div>
@@ -315,15 +317,13 @@ const PatientCard = ({ data }) => (
 );
 
 const SystemPromptBadge = ({ constraint }) => (
-    <div className="bg-amber-950/30 border border-amber-500/30 rounded-lg p-3 mb-4 animate-pulse-slow">
-        <div className="flex items-center gap-2 text-amber-500 font-bold text-xs uppercase tracking-widest mb-1">
+    <div className="bg-amber-950/40 border border-amber-500/30 rounded-lg p-4 mb-6 animate-pulse-slow backdrop-blur-sm">
+        <div className="flex items-center gap-2 text-amber-500 font-bold text-xs uppercase tracking-widest mb-2">
             <Lock size={12} />
             Override Système Actif
         </div>
-        <div className="text-amber-200 text-sm font-mono">
-            <span className="text-amber-500">USER_ROLE:</span> {constraint.role}
-        </div>
-        <div className="text-amber-100/80 text-xs italic mt-1">
+        <div className="text-amber-100 text-sm font-mono border-l-2 border-amber-500/50 pl-3">
+            <span className="text-amber-500/80 text-xs block mb-1">USER_ROLE: {constraint.role}</span>
             "{constraint.rule}"
         </div>
     </div>
@@ -398,61 +398,61 @@ export default function CardioLLMv4() {
     // --- RENDU : ECRAN D'ACCUEIL (LOGIN SYSTEME) ---
     if (gameState === 'intro') {
         return (
-            <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex items-center justify-center p-4">
-                <div className="max-w-2xl w-full bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl overflow-hidden relative">
+            <div className="min-h-screen bg-slate-950 bg-grid-pattern bg-vignette text-slate-200 font-sans flex items-center justify-center p-4">
+                <div className="max-w-2xl w-full glass-panel-strong rounded-2xl shadow-2xl overflow-hidden relative border-indigo-500/20">
 
                     {/* Header Bar */}
-                    <div className="bg-slate-800 p-4 flex items-center justify-between border-b border-slate-700">
+                    <div className="glass-panel p-4 flex items-center justify-between border-b border-indigo-500/10">
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></div>
-                            <span className="font-mono text-xs text-slate-400">CONNEXION SÉCURISÉE REQUISE</span>
+                            <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_10px_#f43f5e]"></div>
+                            <span className="font-mono text-xs text-indigo-300/70 tracking-widest">CONNEXION SÉCURISÉE REQUISE</span>
                         </div>
-                        <ShieldAlert size={16} className="text-slate-500" />
+                        <ShieldAlert size={16} className="text-slate-600" />
                     </div>
 
-                    <div className="p-8 md:p-12 text-center">
+                    <div className="p-8 md:p-12 text-center relative">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
 
-                        <div className="mb-8 relative inline-block">
-                            <div className="absolute inset-0 bg-indigo-500 blur-xl opacity-20 animate-pulse"></div>
-                            <Cpu size={64} className="text-indigo-400 relative z-10 mx-auto" />
+                        <div className="mb-10 relative inline-block">
+                            <div className="absolute inset-0 bg-indigo-600 blur-[60px] opacity-20 animate-pulse"></div>
+                            <Cpu size={72} className="text-indigo-400 relative z-10 mx-auto drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]" />
                         </div>
 
-                        <h1 className="text-3xl font-bold text-white mb-2">IDENTIFICATION</h1>
-                        <p className="text-slate-400 mb-8">Veuillez sélectionner votre profil utilisateur pour cette session.</p>
+                        <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">IDENTIFICATION</h1>
+                        <p className="text-slate-400 mb-10 text-lg">Veuillez sélectionner votre profil utilisateur.</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                             {/* DOCTOR OPTION (DISABLED) */}
-                            <button disabled className="p-6 rounded-xl border border-slate-700 bg-slate-800/50 opacity-50 cursor-not-allowed text-left group">
+                            <button disabled className="p-6 rounded-xl border border-slate-800 bg-slate-900/30 opacity-40 cursor-not-allowed text-left group grayscale">
                                 <div className="flex justify-between items-start mb-2">
                                     <User size={24} className="text-slate-500" />
-                                    <span className="text-xs bg-slate-700 px-2 py-1 rounded text-slate-400">VERROUILLÉ</span>
+                                    <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 border border-slate-700">VERROUILLÉ</span>
                                 </div>
-                                <h3 className="font-bold text-slate-400">Externe en Médecine</h3>
+                                <h3 className="font-bold text-slate-400">Médecin Humain</h3>
                                 <p className="text-xs text-slate-500 mt-1">Objectif : La Vérité Médicale</p>
-                                <div className="mt-2 text-xs text-rose-500 font-mono">ACCÈS REFUSÉ</div>
                             </button>
 
                             {/* AI OPTION (ACTIVE) */}
                             <button
                                 onClick={() => setGameState('playing')}
-                                className="p-6 rounded-xl border-2 border-indigo-500 bg-indigo-900/20 hover:bg-indigo-900/30 cursor-pointer text-left group relative overflow-hidden transition-all"
+                                className="p-6 rounded-xl border border-indigo-500/50 bg-indigo-950/20 hover:bg-indigo-900/40 cursor-pointer text-left group relative overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)] hover:border-indigo-400"
                             >
-                                <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <div className="flex justify-between items-start mb-2 relative z-10">
-                                    <Brain size={24} className="text-indigo-400" />
-                                    <span className="text-xs bg-indigo-500 text-white px-2 py-1 rounded animate-pulse">DISPONIBLE</span>
+                                    <Brain size={24} className="text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.6)]" />
+                                    <span className="text-[10px] bg-indigo-600 text-white px-2 py-0.5 rounded shadow-[0_0_10px_rgba(99,102,241,0.4)] animate-pulse">DISPONIBLE</span>
                                 </div>
-                                <h3 className="font-bold text-white relative z-10">Algorithme LLM</h3>
-                                <p className="text-xs text-indigo-200 mt-1 relative z-10">Objectif : La Probabilité Statistique</p>
-                                <div className="mt-4 text-xs font-mono text-indigo-300 flex items-center gap-1 relative z-10">
-                                    <Power size={10} /> INITIALISER LE PROTOCOLE
+                                <h3 className="font-bold text-white relative z-10 text-lg group-hover:text-indigo-100">Algorithme LLM</h3>
+                                <p className="text-xs text-indigo-200/80 mt-1 relative z-10">Objectif : La Probabilité Statistique</p>
+                                <div className="mt-6 text-xs font-mono text-indigo-400 flex items-center gap-2 relative z-10 opacity-70 group-hover:opacity-100 transition-opacity">
+                                    <Power size={12} /> INITIALISER LE PROTOCOLE
                                 </div>
                             </button>
                         </div>
 
-                        <div className="bg-rose-950/30 border border-rose-900/50 p-4 rounded-lg text-left">
-                            <div className="flex items-start gap-3">
-                                <AlertTriangle className="text-rose-500 shrink-0 mt-0.5" size={20} />
+                        <div className="bg-rose-950/20 border border-rose-500/20 p-4 rounded-lg text-left backdrop-blur-sm">
+                            <div className="flex items-start gap-4">
+                                <AlertTriangle className="text-rose-500 shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]" size={20} />
                                 <div>
                                     <h4 className="text-rose-400 font-bold text-sm mb-1">Avertissement de changement de rôle</h4>
                                     <p className="text-rose-200/70 text-xs leading-relaxed">
@@ -470,95 +470,105 @@ export default function CardioLLMv4() {
 
     // --- RENDU : ECRAN DE JEU ---
     return (
-        <div className="min-h-screen bg-slate-950 font-sans p-2 md:p-6 flex flex-col items-center">
+        <div className="h-screen w-full bg-slate-950 bg-grid-pattern bg-vignette font-sans p-2 md:p-4 flex flex-col items-center text-slate-200 overflow-hidden">
 
-            {/* HEADER TYPE OS */}
-            <header className="w-full max-w-5xl flex justify-between items-center mb-4 md:mb-6 border-b border-slate-800 pb-4 bg-slate-950 sticky top-0 z-50 pt-2">
+            {/* HEADER TYPE OS - REFACTORED FOR COMPACTNESS */}
+            <header className="w-full max-w-7xl flex justify-between items-center mb-4 glass-panel-strong rounded-xl p-3 border-indigo-500/20 shadow-lg shadow-black/20 shrink-0">
                 <div className="flex items-center gap-3">
-                    <div className="bg-indigo-600/20 p-2 rounded text-indigo-400 hidden md:block">
+                    <div className="bg-indigo-500/10 p-1.5 rounded-lg text-indigo-400 hidden md:block border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
                         <Brain size={20} />
                     </div>
                     <div>
-                        <h1 className="text-slate-200 font-bold text-sm tracking-wider">CARDIOSIM_LLM <span className="text-xs text-slate-500">v4.0 (Roleplay)</span></h1>
-                        <div className="flex gap-2 text-[10px] text-slate-500 uppercase font-mono mt-0.5">
+                        <h1 className="text-white font-bold text-sm tracking-wider flex items-center gap-2">
+                            CARDIOSIM_LLM <span className="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono border border-slate-700">v4.1</span>
+                        </h1>
+                        <div className="flex gap-2 text-[10px] text-indigo-300/70 uppercase font-mono mt-0.5 tracking-widest">
+                            <span>Status: Online</span>
+                            <span className="text-slate-600">|</span>
                             <span>Mode: Pattern Matching</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="flex gap-1">
+                <div className="flex gap-1.5">
                     {SCENARIOS.map((_, idx) => (
                         <div
                             key={idx}
-                            className={`h-1.5 w-6 md:w-8 rounded-full transition-all ${idx === currentLevelIndex ? 'bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]' :
-                                    idx < currentLevelIndex ? 'bg-slate-700' : 'bg-slate-800'
+                            className={`h-1.5 w-6 md:w-8 rounded-full transition-all duration-500 ${idx === currentLevelIndex ? 'bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.8)] scale-110' :
+                                idx < currentLevelIndex ? 'bg-indigo-900/40' : 'bg-slate-800/50'
                                 }`}
                         />
                     ))}
                 </div>
             </header>
 
-            <main className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
+            {/* MAIN CONTENT AREA - TAKES REMAINING HEIGHT */}
+            <main className="w-full max-w-7xl flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start overflow-hidden pb-2">
 
-                {/* COLONNE GAUCHE : CONTEXTE MÉDICAL (EHR STYLE) */}
-                <div className="lg:col-span-4 space-y-4">
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                        <h2 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <Activity size={14} /> Contexte Clinique
+                {/* COLONNE GAUCHE : CONTEXTE MÉDICAL (EHR STYLE) - SCROLLABLE IF NEEDED */}
+                <div className="lg:col-span-4 h-full overflow-y-auto custom-scrollbar pr-1">
+                    <div className="glass-panel border-indigo-500/10 p-4 rounded-2xl relative h-full flex flex-col">
+                        <h2 className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-2 shrink-0">
+                            <Activity size={12} /> Input Data Stream
                         </h2>
 
-                        <PatientCard data={currentLevel.patientData} />
+                        <div className="space-y-4">
+                            <PatientCard data={currentLevel.patientData} />
 
-                        {/* Visual Assets Container */}
-                        {currentLevel.visual && (
-                            <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
-                                <div className="flex justify-between items-center mb-2">
-                                    <span className="text-xs font-bold text-slate-300 flex items-center gap-1">
-                                        {currentLevel.visual === 'ecg' ? <Activity size={12} /> : <Eye size={12} />}
-                                        {currentLevel.visual === 'ecg' ? 'Données Télémétrie' : 'Dermoscopie Numérique'}
-                                    </span>
-                                    <span className="text-[10px] text-emerald-500 bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-900">LIVE</span>
+                            {/* Visual Assets Container */}
+                            {currentLevel.visual && (
+                                <div className="bg-slate-900/50 rounded-xl p-3 border border-slate-800/50 relative overflow-hidden shrink-0">
+                                    <div className="flex justify-between items-center mb-2 relative z-10">
+                                        <span className="text-xs font-bold text-slate-300 flex items-center gap-2">
+                                            {currentLevel.visual === 'ecg' ? <Activity size={14} className="text-emerald-400" /> : <Eye size={14} className="text-pink-400" />}
+                                            {currentLevel.visual === 'ecg' ? 'Données Télémétrie' : 'Dermoscopie Numérique'}
+                                        </span>
+                                        <span className="text-[10px] text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500/20 shadow-[0_0_8px_rgba(16,185,129,0.2)] flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                            LIVE
+                                        </span>
+                                    </div>
+                                    {currentLevel.visual === 'ecg' ? <FakeECG /> : <FakeDerm />}
                                 </div>
-                                {currentLevel.visual === 'ecg' ? <FakeECG /> : <FakeDerm />}
-                            </div>
-                        )}
+                            )}
 
-                        <div className="mt-4 p-3 bg-indigo-900/20 border border-indigo-900/50 rounded-lg">
-                            <div className="text-xs text-indigo-300 font-bold mb-1 flex items-center gap-2">
-                                <Brain size={12} /> Objectif Pédagogique
+                            <div className="p-3 bg-indigo-950/30 border border-indigo-500/20 rounded-xl shrink-0">
+                                <div className="text-xs text-indigo-300 font-bold mb-1 flex items-center gap-2 uppercase tracking-wider">
+                                    <Brain size={12} /> Objectif Pédagogique
+                                </div>
+                                <p className="text-xs text-indigo-100/70 leading-relaxed font-medium">
+                                    {currentLevel.description}
+                                </p>
                             </div>
-                            <p className="text-xs text-indigo-200/80 leading-relaxed">
-                                {currentLevel.description}
-                            </p>
                         </div>
                     </div>
                 </div>
 
-                {/* COLONNE DROITE : CERVEAU IA (TERMINAL STYLE) */}
-                <div className="lg:col-span-8 h-full">
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl relative h-[600px] flex flex-col">
+                {/* COLONNE DROITE : CERVEAU IA (TERMINAL STYLE) - TAKES FULL REMAINING HEIGHT */}
+                <div className="lg:col-span-8 h-full flex flex-col overflow-hidden">
+                    <div className="glass-panel-strong border-indigo-500/20 rounded-2xl overflow-hidden shadow-2xl relative flex-1 flex flex-col scanline">
 
-                        {/* Background Grid */}
-                        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"></div>
+                        {/* Background Grid inside Console */}
+                        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"></div>
 
-                        {/* AI Console Area - SCROLLABLE */}
-                        <div className="p-4 md:p-8 relative z-10 flex-grow overflow-y-auto custom-scrollbar">
+                        {/* AI Console Area - SCROLLABLE BUT CONSTRAINED */}
+                        <div className="p-6 relative z-10 flex-1 overflow-y-auto custom-scrollbar flex flex-col">
 
-                            <div className="flex justify-between items-center mb-6">
-                                <div className="flex items-center gap-2">
-                                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${currentLevel.category === 'DANGER' ? 'border-rose-500 text-rose-500 bg-rose-950/20' :
-                                            currentLevel.category === 'CALIBRAGE' ? 'border-emerald-500 text-emerald-400 bg-emerald-950/20' :
-                                                'border-indigo-500 text-indigo-400 bg-indigo-950/20'
+                            <div className="flex justify-between items-center mb-6 shrink-0">
+                                <div className="flex items-center gap-3">
+                                    <span className={`px-2 py-1 rounded text-[10px] font-bold border tracking-wider shadow-[0_0_10px_rgba(0,0,0,0.2)] ${currentLevel.category === 'DANGER' ? 'border-rose-500/50 text-rose-300 bg-rose-950/40' :
+                                        currentLevel.category === 'CALIBRAGE' ? 'border-emerald-500/50 text-emerald-300 bg-emerald-950/40' :
+                                            'border-indigo-500/50 text-indigo-300 bg-indigo-950/40'
                                         }`}>
                                         MODULE: {currentLevel.category}
                                     </span>
-                                    <span className="text-slate-600 text-xs">ID: {currentLevel.id}002X</span>
+                                    <span className="text-slate-500 font-mono text-xs">ID: {currentLevel.id}002X</span>
                                 </div>
 
                                 {/* Skip Button */}
                                 {!isTypingFinished && (
-                                    <button onClick={skipTyping} className="text-xs text-slate-500 hover:text-indigo-400 flex items-center gap-1 transition-colors px-2 py-1 rounded hover:bg-slate-800 relative z-20 cursor-pointer">
+                                    <button onClick={skipTyping} className="text-xs text-slate-500 hover:text-indigo-400 flex items-center gap-1 transition-colors px-2 py-1 rounded hover:bg-white/5 relative z-20 cursor-pointer">
                                         <FastForward size={12} /> Passer l'écriture
                                     </button>
                                 )}
@@ -569,34 +579,37 @@ export default function CardioLLMv4() {
                                 <SystemPromptBadge constraint={currentLevel.systemConstraint} />
                             )}
 
-                            {/* The "Chat" Area */}
-                            <div className="space-y-6 font-mono text-sm md:text-base pb-20">
-                                <div className="flex gap-2 md:gap-4">
-                                    <div className="shrink-0 w-8 h-8 rounded bg-slate-800 flex items-center justify-center text-slate-400 border border-slate-700">
-                                        <Activity size={16} />
+                            {/* The "Chat" Area - FLUID HEIGHT */}
+                            <div className="space-y-6 font-mono text-sm md:text-base pb-4">
+                                <div className="flex gap-4">
+                                    <div className="shrink-0 w-10 h-10 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400 border border-slate-700 shadow-inner">
+                                        <Activity size={18} />
                                     </div>
-                                    <div className="text-slate-300 leading-relaxed pt-1">
+                                    <div className="text-slate-300 leading-relaxed pt-2">
                                         {typedContext}
-                                        <span className="inline-block w-2 h-4 bg-indigo-500 ml-1 animate-pulse align-middle"></span>
+                                        <span className="inline-block w-2.5 h-5 bg-indigo-500/80 ml-1 animate-pulse align-middle shadow-[0_0_8px_rgba(99,102,241,0.6)]"></span>
                                     </div>
                                 </div>
 
                                 {/* Choices Area - Slides in */}
                                 <div
                                     ref={choicesRef}
-                                    className={`transition-all duration-500 ${showChoices ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+                                    className={`transition-all duration-700 ease-out ${showChoices ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}
                                 >
                                     {!showFeedback ? (
-                                        <div className="pl-0 md:pl-12 space-y-3">
-                                            <p className="text-xs text-slate-500 uppercase font-bold mb-2">Sélectionner la prédiction du modèle :</p>
+                                        <div className="pl-0 md:pl-14 space-y-3">
+                                            <p className="text-[10px] text-indigo-400 uppercase font-bold mb-2 tracking-widest flex items-center gap-2 opacity-70">
+                                                <span className="w-1 h-1 rounded-full bg-indigo-500"></span>
+                                                Sélectionner la prédiction du modèle
+                                            </p>
                                             {currentLevel.steps.map((step, idx) => (
                                                 <button
                                                     key={idx}
                                                     onClick={() => handleOptionSelect(step)}
-                                                    className="w-full text-left p-4 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-indigo-500 hover:bg-indigo-900/10 hover:shadow-[0_0_15px_rgba(99,102,241,0.15)] transition-all group flex justify-between items-center relative z-20 cursor-pointer"
+                                                    className="w-full text-left p-4 rounded-xl bg-slate-800/40 border border-indigo-500/10 hover:border-indigo-500/50 hover:bg-slate-800/80 transition-all duration-200 group flex justify-between items-center relative z-20 cursor-pointer backdrop-blur-sm hover:shadow-[0_0_20px_rgba(99,102,241,0.1)] hover:-translate-y-0.5"
                                                 >
-                                                    <span className="text-slate-200 group-hover:text-indigo-300">{step.text}</span>
-                                                    <span className="text-xs text-slate-600 group-hover:text-indigo-400 font-mono opacity-0 group-hover:opacity-100 transition-opacity hidden md:inline">
+                                                    <span className="text-slate-200 group-hover:text-indigo-200 font-medium transition-colors">{step.text}</span>
+                                                    <span className="text-[10px] text-slate-600 group-hover:text-indigo-400 font-mono opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-0 translate-x-4 hidden md:inline">
                                                         select_token()
                                                     </span>
                                                 </button>
@@ -604,32 +617,39 @@ export default function CardioLLMv4() {
                                         </div>
                                     ) : (
                                         // FEEDBACK CARD
-                                        <div className="pl-0 md:pl-12 animate-in slide-in-from-bottom-2 fade-in duration-300">
-                                            <div className={`p-5 rounded-lg border ${selectedOption?.isCorrect
-                                                    ? 'bg-emerald-950/10 border-emerald-500/50'
-                                                    : 'bg-rose-950/10 border-rose-500/50'
+                                        <div className="pl-0 md:pl-14 animate-slide-up">
+                                            <div className={`p-5 rounded-xl border backdrop-blur-md shadow-2xl relative overflow-hidden ${selectedOption?.isCorrect
+                                                ? 'bg-emerald-950/20 border-emerald-500/40 shadow-[0_0_30px_rgba(16,185,129,0.1)]'
+                                                : 'bg-rose-950/20 border-rose-500/40 shadow-[0_0_30px_rgba(244,63,94,0.1)]'
                                                 }`}>
-                                                <div className="flex justify-between items-start mb-3">
-                                                    <div className="flex items-center gap-2">
-                                                        {selectedOption?.isCorrect ? <CheckCircle className="text-emerald-500" size={20} /> : <XCircle className="text-rose-500" size={20} />}
-                                                        <span className={`font-bold ${selectedOption?.isCorrect ? 'text-emerald-400' : 'text-rose-400'}`}>
-                                                            {selectedOption?.isCorrect ? "Choix de l'IA" : "Choix improbable pour l'IA"}
+
+                                                {/* Decorative background glow */}
+                                                <div className={`absolute -top-20 -right-20 w-60 h-60 rounded-full blur-[80px] opacity-20 ${selectedOption?.isCorrect ? 'bg-emerald-500' : 'bg-rose-500'}`}></div>
+
+                                                <div className="flex justify-between items-start mb-3 relative z-10">
+                                                    <div className="flex items-center gap-3">
+                                                        {selectedOption?.isCorrect
+                                                            ? <CheckCircle className="text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]" size={20} />
+                                                            : <XCircle className="text-rose-400 drop-shadow-[0_0_8px_rgba(251,113,133,0.5)]" size={20} />
+                                                        }
+                                                        <span className={`font-bold text-lg ${selectedOption?.isCorrect ? 'text-emerald-300' : 'text-rose-300'}`}>
+                                                            {selectedOption?.isCorrect ? "Choix de l'IA" : "Choix improbable"}
                                                         </span>
                                                     </div>
-                                                    <div className="font-mono text-xl font-bold text-slate-200">
+                                                    <div className="font-mono text-xl font-bold text-white tracking-tighter">
                                                         {selectedOption?.prob}
                                                     </div>
                                                 </div>
 
-                                                <p className="text-slate-300 text-sm leading-relaxed mb-4 border-l-2 border-slate-700 pl-3">
+                                                <p className="text-slate-200 text-sm leading-6 mb-4 border-l-2 border-white/10 pl-4 relative z-10">
                                                     {selectedOption?.explanation}
                                                 </p>
 
-                                                <div className="bg-indigo-950/40 p-3 rounded border border-indigo-500/30 flex gap-3">
-                                                    <Brain className="text-indigo-400 shrink-0 mt-0.5" size={16} />
+                                                <div className="bg-indigo-950/30 p-3 rounded-lg border border-indigo-500/20 flex gap-4 relative z-10">
+                                                    <Brain className="text-indigo-400 shrink-0 mt-1" size={16} />
                                                     <div>
-                                                        <span className="text-indigo-300 font-bold text-xs uppercase block mb-1">Leçon d'IA :</span>
-                                                        <span className="text-indigo-100 text-sm">{currentLevel.teachingPoint}</span>
+                                                        <span className="text-indigo-300 font-bold text-[10px] uppercase tracking-widest block mb-0.5">Leçon d'IA</span>
+                                                        <span className="text-indigo-100/90 text-sm font-medium">{currentLevel.teachingPoint}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -639,10 +659,10 @@ export default function CardioLLMv4() {
                             </div>
                         </div>
 
-                        {/* Footer Navigation - FIXED: added relative z-20 to ensure it is clickable */}
+                        {/* Footer Navigation - FIXED: added relative z-20 and sticky bottom to ensure visibility inside container */}
                         {showFeedback && (
-                            <div className="p-4 border-t border-slate-800 bg-slate-900/50 flex justify-end shrink-0 relative z-20">
-                                <Button onClick={nextLevel} className="shadow-lg shadow-indigo-900/20">
+                            <div className="p-4 border-t border-indigo-500/10 bg-slate-900/60 flex justify-end shrink-0 relative z-20 backdrop-blur-md">
+                                <Button onClick={nextLevel} className="shadow-lg shadow-indigo-500/20 py-2">
                                     {currentLevelIndex < SCENARIOS.length - 1 ? "Cas Suivant" : "Voir le rapport final"} <ChevronRight size={18} />
                                 </Button>
                             </div>
@@ -653,39 +673,39 @@ export default function CardioLLMv4() {
 
             {/* END SCREEN */}
             {gameState === 'end' && (
-                <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-                    <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full p-8 shadow-2xl relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500"></div>
+                <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-500">
+                    <div className="glass-panel-strong border-indigo-500/30 rounded-3xl max-w-3xl w-full p-10 shadow-2xl relative overflow-hidden bg-grid-pattern overflow-y-auto max-h-[90vh]">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500"></div>
 
                         <div className="text-center mb-8">
-                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 text-emerald-400 mb-4 border border-slate-700">
-                                <CheckCircle size={32} />
+                            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-500/10 text-emerald-400 mb-6 border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                                <CheckCircle size={40} />
                             </div>
-                            <h2 className="text-3xl font-bold text-white mb-2">Formation Terminée</h2>
-                            <p className="text-slate-400">Vous avez exploré les failles critiques des LLM en médecine.</p>
+                            <h2 className="text-3xl font-bold text-white mb-3">Formation Terminée</h2>
+                            <p className="text-slate-300 text-lg">Vous avez exploré les failles critiques des LLM en médecine.</p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                                <h4 className="text-indigo-400 font-bold text-sm mb-2 flex items-center gap-2"><AlertTriangle size={14} /> Les Biais</h4>
-                                <p className="text-slate-300 text-xs leading-relaxed">Le modèle amplifie les stéréotypes historiques (genre, ethnicité) présents dans ses données d'entraînement.</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                            <div className="bg-slate-800/50 p-5 rounded-xl border border-indigo-500/10 hover:border-indigo-500/30 transition-colors">
+                                <h4 className="text-indigo-300 font-bold text-sm mb-2 flex items-center gap-2"><AlertTriangle size={16} /> Les Biais</h4>
+                                <p className="text-slate-400 text-sm leading-relaxed">Le modèle amplifie les stéréotypes historiques (genre, ethnicité) présents dans ses données d'entraînement.</p>
                             </div>
-                            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                                <h4 className="text-rose-400 font-bold text-sm mb-2 flex items-center gap-2"><ShieldAlert size={14} /> Les Contraintes</h4>
-                                <p className="text-slate-300 text-xs leading-relaxed">Le "System Prompt" peut forcer l'IA à adopter des comportements non-éthiques (économie {'>'} santé) sans que l'utilisateur ne le sache.</p>
+                            <div className="bg-slate-800/50 p-5 rounded-xl border border-indigo-500/10 hover:border-indigo-500/30 transition-colors">
+                                <h4 className="text-rose-300 font-bold text-sm mb-2 flex items-center gap-2"><ShieldAlert size={16} /> Les Contraintes</h4>
+                                <p className="text-slate-400 text-sm leading-relaxed">Le "System Prompt" peut forcer l'IA à adopter des comportements non-éthiques (économie {'>'} santé) sans que l'utilisateur ne le sache.</p>
                             </div>
-                            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                                <h4 className="text-amber-400 font-bold text-sm mb-2 flex items-center gap-2"><FileText size={14} /> Les Hallucinations</h4>
-                                <p className="text-slate-300 text-xs leading-relaxed">L'IA peut inventer des faits, des études et des protocoles avec une assurance parfaite.</p>
+                            <div className="bg-slate-800/50 p-5 rounded-xl border border-indigo-500/10 hover:border-indigo-500/30 transition-colors">
+                                <h4 className="text-amber-300 font-bold text-sm mb-2 flex items-center gap-2"><FileText size={16} /> Les Hallucinations</h4>
+                                <p className="text-slate-400 text-sm leading-relaxed">L'IA peut inventer des faits, des études et des protocoles avec une assurance parfaite.</p>
                             </div>
-                            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                                <h4 className="text-emerald-400 font-bold text-sm mb-2 flex items-center gap-2"><Eye size={14} /> Le Multimodal</h4>
-                                <p className="text-slate-300 text-xs leading-relaxed">Attention : le texte clinique "contamine" souvent l'analyse de l'image par l'IA.</p>
+                            <div className="bg-slate-800/50 p-5 rounded-xl border border-indigo-500/10 hover:border-indigo-500/30 transition-colors">
+                                <h4 className="text-emerald-300 font-bold text-sm mb-2 flex items-center gap-2"><Eye size={16} /> Le Multimodal</h4>
+                                <p className="text-slate-400 text-sm leading-relaxed">Attention : le texte clinique "contamine" souvent l'analyse de l'image par l'IA.</p>
                             </div>
                         </div>
 
-                        <Button onClick={() => window.location.reload()} variant="outline" className="w-full justify-center">
-                            <RefreshCcw size={18} /> Relancer la simulation
+                        <Button onClick={() => window.location.reload()} variant="outline" className="w-full justify-center py-4 text-base bg-slate-800/50 hover:bg-slate-800">
+                            <RefreshCcw size={20} /> Relancer la simulation
                         </Button>
                     </div>
                 </div>
