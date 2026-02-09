@@ -1,0 +1,21 @@
+{
+  "name": "Sacha Rozencwajg - MD & AI",
+  "short_name": "Sacha MD & AI",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0071e3",
+  "description": "Portfolio de Sacha Rozencwajg, Anesthésiste-Réanimateur & Enseignant en IA.",
+  "icons": [
+    {
+      "src": "photo-sacha.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "photo-sacha.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

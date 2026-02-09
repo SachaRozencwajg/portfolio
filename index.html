@@ -6,10 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Sacha Rozencwajg - Anesthésiste-Réanimateur & Enseignant en IA à la Faculté de médecine. Solutions intelligentes à l'intersection de la médecine et de l'intelligence artificielle.">
-    <meta name="keywords" content="IA, Médecine, Anesthésie, Enseignement, Santé, Machine Learning">
+    <meta name="keywords"
+        content="IA, Médecine, Anesthésie, Enseignement, Santé, Machine Learning, Sacha Rozencwajg, Paris">
+    <meta name="author" content="Sacha Rozencwajg">
     <title>Sacha Rozencwajg | Médecin & Enseignant en IA</title>
 
-    <!-- Using system fonts (SF Pro) for Apple-like design -->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.sacha-rozencwajg.fr/">
+    <meta property="og:title" content="Sacha Rozencwajg | Médecin & Enseignant en IA">
+    <meta property="og:description"
+        content="Anesthésiste-Réanimateur & Enseignant en IA. Découvrez mes projets, publications et réflexions sur l'IA en santé.">
+    <meta property="og:image" content="https://www.sacha-rozencwajg.fr/photo-sacha.webp">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.sacha-rozencwajg.fr/">
+    <meta property="twitter:title" content="Sacha Rozencwajg | Médecin & Enseignant en IA">
+    <meta property="twitter:description"
+        content="Anesthésiste-Réanimateur & Enseignant en IA. Découvrez mes projets, publications et réflexions sur l'IA en santé.">
+    <meta property="twitter:image" content="https://www.sacha-rozencwajg.fr/photo-sacha.webp">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Sacha Rozencwajg",
+        "jobTitle": "Anesthésiste-Réanimateur & Enseignant en IA",
+        "url": "https://www.sacha-rozencwajg.fr",
+        "image": "https://www.sacha-rozencwajg.fr/photo-sacha.webp",
+        "sameAs": [
+          "https://www.linkedin.com/in/sacha-rozencwajg",
+          "https://github.com/SachaRozencwajg",
+          "https://pubmed.ncbi.nlm.nih.gov/?term=Rozencwajg+S"
+        ],
+        "worksFor": [
+          {
+            "@type": "Organization",
+            "name": "Hôpital Marie Lannelongue"
+          },
+          {
+            "@type": "Organization",
+            "name": "Université Paris-Saclay"
+          }
+        ],
+        "description": "Anesthésiste-Réanimateur spécialisé en ECMO et Intelligence Artificielle appliquée à la santé."
+      }
+    }
+    </script>
+
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="photo-sacha.webp">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0071e3">
+    <link rel="icon" type="image/webp" href="photo-sacha.webp">
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
@@ -22,7 +79,7 @@
     <header class="header" id="header">
         <div class="container header__inner">
             <a href="#" class="header__logo">
-                <img src="photo-sacha.jpg" alt="Sacha Rozencwajg" class="header__logo-photo">
+                <img src="photo-sacha.webp" alt="Sacha Rozencwajg" class="header__logo-photo">
                 <span>Sacha Rozencwajg</span>
             </a>
 
@@ -96,7 +153,7 @@
 
                 <div class="hero__image">
                     <div class="hero__image-wrapper">
-                        <img src="photo-sacha.jpg" alt="Sacha Rozencwajg" class="hero__photo">
+                        <img src="photo-sacha.webp" alt="Sacha Rozencwajg" class="hero__photo">
                     </div>
                 </div>
             </div>
@@ -131,7 +188,7 @@
                     </div>
                     <div class="timeline__items">
                         <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-hml.jpg" alt="GHPSJ" class="timeline__logo">
+                            <img src="logo-hml.webp" alt="GHPSJ" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2024</span>
                                 <span class="timeline__label">Hôpital Marie Lannelongue</span>
@@ -139,7 +196,7 @@
                             </div>
                         </div>
                         <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-aphp.png" alt="AP-HP" class="timeline__logo">
+                            <img src="logo-aphp.webp" alt="AP-HP" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2020-2024</span>
                                 <span class="timeline__label">CHU Bichat Claude Bernard</span>
@@ -163,7 +220,7 @@
                     </div>
                     <div class="timeline__items">
                         <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-paris-saclay.png" alt="Paris-Saclay" class="timeline__logo">
+                            <img src="logo-paris-saclay.webp" alt="Paris-Saclay" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2025</span>
                                 <span class="timeline__label">ADR (en cours)</span>
@@ -172,7 +229,7 @@
                             </div>
                         </div>
                         <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-sorbonne.png" alt="Sorbonne" class="timeline__logo">
+                            <img src="logo-sorbonne.webp" alt="Sorbonne" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2022</span>
                                 <span class="timeline__label">Thèse de Science – ED394</span>
@@ -181,7 +238,7 @@
                             </div>
                         </div>
                         <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-paris-cite.png" alt="Paris Cité" class="timeline__logo">
+                            <img src="logo-paris-cite.webp" alt="Paris Cité" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2016</span>
                                 <span class="timeline__label">Master 2 – B2PRS</span>
@@ -213,7 +270,7 @@
                     <div class="timeline__items">
                         <a href="https://pulsecare-ai.fr/" target="_blank" rel="noopener"
                             class="timeline__item timeline__item--with-logo timeline__item--clickable">
-                            <img src="logo-pulsecare.png" alt="PulseCare.AI" class="timeline__logo">
+                            <img src="logo-pulsecare.webp" alt="PulseCare.AI" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2023</span>
                                 <span class="timeline__label">PulseCare.AI</span>
@@ -222,7 +279,7 @@
                         </a>
                         <a href="https://teamdoc.eu/" target="_blank" rel="noopener"
                             class="timeline__item timeline__item--with-logo timeline__item--clickable">
-                            <img src="logo-teamdoc.png" alt="Team'Doc" class="timeline__logo">
+                            <img src="logo-teamdoc.webp" alt="Team'Doc" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2017</span>
                                 <span class="timeline__label">Team'Doc</span>
@@ -252,25 +309,18 @@
             <div class="card-grid">
                 <!-- Project 1: Gemini Medical Assistant -->
                 <article class="project-card">
-                    <div class="project-card__image"
-                        style="display: flex; align-items: center; justify-content: center;">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)"
-                            stroke-width="1.5">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                        </svg>
-                    </div>
+                    <img src="serious-game.webp" alt="Serious Game : dans la peau d'un LLM" class="project-card__image">
                     <div class="project-card__content">
                         <div class="project-card__tags">
                             <span class="tag">IA / LLM</span>
-                            <span class="tag tag--teal">Santé</span>
+                            <span class="tag">React</span>
+                            <span class="tag">Pédagogie</span>
                         </div>
-                        <h3 class="project-card__title">Assistant Médical IA</h3>
+                        <h3 class="project-card__title">Serious Game : dans la peau d'un LLM</h3>
                         <p class="project-card__description">
-                            Un assistant intelligent propulsé par Gemini, conçu pour aider les
-                            professionnels de santé avec leurs questions cliniques et la documentation.
+                            Simulation interactive pour comprendre les hallucinations et biais des LLM en médecine.
                         </p>
-                        <a href="https://gemini.google.com/share/c89e0dcb0002" target="_blank" rel="noopener"
-                            class="card__link">
+                        <a href="/serious-game/" class="card__link">
                             Essayer en ligne
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
@@ -379,7 +429,7 @@
                                 <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
                             </svg>
                         </div>
-                        <img src="logo-paris-saclay.png" alt="Paris-Saclay" class="card__logo">
+                        <img src="logo-paris-saclay.webp" alt="Paris-Saclay" class="card__logo">
                     </div>
                     <h3 class="card__title">UE IA2M - Paris-Saclay</h3>
                     <p class="card__description">
@@ -679,7 +729,8 @@
                         <a href="mailto:sacha.rozencwajg@gmail.com" class="footer__link">Email</a>
                         <a href="https://www.linkedin.com/in/sacha-rozencwajg" target="_blank" rel="noopener"
                             class="footer__link">LinkedIn</a>
-                        <a href="https://github.com" target="_blank" rel="noopener" class="footer__link">GitHub</a>
+                        <a href="https://github.com/SachaRozencwajg" target="_blank" rel="noopener"
+                            class="footer__link">GitHub</a>
                     </nav>
                 </div>
 
@@ -687,9 +738,9 @@
                     <h4 class="footer__title">Ressources</h4>
                     <nav class="footer__links">
                         <a href="https://gemini.google.com/app/ea0dc1d49e3b0e5c" target="_blank" rel="noopener"
-                            class="footer__link">Assistant Médical IA</a>
+                            class="footer__link">Serious Game : dans la peau d'un LLM</a>
                         <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
-                            target="_blank" rel="noopener" class="footer__link">UE Paris Saclay</a>
+                            target="_blank" rel="noopener" class="footer__link">UE IA2M - Programme</a>
                     </nav>
                 </div>
             </div>
@@ -716,7 +767,7 @@
                             <circle cx="4" cy="4" r="2"></circle>
                         </svg>
                     </a>
-                    <a href="https://github.com" target="_blank" rel="noopener" class="footer__social"
+                    <a href="https://github.com/SachaRozencwajg" target="_blank" rel="noopener" class="footer__social"
                         aria-label="GitHub">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">

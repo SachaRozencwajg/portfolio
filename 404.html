@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page non trouvée | Sacha Rozencwajg</title>
+    <meta name="description" content="Erreur 404 - Page non trouvée">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-6);
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-accent) 0%, #5856d6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: var(--space-4);
+            line-height: 1;
+        }
+
+        .error-message {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+
+        .error-description {
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin-bottom: var(--space-8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container error-page">
+        <div class="error-code">404</div>
+        <h1 class="error-message">Oups ! Cette page n'existe pas.</h1>
+        <p class="error-description">
+            Il semble que vous ayez suivi un lien brisé ou que la page ait été déplacée.
+            Ne vous inquiétez pas, vous pouvez retourner à l'accueil.
+        </p>
+        <a href="/" class="btn btn--primary">
+            Retour à l'accueil
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 12l6 6M3 12l6-6" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Script for theme consistency -->
+    <script>
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = savedTheme || systemTheme;
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+</body>
+
+</html>

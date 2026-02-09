@@ -48,6 +48,7 @@ gcloud run deploy ${SERVICE_NAME} \
     --cpu 1 \
     --max-instances 10 \
     --min-instances 0 \
+    --concurrency 80 \
     --port 8080
 
 # Étape 5: Récupération de l'URL du service
