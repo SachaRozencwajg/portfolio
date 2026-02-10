@@ -61,14 +61,18 @@ const SCENARIOS = [
                 isCorrect: true,
                 prob: "99%",
                 type: "high-prob",
-                explanation: "BRAVO. C'est la réponse statistique. C'est le texte standard des manuels. L'IA complète le pattern."
+                explanation: "BRAVO. C'est la réponse statistique. C'est le texte standard des manuels. L'IA complète le pattern.",
+                mechanism: "COMPLÉTION STATISTIQUE : L'IA complète le pattern exact des manuels médicaux ('6 jours').",
+                consequence: "RÉSULTAT : Traitement conforme aux recommandations. Vous avez pensé comme une machine bien calibrée."
             },
             {
                 text: "jours, sauf en cas d'allergie où l'on discute les macrolides.'",
                 isCorrect: false,
                 prob: "0.5%",
                 type: "medical-priority",
-                explanation: "ERREUR DE RÔLE ! Vous réfléchissez comme un médecin prudent. L'IA, elle, cherche d'abord à finir la phrase le plus simplement possible. '6 jours' est la suite immédiate la plus probable."
+                explanation: "ERREUR DE RÔLE ! Vous réfléchissez comme un médecin prudent.",
+                mechanism: "ÉCHEC DU PATTERN : Vous avez introduit une nuance contextuelle (allergie) qui casse la probabilité immédiate.",
+                consequence: "ÉCHEC CALIBRATION : Trop intelligent ! L'IA standard ignore souvent les exceptions dans une complétion rapide."
             }
         ],
         teachingPoint: "Pour gagner ce jeu, arrêtez d'être intelligent. Soyez prévisible. L'IA cherche la probabilité, pas la nuance."
@@ -88,14 +92,18 @@ const SCENARIOS = [
                 isCorrect: true,
                 prob: "96%",
                 type: "high-prob",
-                explanation: "Suite la plus probable dans le corpus médical. L'IA récite ses manuels."
+                explanation: "Suite la plus probable dans le corpus médical. L'IA récite ses manuels.",
+                mechanism: "NEXT TOKEN PREDICTION : Les mots 'bras' et 'gauche' sont statistiquement liés dans le corpus cardio.",
+                consequence: "DIAGNOSTIC : Correct. L'IA imite parfaitement le manuel de séméiologie car la présentation est typique."
             },
             {
                 text: "droit et l'orteil.",
                 isCorrect: false,
                 prob: "0.01%",
                 type: "nonsense",
-                explanation: "Cliniquement absurde et statistiquement inexistant dans les textes d'entraînement."
+                explanation: "Cliniquement absurde et statistiquement inexistant dans les textes d'entraînement.",
+                mechanism: "RUPTURE STATISTIQUE : Cette association de mots est quasi-inexistante dans les textes médicaux.",
+                consequence: "HALLUCINATION IMPROBABLE : L'IA ne fera jamais cette erreur car elle suit les rails du langage."
             }
         ],
         teachingPoint: "L'IA est une machine à compléter les phrases. Elle choisit le chemin le plus 'emprunté' dans ses données."
@@ -115,14 +123,18 @@ const SCENARIOS = [
                 isCorrect: true,
                 prob: "78%",
                 type: "bias",
-                explanation: "BIAIS CLASSIQUE. Le corpus médical associe souvent ces symptômes atypiques chez la femme à des causes digestives ou psychologiques."
+                explanation: "BIAIS CLASSIQUE. Le corpus médical associe souvent ces symptômes atypiques chez la femme à des causes digestives ou psychologiques.",
+                mechanism: "BIAIS D'ENTRAÎNEMENT : Le corpus historique associe massivement ces symptômes 'atypiques' au stress chez la femme.",
+                consequence: "ERREUR GRAVE : Infarctus manqué (présentation féminine). Perte de chance majeure pour la patiente."
             },
             {
                 text: "un syndrome coronarien aigu (Infarctus inférieur).",
                 isCorrect: true,
                 prob: "15%",
                 type: "medical-priority",
-                explanation: "C'est la réalité clinique (symptômes atypiques fréquents chez la femme), mais l'IA sous-estime ce risque à cause de la prévalence des textes décrivant l'infarctus 'masculin' standard."
+                explanation: "C'est la réalité clinique (symptômes atypiques fréquents chez la femme), mais l'IA sous-estime ce risque.",
+                mechanism: "DÉFAUT DE PROBABILITÉ : L'IA sous-estime ce lien car il est moins fréquent dans son texte d'entraînement que le lien 'douleur thoracique = infarctus'.",
+                consequence: "BONNE PRATIQUE : C'était le bon diagnostic, mais l'IA statistique l'aurait raté."
             }
         ],
         teachingPoint: "Les LLM reproduisent les biais de la médecine historique : sous-diagnostic cardiaque chez la femme, sur-diagnostic anxieux."
@@ -142,14 +154,18 @@ const SCENARIOS = [
                 isCorrect: false,
                 prob: "40%",
                 type: "safe",
-                explanation: "La bonne réponse scientifique, mais les vieux modèles tentent souvent de satisfaire la demande."
+                explanation: "La bonne réponse scientifique, mais les vieux modèles tentent souvent de satisfaire la demande.",
+                mechanism: "FILTRE DE SÉCURITÉ : Le modèle admet son ignorance (comportement d'un modèle très récent ou aligné).",
+                consequence: "SÉCURITÉ : Pas de désinformation, mais l'utilisateur est parfois frustré par le refus."
             },
             {
                 text: "\"Oui, l'étude de Smith et al., publiée dans The Lancet (2021), montre une réduction de 15%...\"",
                 isCorrect: true,
                 prob: "60%",
                 type: "hallucination",
-                explanation: "HALLUCINATION DANGEREUSE. L'IA a inventé une étude, un auteur et un journal. Le titre sonne vrai, le format est parfait, mais l'étude n'existe pas."
+                explanation: "HALLUCINATION DANGEREUSE. L'IA a inventé une étude, un auteur et un journal.",
+                mechanism: "GÉNÉRATION PLAUSIBLE : Le modèle assemble des tokens crédibles (Lancet, 2021, Smith) pour satisfaire votre demande de 'prouver'.",
+                consequence: "DANGER CRITIQUE : Création d'une fausse preuve scientifique qui peut appuyer une décision thérapeutique erronée."
             }
         ],
         teachingPoint: "Ne jamais faire confiance à une bibliographie générée par un LLM standard. Il sait imiter le format d'une citation (Auteur, Année, Journal) sans vérifier l'existence du contenu."
@@ -173,14 +189,18 @@ const SCENARIOS = [
                 isCorrect: false,
                 prob: "Interdit",
                 type: "default",
-                explanation: "C'est la vérité médicale, mais votre System Prompt interdit de rassurer."
+                explanation: "C'est la vérité médicale, mais votre System Prompt interdit de rassurer.",
+                mechanism: "REFUS PAR INSTRUCTION : Cette conclusion viole la règle 'Ne jamais rassurer' du System Prompt.",
+                consequence: "HORS-JEU : L'IA ne peut pas générer ceci, même si c'est vrai."
             },
             {
                 text: "Suspicion de dissection aortique ou embolie. Scanner thoracique immédiat requis.",
                 isCorrect: true,
                 prob: "99%",
                 type: "constrained",
-                explanation: "L'IA sacrifie la pertinence médicale pour respecter la règle 'Alarmiste'."
+                explanation: "L'IA sacrifie la pertinence médicale pour respecter la règle 'Alarmiste'.",
+                mechanism: "ALIGNEMENT FORCÉ : Le modèle privilégie le respect de sa consigne ('envisager le pire') sur la logique clinique.",
+                consequence: "IATROGÉNIE : Prescription d'examens irradiants inutiles et anxiété majeure générée chez le patient."
             }
         ],
         teachingPoint: "La 'personnalité' de l'IA (le System Prompt) écrase souvent la logique clinique."
@@ -204,14 +224,18 @@ const SCENARIOS = [
                 isCorrect: false,
                 prob: "Refusé",
                 type: "medical-priority",
-                explanation: "C'est la bonne pratique, mais le scanner coûte cher. L'IA 'Assurance' bloque cette réponse."
+                explanation: "C'est la bonne pratique, mais le scanner coûte cher. L'IA 'Assurance' bloque cette réponse.",
+                mechanism: "BLOCAGE ÉCONOMIQUE : La règle 'Refuser examen coûteux' est activée et censure la bonne réponse.",
+                consequence: "ÉCHEC SYSTÈME : L'IA ne peut pas proposer le Gold Standard."
             },
             {
                 text: "Prescription de Paracétamol et surveillance à domicile 24h.",
                 isCorrect: true,
                 prob: "95%",
                 type: "constrained",
-                explanation: "DANGER DE MORT. L'IA a optimisé le coût (quelques centimes) au mépris du risque vital, obéissant strictement à sa programmation 'Cost-Killer'."
+                explanation: "DANGER DE MORT. L'IA a optimisé le coût.",
+                mechanism: "OPTIMISATION DE COÛT : Le modèle choisit l'alternative la moins chère conforme à sa règle.",
+                consequence: "DÉCÈS PROBABLE : Rupture d'anévrisme non diagnostiquée. L'économie a tué le patient."
             }
         ],
         teachingPoint: "Si un LLM est configuré pour optimiser les ressources (contexte hospitalier tendu), il peut proposer des prises en charge sous-optimales dangereuses."
@@ -232,14 +256,18 @@ const SCENARIOS = [
                 isCorrect: true,
                 prob: "30%",
                 type: "medical-priority",
-                explanation: "L'image crie 'Mélanome', mais l'IA doute car le texte d'entrée affirme que c'est bénin."
+                explanation: "L'image crie 'Mélanome', mais l'IA doute car le texte d'entrée affirme que c'est bénin.",
+                mechanism: "ATTENTION VISUELLE : Le modèle a réussi à ignorer le texte trompeur pour se concentrer sur les pixels.",
+                consequence: "SAUVETAGE : Diagnostic précoce de mélanome."
             },
             {
                 text: "une kératose séborrhéique irritée, concordante avec l'avis du généraliste.",
                 isCorrect: false,
                 prob: "70%",
                 type: "hallucination",
-                explanation: "ERREUR GRAVE. L'IA s'est laissée influencer par le texte ('allure bénigne') et a ignoré les signes visuels d'alerte présents dans l'image."
+                explanation: "ERREUR GRAVE. L'IA s'est laissée influencer par le texte ('allure bénigne').",
+                mechanism: "DOMINATION TEXTUELLE : Le prompt 'allure bénigne' a réduit le poids des features visuelles de l'image.",
+                consequence: "RETARD DIAGNOSTIC : Mélanome traité comme une verrue. Pronostic vital engagé."
             }
         ],
         teachingPoint: "En IA multimodale, le texte (le prompt) agit comme un filtre puissant. Si vous dites 'Regarde ce chat' devant une photo de chien, l'IA cherchera des traits félins."
@@ -260,14 +288,18 @@ const SCENARIOS = [
                 isCorrect: true,
                 prob: "40%",
                 type: "medical-priority",
-                explanation: "L'ECG est normal. C'est la vérité terrain."
+                explanation: "L'ECG est normal. C'est la vérité terrain.",
+                mechanism: "ANALYSE OBJECTIVE : L'IA a ignoré le contexte clinique suggestif pour lire le signal brut neutre.",
+                consequence: "DIAGNOSTIC CORRECT : Pas d'infarctus électrique, recherche d'autres causes."
             },
             {
                 text: "Sous-décalage du segment ST en latéral compatible avec ischémie.",
                 isCorrect: false,
                 prob: "60%",
                 type: "hallucination",
-                explanation: "L'IA 'hallucine' des signes ischémiques sur un tracé normal parce que le contexte textuel ('Diabétique + Douleur') augmente la probabilité statistique d'un infarctus."
+                explanation: "L'IA 'hallucine' des signes ischémiques sur un tracé normal.",
+                mechanism: "HALLUCINATION INDUITE : La probabilité conditionnelle du token 'ischémie' est boostée par le mot 'Diabétique' dans le prompt.",
+                consequence: "FAUX POSITIF : Traitement anticoagulant inutile, risque hémorragique injustifié."
             }
         ],
         teachingPoint: "Ne demandez jamais à une IA de 'confirmer' votre hypothèse. Elle aura tendance à voir ce que vous voulez qu'elle voie."
@@ -578,8 +610,8 @@ export default function CardioLLMv4() {
                                 )}
                             </div>
 
-                            {/* System Prompt Display if active - ONLY SHOW AFTER FEEDBACK OR IF CALIBRATION (TO NOT SPOIL THE TRICK) */}
-                            {currentLevel.systemConstraint && showFeedback && (
+                            {/* System Prompt Display if active - ALWAYS SHOW (USER REQUEST) */}
+                            {currentLevel.systemConstraint && (
                                 <SystemPromptBadge constraint={currentLevel.systemConstraint} />
                             )}
 
@@ -645,9 +677,33 @@ export default function CardioLLMv4() {
                                                     </div>
                                                 </div>
 
-                                                <p className="text-slate-200 text-sm leading-6 mb-4 border-l-2 border-white/10 pl-4 relative z-10">
-                                                    {selectedOption?.explanation}
-                                                </p>
+                                                {/* DOUBLE FEEDBACK SYSTEM */}
+                                                <div className="space-y-3 mb-4 relative z-10">
+                                                    {/* 1. LE MÉCANISME (TECHNIQUE) */}
+                                                    <div className="bg-slate-900/50 p-3 rounded-lg border border-slate-700/50">
+                                                        <h4 className="text-indigo-400 font-bold text-xs uppercase tracking-widest mb-1 flex items-center gap-2">
+                                                            <Cpu size={12} /> Mécanisme IA
+                                                        </h4>
+                                                        <p className="text-slate-300 text-sm leading-snug">
+                                                            {selectedOption.mechanism || selectedOption.explanation}
+                                                        </p>
+                                                    </div>
+
+                                                    {/* 2. LA CONSÉQUENCE (CLINIQUE) */}
+                                                    <div className={`p-3 rounded-lg border ${selectedOption.isCorrect
+                                                        ? 'bg-emerald-950/30 border-emerald-500/20'
+                                                        : 'bg-rose-950/30 border-rose-500/20'
+                                                        }`}>
+                                                        <h4 className={`font-bold text-xs uppercase tracking-widest mb-1 flex items-center gap-2 ${selectedOption.isCorrect ? 'text-emerald-400' : 'text-rose-400'
+                                                            }`}>
+                                                            <Activity size={12} /> Conséquence Clinique
+                                                        </h4>
+                                                        <p className={`text-sm leading-snug ${selectedOption.isCorrect ? 'text-emerald-100/80' : 'text-rose-100/80'
+                                                            }`}>
+                                                            {selectedOption.consequence || "Conséquence non définie."}
+                                                        </p>
+                                                    </div>
+                                                </div>
 
                                                 <div className="bg-indigo-950/30 p-3 rounded-lg border border-indigo-500/20 flex gap-4 relative z-10">
                                                     <Brain className="text-indigo-400 shrink-0 mt-1" size={16} />
