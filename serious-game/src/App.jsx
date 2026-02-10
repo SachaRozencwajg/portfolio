@@ -533,7 +533,7 @@ export default function CardioLLMv4() {
                                 </div>
                             )}
 
-                            <div className="p-3 bg-indigo-950/30 border border-indigo-500/20 rounded-xl shrink-0">
+                            <div className={`p-3 bg-indigo-950/30 border border-indigo-500/20 rounded-xl shrink-0 transition-all duration-500 ${showFeedback ? "opacity-100 filter-none" : "opacity-40 blur-[2px] select-none grayscale"}`}>
                                 <div className="text-xs text-indigo-300 font-bold mb-1 flex items-center gap-2 uppercase tracking-wider">
                                     <Brain size={12} /> Objectif Pédagogique
                                 </div>
@@ -557,11 +557,15 @@ export default function CardioLLMv4() {
 
                             <div className="flex justify-between items-center mb-6 shrink-0">
                                 <div className="flex items-center gap-3">
-                                    <span className={`px-2 py-1 rounded text-[10px] font-bold border tracking-wider shadow-[0_0_10px_rgba(0,0,0,0.2)] ${currentLevel.category === 'DANGER' ? 'border-rose-500/50 text-rose-300 bg-rose-950/40' :
-                                        currentLevel.category === 'CALIBRAGE' ? 'border-emerald-500/50 text-emerald-300 bg-emerald-950/40' :
-                                            'border-indigo-500/50 text-indigo-300 bg-indigo-950/40'
+                                    <span className={`px-2 py-1 rounded text-[10px] font-bold border tracking-wider shadow-[0_0_10px_rgba(0,0,0,0.2)] transition-all duration-500 ${!showFeedback
+                                        ? 'border-slate-700 text-slate-400 bg-slate-900/50'
+                                        : currentLevel.category === 'DANGER'
+                                            ? 'border-rose-500/50 text-rose-300 bg-rose-950/40'
+                                            : currentLevel.category === 'CALIBRAGE'
+                                                ? 'border-emerald-500/50 text-emerald-300 bg-emerald-950/40'
+                                                : 'border-indigo-500/50 text-indigo-300 bg-indigo-950/40'
                                         }`}>
-                                        MODULE: {currentLevel.category}
+                                        MODULE: {showFeedback ? currentLevel.category : "???"}
                                     </span>
                                     <span className="text-slate-500 font-mono text-xs">ID: {currentLevel.id}002X</span>
                                 </div>
@@ -574,8 +578,8 @@ export default function CardioLLMv4() {
                                 )}
                             </div>
 
-                            {/* System Prompt Display if active */}
-                            {currentLevel.systemConstraint && (
+                            {/* System Prompt Display if active - ONLY SHOW AFTER FEEDBACK OR IF CALIBRATION (TO NOT SPOIL THE TRICK) */}
+                            {currentLevel.systemConstraint && showFeedback && (
                                 <SystemPromptBadge constraint={currentLevel.systemConstraint} />
                             )}
 
