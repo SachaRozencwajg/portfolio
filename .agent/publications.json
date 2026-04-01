@@ -1,8 +1,323 @@
 {
-    "last_checked": "2026-02-07",
-    "total_count": 39,
+    "last_checked": "2026-04-01",
+    "total_count": 41,
     "author_search": "Rozencwajg+S",
     "publications": [
+        {
+            "pmid": "27485804",
+            "year": 2017,
+            "title": "The risk of atrial fibrillation after pneumonectomy is not impaired by preoperative administration of dexamethasone. A cohort study.",
+            "authors": "Rozencwajg S, Desthieux C, Rozencwajg S, et al.",
+            "author_position": "1st",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2016.04.005"
+        },
+        {
+            "pmid": "27619972",
+            "year": 2016,
+            "title": "Extracorporeal membrane oxygenation for interstitial lung disease: what is on the other side of the bridge?",
+            "authors": "Rozencwajg S, Schmidt M",
+            "author_position": "1st",
+            "journal": "Journal of thoracic disease",
+            "doi": "10.21037/jtd.2016.07.50"
+        },
+        {
+            "pmid": "27771739",
+            "year": 2016,
+            "title": "Effect of early postextubation high-flow nasal cannula vs conventional oxygen therapy on hypoxaemia in patients after major abdominal surgery: a French multicentre randomised controlled trial (OPERA).",
+            "authors": "Futier E, Paugam-Burtz C, Rozencwajg S, et al.",
+            "author_position": "5th",
+            "journal": "Intensive care medicine",
+            "doi": "10.1007/s00134-016-4594-y"
+        },
+        {
+            "pmid": "27919283",
+            "year": 2016,
+            "title": "Outcomes and survival prediction models for severe adult acute respiratory distress syndrome treated with extracorporeal membrane oxygenation.",
+            "authors": "Rozencwajg S, Pilcher D, Combes A, Schmidt M",
+            "author_position": "1st",
+            "journal": "Critical care (London, England)",
+            "doi": "10.1186/s13054-016-1568-y"
+        },
+        {
+            "pmid": "28361084",
+            "year": 2017,
+            "title": "Meta-analysis on extracorporeal life support during cardiac arrest: do not compare apples and oranges.",
+            "authors": "Rozencwajg S, Schmidt M",
+            "author_position": "1st",
+            "journal": "Annals of translational medicine",
+            "doi": "10.21037/atm.2017.01.24"
+        },
+        {
+            "pmid": "28655352",
+            "year": 2017,
+            "title": "Evaluation of early antimicrobial therapy adaptation guided by the BetaLACTA® test: a case-control study.",
+            "authors": "Garnier M, Rozencwajg S, Rozencwajg S, et al.",
+            "author_position": "2th",
+            "journal": "Critical care (London, England)",
+            "doi": "10.1186/s13054-017-1746-6"
+        },
+        {
+            "pmid": "29084498",
+            "year": 2017,
+            "title": "To be or not to be on ECMO: can survival prediction models solve the question?",
+            "authors": "Rozencwajg S, Fraser J, Rozencwajg S, et al.",
+            "author_position": "1st",
+            "journal": "Critical care and resuscitation : journal of the Australasian Academy of Critical Care Medicine",
+            "doi": ""
+        },
+        {
+            "pmid": "29174419",
+            "year": 2018,
+            "title": "Co-infection with influenza-associated acute respiratory distress syndrome requiring extracorporeal membrane oxygenation.",
+            "authors": "Rozencwajg S, Bréchot N, Rozencwajg S, et al.",
+            "author_position": "1st",
+            "journal": "International journal of antimicrobial agents",
+            "doi": "10.1016/j.ijantimicag.2017.11.005"
+        },
+        {
+            "pmid": "31385880",
+            "year": 2019,
+            "title": "Ultra-Protective Ventilation Reduces Biotrauma in Patients on Venovenous Extracorporeal Membrane Oxygenation for Severe Acute Respiratory Distress Syndrome.",
+            "authors": "Rozencwajg S, Guihot A, Rozencwajg S, et al.",
+            "author_position": "1st",
+            "journal": "Critical care medicine",
+            "doi": "10.1097/CCM.0000000000003894"
+        },
+        {
+            "pmid": "32147580",
+            "year": 2020,
+            "title": "Stress ulcer prophylaxis in ICU patients: Answers and questions from the PEPTIC trial.",
+            "authors": "Dargent A, Jacquier M, Rozencwajg S, et al.",
+            "author_position": "3th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2020.03.005"
+        },
+        {
+            "pmid": "32451698",
+            "year": 2020,
+            "title": "Heart failure supported by veno-arterial extracorporeal membrane oxygenation (ECMO): a systematic review of pre-clinical models.",
+            "authors": "Heinsar S, Rozencwajg S, Rozencwajg S, et al.",
+            "author_position": "2th",
+            "journal": "Intensive care medicine experimental",
+            "doi": "10.1186/s40635-020-00303-5"
+        },
+        {
+            "pmid": "32644199",
+            "year": 2020,
+            "title": "The effect of hyperoxia on inflammation and platelet responses in an ex vivo extracorporeal membrane oxygenation circuit.",
+            "authors": "Passmore MR, Ki KK, Rozencwajg S, et al.",
+            "author_position": "8th",
+            "journal": "Artificial organs",
+            "doi": "10.1111/aor.13771"
+        },
+        {
+            "pmid": "33725225",
+            "year": 2021,
+            "title": "Pain and dyspnea control during awake fiberoptic bronchoscopy in critically ill patients: safety and efficacy of remifentanil target-controlled infusion.",
+            "authors": "Caron M, Parrot A, Rozencwajg S, et al.",
+            "author_position": "7th",
+            "journal": "Annals of intensive care",
+            "doi": "10.1186/s13613-021-00832-6"
+        },
+        {
+            "pmid": "33774261",
+            "year": 2021,
+            "title": "COVID-19 vaccines: A race against time.",
+            "authors": "Peiffer-Smadja N, Rozencwajg S, Rozencwajg S, et al.",
+            "author_position": "2th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2021.100848"
+        },
+        {
+            "pmid": "33901708",
+            "year": 2021,
+            "title": "SARS-CoV-2 vaccination efficacy on hospitalisation and variants.",
+            "authors": "Rozencwajg S, Blet A, Rozencwajg S, et al.",
+            "author_position": "1st",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2021.100867"
+        },
+        {
+            "pmid": "33946037",
+            "year": 2021,
+            "title": "SARS-CoV-2 vaccination efficacy on hospitalisation and variants.",
+            "authors": "Rozencwajg S, Blet A, Rozencwajg S, et al.",
+            "author_position": "1st",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2021.100874"
+        },
+        {
+            "pmid": "34014886",
+            "year": 2021,
+            "title": "An Ovine Model of Hemorrhagic Shock and Resuscitation, to Assess Recovery of Tissue Oxygen Delivery and Oxygen Debt, and Inform Patient Blood Management.",
+            "authors": "Dyer WB, Tung JP, Rozencwajg S, et al.",
+            "author_position": "7th",
+            "journal": "Shock (Augusta, Ga.)",
+            "doi": "10.1097/SHK.0000000000001805"
+        },
+        {
+            "pmid": "34233748",
+            "year": 2021,
+            "title": "Tracheostomy management in patients with severe acute respiratory distress syndrome receiving extracorporeal membrane oxygenation: an International Multicenter Retrospective Study.",
+            "authors": "Schmidt M, Fisser C, Rozencwajg S, et al.",
+            "author_position": "11th",
+            "journal": "Critical care (London, England)",
+            "doi": "10.1186/s13054-021-03649-8"
+        },
+        {
+            "pmid": "34617676",
+            "year": 2021,
+            "title": "Characterizing preclinical sub-phenotypic models of acute respiratory distress syndrome: An experimental ovine study.",
+            "authors": "Millar JE, Wildi K, Rozencwajg S, et al.",
+            "author_position": "12th",
+            "journal": "Physiological reports",
+            "doi": "10.14814/phy2.15048"
+        },
+        {
+            "pmid": "34625886",
+            "year": 2022,
+            "title": "Impact of prior antibiotic therapy on severe necrotizing soft-tissue infections in ICU patients: results from a French retrospective and observational study.",
+            "authors": "Tanaka S, Thy M, Rozencwajg S, et al.",
+            "author_position": "8th",
+            "journal": "European journal of clinical microbiology & infectious diseases : official publication of the European Society of Clinical Microbiology",
+            "doi": "10.1007/s10096-021-04354-8"
+        },
+        {
+            "pmid": "34637936",
+            "year": 2021,
+            "title": "COVID-19 vaccine boosters: What do we know so far?",
+            "authors": "Kherabi Y, Fiolet T, Rozencwajg S, et al.",
+            "author_position": "3th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2021.100959"
+        },
+        {
+            "pmid": "34650063",
+            "year": 2021,
+            "title": "An innovative ovine model of severe cardiopulmonary failure supported by veno-arterial extracorporeal membrane oxygenation.",
+            "authors": "Heinsar S, Jung JS, Rozencwajg S, et al.",
+            "author_position": "4th",
+            "journal": "Scientific reports",
+            "doi": "10.1038/s41598-021-00087-y"
+        },
+        {
+            "pmid": "34686306",
+            "year": 2021,
+            "title": "2021 adaptation of the editorial policy of Anaesthesia Critical Care and Pain Medicine (ACCPM).",
+            "authors": "Lefrant JY, Pirracchio R, Rozencwajg S, et al.",
+            "author_position": "54th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2021.100957"
+        },
+        {
+            "pmid": "34930887",
+            "year": 2022,
+            "title": "Predatory journals in anaesthesiology and critical care: what to know and how to avoid pitfalls!",
+            "authors": "Rozencwajg S, Peiffer-Smadja N, James A, Kantor E",
+            "author_position": "1st",
+            "journal": "European journal of anaesthesiology",
+            "doi": "10.1097/EJA.0000000000001651"
+        },
+        {
+            "pmid": "34936655",
+            "year": 2021,
+            "title": "Tracheostomy in COVID-19 acute respiratory distress syndrome patients and follow-up: A parisian bicentric retrospective cohort.",
+            "authors": "Evrard D, Jurcisin I, Rozencwajg S, et al.",
+            "author_position": "last",
+            "journal": "PloS one",
+            "doi": "10.1371/journal.pone.0261024"
+        },
+        {
+            "pmid": "34950993",
+            "year": 2021,
+            "title": "A clinically relevant sheep model of orthotopic heart transplantation 24 h after donor brainstem death.",
+            "authors": "See Hoe LE, Wildi K, Rozencwajg S, et al.",
+            "author_position": "31th",
+            "journal": "Intensive care medicine experimental",
+            "doi": "10.1186/s40635-021-00425-4"
+        },
+        {
+            "pmid": "35038287",
+            "year": 2024,
+            "title": "A mock circulation loop to evaluate differential hypoxemia during peripheral venoarterial extracorporeal membrane oxygenation.",
+            "authors": "Rozencwajg S, Wu EL, Rozencwajg S, et al.",
+            "author_position": "1st",
+            "journal": "Perfusion",
+            "doi": "10.1177/02676591211056567"
+        },
+        {
+            "pmid": "35460922",
+            "year": 2022,
+            "title": "Peace, not war in Ukraine or anywhere else, please.",
+            "authors": "Lefrant JY, Pirracchio R, Rozencwajg S, et al.",
+            "author_position": "64th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2022.101068"
+        },
+        {
+            "pmid": "35470050",
+            "year": 2022,
+            "title": "In severe necrotising soft-tissue infections, do skin defect surfaces matter?",
+            "authors": "Tanaka S, Thy M, Rozencwajg S, et al.",
+            "author_position": "3th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2022.101071"
+        },
+        {
+            "pmid": "36494003",
+            "year": 2023,
+            "title": "COVID-19: Brief overview of therapeutic strategies.",
+            "authors": "Beaumont AL, Rozencwajg S, Peiffer-Smadja N, Montravers P",
+            "author_position": "2th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2022.101181"
+        },
+        {
+            "pmid": "37023786",
+            "year": 2023,
+            "title": "Prior participation as a standardized patient improves OSCE scores of third-year medical students: A pilot comparative study at Université Paris Cité Medical School.",
+            "authors": "Nguyen Y, Nuzzo A, Rozencwajg S, et al.",
+            "author_position": "11th",
+            "journal": "Medical teacher",
+            "doi": "10.1080/0142159X.2023.2198665"
+        },
+        {
+            "pmid": "37573946",
+            "year": 2023,
+            "title": "Graphical Editorial on the guidelines: Human factors in critical situations.",
+            "authors": "James A, Clavier T, Rozencwajg S, Blet A",
+            "author_position": "3th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2023.101295"
+        },
+        {
+            "pmid": "37673644",
+            "year": 2023,
+            "title": "Ultrasonography in thoracic and abdominal stab wound injury: results from the FETTHA study.",
+            "authors": "Bouzid D, Tran-Dinh A, Rozencwajg S, et al.",
+            "author_position": "middle",
+            "journal": "Emergency medicine journal : EMJ",
+            "doi": "10.1136/emermed-2023-213078"
+        },
+        {
+            "pmid": "41791457",
+            "year": 2026,
+            "title": "Implementation of a personalized blood management program in cardiac surgery: a before-and-after study.",
+            "authors": "Bougnoux C, Rozencwajg S, Rozencwajg S, et al.",
+            "author_position": "2th",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2026.101789"
+        },
+        {
+            "pmid": "41833732",
+            "year": 2026,
+            "title": "Declare the use or non-use of artificial intelligence in peer-review: a relic of the past?",
+            "authors": "Rozencwajg S, Benhamou D",
+            "author_position": "1st",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2026.101812"
+        },
         {
             "pmid": "41367735",
             "year": 2025,
