@@ -1,8 +1,17 @@
 {
-    "last_checked": "2026-04-01",
-    "total_count": 41,
+    "last_checked": "2026-05-01",
+    "total_count": 42,
     "author_search": "Rozencwajg+S",
     "publications": [
+        {
+            "pmid": "42031111",
+            "year": 2026,
+            "title": "Probe insertion is not an airway strategy endpoint.",
+            "authors": "Rozencwajg S, Aparicio MT",
+            "author_position": "1st",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2026.101856"
+        },
         {
             "pmid": "27485804",
             "year": 2017,
