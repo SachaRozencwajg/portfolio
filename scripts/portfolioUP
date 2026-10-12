@@ -4,7 +4,8 @@
 #
 #   portfolioUP              récupère main, régénère les publications, déploie le site
 #                            puis redéploie la Cloud Function des publications
-#   portfolioUP --site-only  idem, sans redéployer la Cloud Function
+#   portfolioUP --site-only      idem, sans redéployer la Cloud Function
+#   portfolioUP --function-only  redéploie uniquement la Cloud Function
 #   portfolioUP --install    installe l'alias « portfolioUP » dans ~/.zshrc (ou ~/.bashrc)
 # ============================================
 
@@ -48,8 +49,14 @@ if [ "${1:-}" = "--install" ]; then
     exit 0
 fi
 
+DEPLOY_SITE=true
 DEPLOY_FUNCTION=true
-[ "${1:-}" = "--site-only" ] && DEPLOY_FUNCTION=false
+case "${1:-}" in
+    --site-only)     DEPLOY_FUNCTION=false ;;
+    --function-only) DEPLOY_SITE=false ;;
+    "") ;;
+    *) fail "Option inconnue : $1 (options : --site-only, --function-only, --install)" ;;
+esac
 
 cd "$REPO_DIR"
 echo "📁 Dépôt : $REPO_DIR"
@@ -85,22 +92,50 @@ else
 fi
 
 # --- 4. Déployer le site sur Cloud Run
-step "Déploiement du site (Cloud Run)"
-bash ./deploy.sh
+if $DEPLOY_SITE; then
+    step "Déploiement du site (Cloud Run)"
+    bash ./deploy.sh
+fi
 
 # --- 5. Redéployer la Cloud Function (en conservant sa configuration actuelle)
 if $DEPLOY_FUNCTION; then
     step "Redéploiement de la Cloud Function des publications"
-    FUNCTION_INFO="$(gcloud functions list --project "$PROJECT_ID" \
-        --filter="entryPoint=$FUNCTION_ENTRY_POINT OR buildConfig.entryPoint=$FUNCTION_ENTRY_POINT" \
-        --format='value(name,environment)' 2>/dev/null | head -n1)"
+    # Nom, génération et région lus depuis le JSON (le format texte de gcloud varie selon les versions)
+    FUNCTION_INFO="$(gcloud functions list --project "$PROJECT_ID" --format=json 2>/dev/null | python3 -c '
+import json, re, sys
+entry = sys.argv[1]
+for f in json.load(sys.stdin):
+    ep = f.get("entryPoint") or f.get("buildConfig", {}).get("entryPoint")
+    if ep != entry:
+        continue
+    name = f.get("name", "")
+    region = ""
+    m = re.search(r"/locations/([^/]+)/", name)
+    if m:
+        region = m.group(1)
+    region = region or f.get("location") or f.get("region") or ""
+    if not region:
+        url = f.get("url") or f.get("serviceConfig", {}).get("uri") or ""
+        m = re.match(r"https://([a-z]+-[a-z]+[0-9]+)-", url)
+        region = m.group(1) if m else ""
+    print(name.rsplit("/", 1)[-1], f.get("environment", "GEN_1"), region)
+    break
+' "$FUNCTION_ENTRY_POINT")"
     if [ -z "$FUNCTION_INFO" ]; then
         echo "⚠️  Aucune fonction « $FUNCTION_ENTRY_POINT » trouvée dans $PROJECT_ID : étape ignorée"
     else
-        FUNCTION_FULL_NAME="$(echo "$FUNCTION_INFO" | awk '{print $1}')"
-        FUNCTION_ENV="$(echo "$FUNCTION_INFO" | awk '{print $2}')"
-        FUNCTION_NAME="${FUNCTION_FULL_NAME##*/}"
-        FUNCTION_REGION="$(echo "$FUNCTION_FULL_NAME" | sed -n 's#.*/locations/\([^/]*\)/.*#\1#p')"
+        read -r FUNCTION_NAME FUNCTION_ENV FUNCTION_REGION <<< "$FUNCTION_INFO"
+        # Région introuvable dans la liste : on la teste sur les régions probables
+        if [ -z "${FUNCTION_REGION:-}" ]; then
+            for candidate in europe-west1 europe-west9 europe-west3 us-central1; do
+                if gcloud functions describe "$FUNCTION_NAME" --project "$PROJECT_ID" \
+                    --region "$candidate" >/dev/null 2>&1; then
+                    FUNCTION_REGION="$candidate"
+                    break
+                fi
+            done
+        fi
+        [ -n "${FUNCTION_REGION:-}" ] || fail "Région de la fonction $FUNCTION_NAME introuvable"
         GEN_FLAG="--no-gen2"
         [ "$FUNCTION_ENV" = "GEN_2" ] && GEN_FLAG="--gen2"
         echo "Fonction : $FUNCTION_NAME ($FUNCTION_REGION, ${FUNCTION_ENV:-GEN_1})"
