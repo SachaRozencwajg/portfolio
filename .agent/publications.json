@@ -10,7 +10,8 @@
             "authors": "Rozencwajg S, Aparicio MT",
             "author_position": "1",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2026.101856"
+            "doi": "10.1016/j.accpm.2026.101856",
+            "themes": []
         },
         {
             "pmid": "27485804",
@@ -19,7 +20,8 @@
             "authors": "Rozencwajg S, Desthieux C, Szymkiewicz O, et al.",
             "author_position": "1",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2016.04.005"
+            "doi": "10.1016/j.accpm.2016.04.005",
+            "themes": []
         },
         {
             "pmid": "27619972",
@@ -28,7 +30,10 @@
             "authors": "Rozencwajg S, Schmidt M",
             "author_position": "1",
             "journal": "Journal of thoracic disease",
-            "doi": "10.21037/jtd.2016.07.50"
+            "doi": "10.21037/jtd.2016.07.50",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "27771739",
@@ -37,7 +42,8 @@
             "authors": "Futier E, Paugam-Burtz C, …, Rozencwajg S, et al.",
             "author_position": "5",
             "journal": "Intensive care medicine",
-            "doi": "10.1007/s00134-016-4594-y"
+            "doi": "10.1007/s00134-016-4594-y",
+            "themes": []
         },
         {
             "pmid": "27919283",
@@ -46,7 +52,10 @@
             "authors": "Rozencwajg S, Pilcher D, Combes A, Schmidt M",
             "author_position": "1",
             "journal": "Critical care (London, England)",
-            "doi": "10.1186/s13054-016-1568-y"
+            "doi": "10.1186/s13054-016-1568-y",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "28361084",
@@ -55,7 +64,10 @@
             "authors": "Rozencwajg S, Schmidt M",
             "author_position": "1",
             "journal": "Annals of translational medicine",
-            "doi": "10.21037/atm.2017.01.24"
+            "doi": "10.21037/atm.2017.01.24",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "28655352",
@@ -64,7 +76,8 @@
             "authors": "Garnier M, Rozencwajg S, Pham T, et al.",
             "author_position": "2",
             "journal": "Critical care (London, England)",
-            "doi": "10.1186/s13054-017-1746-6"
+            "doi": "10.1186/s13054-017-1746-6",
+            "themes": []
         },
         {
             "pmid": "29084498",
@@ -73,7 +86,10 @@
             "authors": "Rozencwajg S, Fraser J, Montero S, et al.",
             "author_position": "1",
             "journal": "Critical care and resuscitation : journal of the Australasian Academy of Critical Care Medicine",
-            "doi": ""
+            "doi": "",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "29174419",
@@ -82,7 +98,10 @@
             "authors": "Rozencwajg S, Bréchot N, Schmidt M, et al.",
             "author_position": "1",
             "journal": "International journal of antimicrobial agents",
-            "doi": "10.1016/j.ijantimicag.2017.11.005"
+            "doi": "10.1016/j.ijantimicag.2017.11.005",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "31385880",
@@ -91,7 +110,11 @@
             "authors": "Rozencwajg S, Guihot A, Franchineau G, et al.",
             "author_position": "1",
             "journal": "Critical care medicine",
-            "doi": "10.1097/CCM.0000000000003894"
+            "doi": "10.1097/CCM.0000000000003894",
+            "themes": [
+                "ecmo"
+            ],
+            "featured": true
         },
         {
             "pmid": "32147580",
@@ -100,7 +123,8 @@
             "authors": "Dargent A, Jacquier M, Rozencwajg S, et al.",
             "author_position": "3",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2020.03.005"
+            "doi": "10.1016/j.accpm.2020.03.005",
+            "themes": []
         },
         {
             "pmid": "32451698",
@@ -109,7 +133,10 @@
             "authors": "Heinsar S, Rozencwajg S, Suen J, et al.",
             "author_position": "2",
             "journal": "Intensive care medicine experimental",
-            "doi": "10.1186/s40635-020-00303-5"
+            "doi": "10.1186/s40635-020-00303-5",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "32644199",
@@ -118,7 +145,10 @@
             "authors": "Passmore MR, Ki KK, …, Rozencwajg S, et al.",
             "author_position": "8",
             "journal": "Artificial organs",
-            "doi": "10.1111/aor.13771"
+            "doi": "10.1111/aor.13771",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "33725225",
@@ -127,7 +157,8 @@
             "authors": "Caron M, Parrot A, …, Rozencwajg S, et al.",
             "author_position": "7",
             "journal": "Annals of intensive care",
-            "doi": "10.1186/s13613-021-00832-6"
+            "doi": "10.1186/s13613-021-00832-6",
+            "themes": []
         },
         {
             "pmid": "33774261",
@@ -136,7 +167,10 @@
             "authors": "Peiffer-Smadja N, Rozencwajg S, Kherabi Y, et al.",
             "author_position": "2",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2021.100848"
+            "doi": "10.1016/j.accpm.2021.100848",
+            "themes": [
+                "covid"
+            ]
         },
         {
             "pmid": "33901708",
@@ -147,7 +181,10 @@
             "journal": "Anaesthesia, critical care & pain medicine",
             "doi": "10.1016/j.accpm.2021.100867",
             "hidden": true,
-            "hidden_reason": "Doublon PubMed de 33946037 (même éditorial publié deux fois)"
+            "hidden_reason": "Doublon PubMed de 33946037 (même éditorial publié deux fois)",
+            "themes": [
+                "covid"
+            ]
         },
         {
             "pmid": "33946037",
@@ -156,7 +193,10 @@
             "authors": "Rozencwajg S, Blet A, Lamer A, et al.",
             "author_position": "1",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2021.100874"
+            "doi": "10.1016/j.accpm.2021.100874",
+            "themes": [
+                "covid"
+            ]
         },
         {
             "pmid": "34014886",
@@ -165,7 +205,8 @@
             "authors": "Dyer WB, Tung JP, …, Rozencwajg S, et al.",
             "author_position": "7",
             "journal": "Shock (Augusta, Ga.)",
-            "doi": "10.1097/SHK.0000000000001805"
+            "doi": "10.1097/SHK.0000000000001805",
+            "themes": []
         },
         {
             "pmid": "34233748",
@@ -174,7 +215,10 @@
             "authors": "Schmidt M, Fisser C, …, Rozencwajg S, et al.",
             "author_position": "11",
             "journal": "Critical care (London, England)",
-            "doi": "10.1186/s13054-021-03649-8"
+            "doi": "10.1186/s13054-021-03649-8",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "34617676",
@@ -183,7 +227,8 @@
             "authors": "Millar JE, Wildi K, …, Rozencwajg S, et al.",
             "author_position": "12",
             "journal": "Physiological reports",
-            "doi": "10.14814/phy2.15048"
+            "doi": "10.14814/phy2.15048",
+            "themes": []
         },
         {
             "pmid": "34625886",
@@ -192,7 +237,8 @@
             "authors": "Tanaka S, Thy M, …, Rozencwajg S, et al.",
             "author_position": "8",
             "journal": "European journal of clinical microbiology & infectious diseases : official publication of the European Society of Clinical Microbiology",
-            "doi": "10.1007/s10096-021-04354-8"
+            "doi": "10.1007/s10096-021-04354-8",
+            "themes": []
         },
         {
             "pmid": "34637936",
@@ -201,7 +247,10 @@
             "authors": "Kherabi Y, Fiolet T, Rozencwajg S, et al.",
             "author_position": "3",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2021.100959"
+            "doi": "10.1016/j.accpm.2021.100959",
+            "themes": [
+                "covid"
+            ]
         },
         {
             "pmid": "34650063",
@@ -210,7 +259,10 @@
             "authors": "Heinsar S, Jung JS, …, Rozencwajg S, et al.",
             "author_position": "4",
             "journal": "Scientific reports",
-            "doi": "10.1038/s41598-021-00087-y"
+            "doi": "10.1038/s41598-021-00087-y",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "34686306",
@@ -219,7 +271,8 @@
             "authors": "Lefrant JY, Pirracchio R, …, Rozencwajg S, et al.",
             "author_position": "54",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2021.100957"
+            "doi": "10.1016/j.accpm.2021.100957",
+            "themes": []
         },
         {
             "pmid": "34930887",
@@ -228,7 +281,8 @@
             "authors": "Rozencwajg S, Peiffer-Smadja N, James A, Kantor E",
             "author_position": "1",
             "journal": "European journal of anaesthesiology",
-            "doi": "10.1097/EJA.0000000000001651"
+            "doi": "10.1097/EJA.0000000000001651",
+            "themes": []
         },
         {
             "pmid": "34936655",
@@ -237,7 +291,10 @@
             "authors": "Evrard D, Jurcisin I, …, Rozencwajg S",
             "author_position": "last",
             "journal": "PloS one",
-            "doi": "10.1371/journal.pone.0261024"
+            "doi": "10.1371/journal.pone.0261024",
+            "themes": [
+                "covid"
+            ]
         },
         {
             "pmid": "34950993",
@@ -246,7 +303,8 @@
             "authors": "See Hoe LE, Wildi K, …, Rozencwajg S, et al.",
             "author_position": "31",
             "journal": "Intensive care medicine experimental",
-            "doi": "10.1186/s40635-021-00425-4"
+            "doi": "10.1186/s40635-021-00425-4",
+            "themes": []
         },
         {
             "pmid": "35038287",
@@ -255,7 +313,10 @@
             "authors": "Rozencwajg S, Wu EL, Heinsar S, et al.",
             "author_position": "1",
             "journal": "Perfusion",
-            "doi": "10.1177/02676591211056567"
+            "doi": "10.1177/02676591211056567",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "35460922",
@@ -264,7 +325,8 @@
             "authors": "Lefrant JY, Pirracchio R, …, Rozencwajg S, et al.",
             "author_position": "64",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2022.101068"
+            "doi": "10.1016/j.accpm.2022.101068",
+            "themes": []
         },
         {
             "pmid": "35470050",
@@ -273,7 +335,8 @@
             "authors": "Tanaka S, Thy M, Rozencwajg S, et al.",
             "author_position": "3",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2022.101071"
+            "doi": "10.1016/j.accpm.2022.101071",
+            "themes": []
         },
         {
             "pmid": "36494003",
@@ -282,7 +345,10 @@
             "authors": "Beaumont AL, Rozencwajg S, Peiffer-Smadja N, Montravers P",
             "author_position": "2",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2022.101181"
+            "doi": "10.1016/j.accpm.2022.101181",
+            "themes": [
+                "covid"
+            ]
         },
         {
             "pmid": "37023786",
@@ -291,7 +357,10 @@
             "authors": "Nguyen Y, Nuzzo A, …, Rozencwajg S, et al.",
             "author_position": "11",
             "journal": "Medical teacher",
-            "doi": "10.1080/0142159X.2023.2198665"
+            "doi": "10.1080/0142159X.2023.2198665",
+            "themes": [
+                "pedagogie"
+            ]
         },
         {
             "pmid": "37573946",
@@ -300,7 +369,8 @@
             "authors": "James A, Clavier T, Rozencwajg S, Blet A",
             "author_position": "3",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2023.101295"
+            "doi": "10.1016/j.accpm.2023.101295",
+            "themes": []
         },
         {
             "pmid": "37673644",
@@ -309,7 +379,8 @@
             "authors": "Bouzid D, Tran-Dinh A, …, Rozencwajg S, et al.",
             "author_position": "middle",
             "journal": "Emergency medicine journal : EMJ",
-            "doi": "10.1136/emermed-2023-213078"
+            "doi": "10.1136/emermed-2023-213078",
+            "themes": []
         },
         {
             "pmid": "41791457",
@@ -318,7 +389,10 @@
             "authors": "Bougnoux C, Rozencwajg S, Thes J, et al.",
             "author_position": "2",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2026.101789"
+            "doi": "10.1016/j.accpm.2026.101789",
+            "themes": [
+                "ecmo"
+            ]
         },
         {
             "pmid": "41833732",
@@ -327,7 +401,11 @@
             "authors": "Rozencwajg S, Benhamou D",
             "author_position": "1",
             "journal": "Anaesthesia, critical care & pain medicine",
-            "doi": "10.1016/j.accpm.2026.101812"
+            "doi": "10.1016/j.accpm.2026.101812",
+            "themes": [
+                "ia"
+            ],
+            "featured": true
         },
         {
             "pmid": "41367735",
@@ -336,7 +414,10 @@
             "authors": "Peyrony O, Goudot G, …, Rozencwajg S, et al.",
             "author_position": "6",
             "journal": "Quantitative Imaging in Medicine and Surgery",
-            "doi": "10.21037/qims-2025-934"
+            "doi": "10.21037/qims-2025-934",
+            "themes": [
+                "pedagogie"
+            ]
         },
         {
             "pmid": "41318097",
@@ -345,7 +426,11 @@
             "authors": "Rozencwajg S, Benhamou D",
             "author_position": "1",
             "journal": "Anaesthesia Critical Care & Pain Medicine",
-            "doi": "10.1016/j.accpm.2025.101714"
+            "doi": "10.1016/j.accpm.2025.101714",
+            "themes": [
+                "ia"
+            ],
+            "featured": true
         },
         {
             "pmid": "36899029",
@@ -354,7 +439,11 @@
             "authors": "Rozencwajg S, Heinsar S, Wildi K, et al.",
             "author_position": "1",
             "journal": "Scientific Reports",
-            "doi": "10.1038/s41598-023-30226-6"
+            "doi": "10.1038/s41598-023-30226-6",
+            "themes": [
+                "ecmo"
+            ],
+            "featured": true
         },
         {
             "pmid": "36871626",
@@ -363,7 +452,11 @@
             "authors": "Rozencwajg S, Kantor E",
             "author_position": "1",
             "journal": "Anaesthesia Critical Care & Pain Medicine",
-            "doi": "10.1016/j.accpm.2023.101209"
+            "doi": "10.1016/j.accpm.2023.101209",
+            "themes": [
+                "ia"
+            ],
+            "featured": true
         },
         {
             "pmid": "35803576",
@@ -372,7 +465,8 @@
             "authors": "Caillard A, Vardon-Bounes F, Rozencwajg S, et al.",
             "author_position": "3",
             "journal": "Anaesthesia Critical Care & Pain Medicine",
-            "doi": "10.1016/j.accpm.2022.101123"
+            "doi": "10.1016/j.accpm.2022.101123",
+            "themes": []
         },
         {
             "pmid": "35609777",
@@ -381,7 +475,10 @@
             "authors": "Carillion A, Rozencwajg S, Abou Arab O, et al.",
             "author_position": "2",
             "journal": "Anaesthesia Critical Care & Pain Medicine",
-            "doi": "10.1016/j.accpm.2022.101106"
+            "doi": "10.1016/j.accpm.2022.101106",
+            "themes": [
+                "ecmo"
+            ]
         }
     ]
 }

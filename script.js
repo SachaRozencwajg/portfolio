@@ -229,3 +229,66 @@ document.addEventListener('DOMContentLoaded', () => {
 // Console greeting for fellow developers
 console.log('%c👋 Hello, fellow developer!', 'font-size: 16px; font-weight: bold; color: #0071e3;');
 console.log('%cInterested in AI & Medicine? Let\'s connect!', 'font-size: 12px; color: #86868b;');
+
+// ===========================
+// Publications : sélection + filtres
+// ===========================
+function initPublications() {
+    const list = document.getElementById('publicationsList');
+    const toggle = document.getElementById('pubToggle');
+    const filters = document.getElementById('pubFilters');
+    const label = document.getElementById('pubSelectionLabel');
+    const empty = document.getElementById('pubEmpty');
+    if (!list || !toggle || !filters) return;
+
+    const cards = Array.from(list.querySelectorAll('.publication-card'));
+    const state = { theme: 'all', position: 'all', expanded: false };
+
+    function applyFilters() {
+        let visible = 0;
+        cards.forEach(card => {
+            const themes = (card.dataset.themes || '').split(' ');
+            const matchTheme = state.theme === 'all' || themes.includes(state.theme);
+            const matchPosition = state.position === 'all' || card.dataset.position === state.position;
+            const show = !state.expanded || (matchTheme && matchPosition);
+            card.classList.toggle('is-filtered-out', !show);
+            if (show && (state.expanded || card.dataset.featured)) visible++;
+        });
+        empty.hidden = visible > 0;
+    }
+
+    function render() {
+        list.classList.toggle('is-featured-only', !state.expanded);
+        filters.hidden = !state.expanded;
+        label.hidden = state.expanded;
+        toggle.textContent = state.expanded
+            ? t('pub.showSelection')
+            : t('pub.showAll').replace('{n}', cards.length);
+        applyFilters();
+    }
+
+    filters.querySelectorAll('.pub-filters__group').forEach(group => {
+        group.addEventListener('click', (e) => {
+            const chip = e.target.closest('.pub-chip');
+            if (!chip) return;
+            group.querySelectorAll('.pub-chip').forEach(c => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            state[group.dataset.filter] = chip.dataset.value;
+            applyFilters();
+        });
+    });
+
+    toggle.addEventListener('click', () => {
+        state.expanded = !state.expanded;
+        render();
+        if (!state.expanded) {
+            document.getElementById('publications').scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+
+    toggle.hidden = false;
+    document.addEventListener('languagechange-site', render);
+    render();
+}
+
+document.addEventListener('DOMContentLoaded', initPublications);

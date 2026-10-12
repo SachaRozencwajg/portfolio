@@ -50,7 +50,14 @@ def render_card(pub):
         f' class="publication-card__doi">DOI</a>'
         if doi else ""
     )
-    return f'''                <article class="publication-card">
+    position = pub.get("author_position", "")
+    role = "first" if position in ("1", "1st") else "last" if position == "last" else "co"
+    attrs = (
+        f' data-themes="{" ".join(pub.get("themes", []))}"'
+        f' data-position="{role}"'
+        + (' data-featured="true"' if pub.get("featured") else "")
+    )
+    return f'''                <article class="publication-card"{attrs}>
                     <div class="publication-card__year">{pub["year"]}</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/{pub["pmid"]}/" target="_blank" rel="noopener">
