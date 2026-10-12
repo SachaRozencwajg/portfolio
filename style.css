@@ -647,31 +647,52 @@ ol {
 
 /* ===========================
    Timeline - Multi-Lane CV
+   Une vraie frise par colonne : rail vertical + points colorés,
+   items sans fond (fond léger au survol), logos dans des pastilles identiques.
    =========================== */
 .timeline {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
     margin-top: var(--space-8);
+    align-items: start;
 }
 
 .timeline__track {
+    --track: var(--color-accent);
+    --track-soft: var(--color-accent-light);
     background: var(--bg-card);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
     border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-card, none);
     position: relative;
+    overflow: hidden;
 }
 
+/* Liseré de couleur en haut de chaque colonne */
 .timeline__track::before {
     content: '';
     position: absolute;
-    top: 80px;
-    left: 24px;
-    bottom: 24px;
-    width: 2px;
-    background: var(--border-color);
-    border-radius: 1px;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--track);
+    opacity: 0.85;
+}
+
+.timeline__track--medical {
+    --track: #2f7cf0;
+    --track-soft: rgba(47, 124, 240, 0.12);
+}
+
+.timeline__track--academic {
+    --track: #0e9f74;
+    --track-soft: rgba(14, 159, 116, 0.12);
+}
+
+.timeline__track--entrepreneur {
+    --track: #8b5cf6;
+    --track-soft: rgba(139, 92, 246, 0.12);
 }
 
 .timeline__header {
@@ -689,119 +710,120 @@ ol {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-}
-
-.timeline__icon--medical {
-    background: linear-gradient(135deg, #0071e3 0%, #40a9ff 100%);
-    color: white;
-}
-
-.timeline__icon--entrepreneur {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-    color: white;
-}
-
-.timeline__icon--academic {
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-    color: white;
+    background: var(--track-soft);
+    color: var(--track);
 }
 
 .timeline__title {
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
 }
 
+/* Rail vertical qui relie les points */
 .timeline__items {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-2);
+    position: relative;
+}
+
+.timeline__items::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 26px;
+    bottom: 26px;
+    width: 2px;
+    border-radius: 1px;
+    background: linear-gradient(to bottom, var(--track) 0%, var(--track-soft) 100%);
+    opacity: 0.5;
 }
 
 .timeline__item {
     display: flex;
     flex-direction: column;
-    padding: var(--space-4);
-    padding-left: var(--space-8);
-    background: var(--bg-secondary);
+    padding: var(--space-3) var(--space-3) var(--space-4) var(--space-8);
+    margin-left: calc(-1 * var(--space-2));
+    padding-left: calc(var(--space-8) + var(--space-2));
     border-radius: var(--radius-lg);
     position: relative;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: background-color var(--transition-fast);
 }
 
+/* Point sur le rail, aligné sur le logo */
 .timeline__item::before {
     content: '';
     position: absolute;
-    left: 6px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
+    left: calc(var(--space-2) + 2px);
+    top: calc(var(--space-3) + 18px);
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: var(--color-primary);
-    border: 2px solid var(--bg-card);
+    background: var(--bg-card);
+    border: 3px solid var(--track);
+    box-shadow: 0 0 0 4px var(--bg-card);
+    z-index: 1;
 }
 
-.timeline__track--medical .timeline__item::before {
-    background: #0071e3;
-}
-
-.timeline__track--entrepreneur .timeline__item::before {
-    background: #7c3aed;
-}
-
-.timeline__track--academic .timeline__item::before {
-    background: #059669;
+.timeline__item:first-child::before {
+    background: var(--track);
 }
 
 .timeline__item:hover {
-    transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: var(--bg-secondary);
+}
+
+.timeline__item:hover::before {
+    box-shadow: 0 0 0 4px var(--bg-secondary);
 }
 
 .timeline__year {
     font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    color: var(--text-tertiary);
+    font-weight: var(--font-semibold);
+    color: var(--track);
     line-height: 1.2;
+    letter-spacing: 0.02em;
 }
 
 .timeline__label {
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-top: 2px;
+    margin-top: 4px;
+    line-height: 1.3;
 }
 
 .timeline__role {
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--text-secondary);
     font-weight: var(--font-regular);
-    margin-top: 2px;
+    margin-top: 4px;
+    line-height: 1.5;
 }
 
-/* Timeline with logos (LinkedIn style) */
+/* Timeline with logos */
 .timeline__item--with-logo {
-    flex-direction: column;
-    align-items: flex-start;
     gap: var(--space-3);
-    padding-left: var(--space-4);
+    align-items: flex-start;
 }
 
-.timeline__item--with-logo::before {
-    display: none;
-}
-
+/* Pastille logo : même taille partout, fond blanc dans les deux thèmes
+   (les logos sont dessinés pour un fond clair) */
 .timeline__logo {
-    width: 128px;
+    width: 136px;
     height: 48px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     object-fit: contain;
-    object-position: left center;
-    background: white;
+    object-position: center;
+    background: #ffffff;
     padding: 6px 10px;
     border: 1px solid var(--border-color);
     flex-shrink: 0;
+}
+
+[data-theme="dark"] .timeline__logo {
+    border-color: transparent;
 }
 
 .timeline__content {
@@ -809,61 +831,27 @@ ol {
     flex-direction: column;
 }
 
-/* Timeline badges with initials (for universities) */
-.timeline__item--with-badge {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: var(--space-3);
-    padding-left: var(--space-4);
-}
-
-.timeline__item--with-badge::before {
-    display: none;
-}
-
-.timeline__badge {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-xs);
-    font-weight: var(--font-bold);
-    color: white;
-    flex-shrink: 0;
-}
-
-.timeline__badge--saclay {
-    background: linear-gradient(135deg, #6b1d3c 0%, #8b2d52 100%);
-}
-
-.timeline__badge--sorbonne {
-    background: linear-gradient(135deg, #002855 0%, #003d7a 100%);
-}
-
-.timeline__badge--diderot {
-    background: linear-gradient(135deg, #5c2d91 0%, #7b3db5 100%);
-}
-
 /* Clickable timeline items */
 a.timeline__item--clickable {
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-a.timeline__item--clickable:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+a.timeline__item--clickable .timeline__label::after {
+    content: ' ↗';
+    color: var(--text-tertiary);
+    font-weight: var(--font-regular);
+    transition: color var(--transition-fast);
 }
 
-a.timeline__item--clickable:hover .timeline__label,
-a.timeline__item--clickable:hover .timeline__role,
-a.timeline__item--clickable:hover .timeline__year {
-    text-decoration: none;
-    color: inherit;
+a.timeline__item--clickable:hover .timeline__label::after {
+    color: var(--track);
+}
+
+a.timeline__item--clickable:focus-visible {
+    outline: 2px solid var(--track);
+    outline-offset: 2px;
 }
 
 /* Timeline Responsive */
@@ -874,31 +862,7 @@ a.timeline__item--clickable:hover .timeline__year {
     }
 
     .timeline__track {
-        padding: var(--space-4);
-    }
-
-    .timeline__items {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-3);
-    }
-
-    .timeline__track::before {
-        display: none;
-    }
-
-    .timeline__item::before {
-        display: none;
-    }
-
-    .timeline__item {
-        padding-left: var(--space-4);
-    }
-}
-
-@media (max-width: 640px) {
-    .timeline__items {
-        grid-template-columns: 1fr;
+        padding: var(--space-5) var(--space-4);
     }
 }
 
