@@ -22,6 +22,7 @@ Site portfolio personnel de Sacha Rozencwajg, Anesthésiste-Réanimateur & Ensei
 ./scripts/portfolioUP --install   # une seule fois : ajoute l'alias dans ~/.zshrc
 portfolioUP                       # depuis n'importe où dans le terminal
 portfolioUP --site-only           # sans redéployer la Cloud Function
+portfolioUP --function-only       # uniquement la Cloud Function
 ```
 
 `portfolioUP` récupère `main`, régénère la liste des publications, lance `./deploy.sh`
