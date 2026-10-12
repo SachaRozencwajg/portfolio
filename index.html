@@ -17,7 +17,11 @@
     <meta property="og:title" content="Sacha Rozencwajg | Médecin & Enseignant en IA">
     <meta property="og:description"
         content="Anesthésiste-Réanimateur & Enseignant en IA. Découvrez mes projets, publications et réflexions sur l'IA en santé.">
-    <meta property="og:image" content="https://www.sacha-rozencwajg.fr/photo-sacha.webp">
+    <meta property="og:image" content="https://www.sacha-rozencwajg.fr/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -25,7 +29,7 @@
     <meta property="twitter:title" content="Sacha Rozencwajg | Médecin & Enseignant en IA">
     <meta property="twitter:description"
         content="Anesthésiste-Réanimateur & Enseignant en IA. Découvrez mes projets, publications et réflexions sur l'IA en santé.">
-    <meta property="twitter:image" content="https://www.sacha-rozencwajg.fr/photo-sacha.webp">
+    <meta property="twitter:image" content="https://www.sacha-rozencwajg.fr/og-image.jpg">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -84,16 +88,19 @@
             </a>
 
             <nav class="nav" id="nav">
-                <a href="#parcours" class="nav__link">CV</a>
-                <a href="#projects" class="nav__link">Projets</a>
-                <a href="#research" class="nav__link">Recherche</a>
-                <a href="#teaching" class="nav__link">Enseignement</a>
-                <a href="#talks" class="nav__link">Conférences</a>
+                <a href="#parcours" class="nav__link" data-i18n="t0">CV</a>
+                <a href="#projects" class="nav__link" data-i18n="t1">Projets</a>
+                <a href="#research" class="nav__link" data-i18n="t2">Recherche</a>
+                <a href="#teaching" class="nav__link" data-i18n="t3">Enseignement</a>
+                <a href="#talks" class="nav__link" data-i18n="t4">Conférences</a>
                 <a href="#publications" class="nav__link">Publications</a>
                 <a href="#contact" class="nav__link">Contact</a>
             </nav>
 
             <div style="display: flex; align-items: center; gap: var(--space-2);">
+                <!-- Language Toggle -->
+                <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch to English">EN</button>
+
                 <!-- Theme Toggle -->
                 <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
                     <svg class="theme-toggle__icon theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24"
@@ -127,26 +134,26 @@
         <div class="container">
             <div class="hero__grid">
                 <div class="hero__content">
-                    <h1 class="hero__title">
+                    <h1 class="hero__title" data-i18n-html="t7">
                         Anesthésiste-Réanimateur & <br>
                         <span class="hero__title-accent">Enseignant en IA</span>
                     </h1>
 
-                    <p class="hero__subtitle">
+                    <p class="hero__subtitle" data-i18n="t8">
                         Je fais le lien entre la médecine clinique et l'intelligence artificielle,
                         en développant des solutions IA pratiques qui améliorent la prise en charge
                         des patients et la pratique médicale.
                     </p>
 
                     <div class="hero__actions">
-                        <a href="#projects" class="btn btn--primary">
+                        <a href="#projects" class="btn btn--primary" data-i18n="t6">
                             Voir mes projets
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <path d="M5 12h14M12 5l7 7-7 7"></path>
                             </svg>
                         </a>
-                        <a href="#contact" class="btn btn--secondary">
+                        <a href="#contact" class="btn btn--secondary" data-i18n="t5">
                             Me contacter
                         </a>
                     </div>
@@ -167,7 +174,7 @@
     <section class="section" id="parcours">
         <div class="container">
             <header class="section__header">
-                <p class="section__overline">Parcours</p>
+                <p class="section__overline" data-i18n="t9">Parcours</p>
                 <h2 class="section__title">Curriculum Vitae</h2>
             </header>
 
@@ -185,7 +192,7 @@
                                 <circle cx="20" cy="10" r="2"></circle>
                             </svg>
                         </div>
-                        <h3 class="timeline__title">Parcours Médical</h3>
+                        <h3 class="timeline__title" data-i18n="t10">Parcours Médical</h3>
                     </div>
                     <div class="timeline__items">
                         <div class="timeline__item timeline__item--with-logo">
@@ -193,15 +200,15 @@
                             <div class="timeline__content">
                                 <span class="timeline__year">2024</span>
                                 <span class="timeline__label">Hôpital Marie Lannelongue</span>
-                                <span class="timeline__role">Anesthésiste</span>
+                                <span class="timeline__role" data-i18n="t11">Anesthésiste</span>
                             </div>
                         </div>
                         <div class="timeline__item timeline__item--with-logo">
                             <img src="logo-aphp.webp" alt="AP-HP" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2020-2024</span>
-                                <span class="timeline__label">CHU Bichat Claude Bernard</span>
-                                <span class="timeline__role">Chef de clinique & Praticien Hospitalier</span>
+                                <span class="timeline__label" data-i18n="t13">CHU Bichat Claude Bernard</span>
+                                <span class="timeline__role" data-i18n="t12">Chef de clinique & Praticien Hospitalier</span>
                             </div>
                         </div>
                     </div>
@@ -217,15 +224,15 @@
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                             </svg>
                         </div>
-                        <h3 class="timeline__title">Parcours Académique</h3>
+                        <h3 class="timeline__title" data-i18n="t14">Parcours Académique</h3>
                     </div>
                     <div class="timeline__items">
                         <div class="timeline__item timeline__item--with-logo">
                             <img src="logo-paris-saclay.webp" alt="Paris-Saclay" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2025</span>
-                                <span class="timeline__label">ADR (en cours)</span>
-                                <span class="timeline__role">Création d'un jumeau numérique par IA pour la
+                                <span class="timeline__label" data-i18n="t15">ADR (en cours)</span>
+                                <span class="timeline__role" data-i18n="t16">Création d'un jumeau numérique par IA pour la
                                     réhabilitation active des greffons thoraciques sous perfusion ex vivo</span>
                             </div>
                         </div>
@@ -233,8 +240,8 @@
                             <img src="logo-sorbonne.webp" alt="Sorbonne" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2022</span>
-                                <span class="timeline__label">Thèse de Science – ED394</span>
-                                <span class="timeline__role">Interaction entre ECMO veino-artérielle et cerveau :
+                                <span class="timeline__label" data-i18n="t17">Thèse de Science – ED394</span>
+                                <span class="timeline__role" data-i18n="t18">Interaction entre ECMO veino-artérielle et cerveau :
                                     exemple de l'hypoxémie différentielle</span>
                             </div>
                         </div>
@@ -242,8 +249,8 @@
                             <img src="logo-paris-cite.webp" alt="Paris Cité" class="timeline__logo" loading="lazy">
                             <div class="timeline__content">
                                 <span class="timeline__year">2016</span>
-                                <span class="timeline__label">Master 2 – B2PRS</span>
-                                <span class="timeline__role">Impact des réglages de la ventilation mécanique sur
+                                <span class="timeline__label" data-i18n="t19">Master 2 – B2PRS</span>
+                                <span class="timeline__role" data-i18n="t20">Impact des réglages de la ventilation mécanique sur
                                     l'inflammation alvéolaire sous ECMO VV au cours du SDRA sévère</span>
                             </div>
                         </div>
@@ -266,7 +273,7 @@
                                 <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
                             </svg>
                         </div>
-                        <h3 class="timeline__title">Parcours Entrepreneurial</h3>
+                        <h3 class="timeline__title" data-i18n="t21">Parcours Entrepreneurial</h3>
                     </div>
                     <div class="timeline__items">
                         <a href="https://pulsecare-ai.fr/" target="_blank" rel="noopener"
@@ -275,7 +282,7 @@
                             <div class="timeline__content">
                                 <span class="timeline__year">2023</span>
                                 <span class="timeline__label">PulseCare.AI</span>
-                                <span class="timeline__role">Co-fondateur</span>
+                                <span class="timeline__role" data-i18n="t22">Co-fondateur</span>
                             </div>
                         </a>
                         <a href="https://teamdoc.eu/" target="_blank" rel="noopener"
@@ -284,7 +291,7 @@
                             <div class="timeline__content">
                                 <span class="timeline__year">2017</span>
                                 <span class="timeline__label">Team'Doc</span>
-                                <span class="timeline__role">Co-fondateur</span>
+                                <span class="timeline__role" data-i18n="t22">Co-fondateur</span>
                             </div>
                         </a>
                     </div>
@@ -300,8 +307,8 @@
         <div class="container">
             <header class="section__header">
                 <p class="section__overline">Vibecode</p>
-                <h2 class="section__title">Applications IA</h2>
-                <p class="section__description">
+                <h2 class="section__title" data-i18n="t23">Applications IA</h2>
+                <p class="section__description" data-i18n="t24">
                     Des outils pratiques à l'intersection de la médecine et de l'IA,
                     conçus pour résoudre des problèmes concrets en santé.
                 </p>
@@ -315,13 +322,13 @@
                         <div class="project-card__tags">
                             <span class="tag">IA / LLM</span>
                             <span class="tag">React</span>
-                            <span class="tag">Pédagogie</span>
+                            <span class="tag" data-i18n="t25">Pédagogie</span>
                         </div>
-                        <h3 class="project-card__title">Serious Game : dans la peau d'un LLM</h3>
-                        <p class="project-card__description">
+                        <h3 class="project-card__title" data-i18n="t26">Serious Game : dans la peau d'un LLM</h3>
+                        <p class="project-card__description" data-i18n="t27">
                             Simulation interactive pour comprendre les hallucinations et biais des LLM en médecine.
                         </p>
-                        <a href="/serious-game/" class="card__link">
+                        <a href="/serious-game/" class="card__link" data-i18n="t28">
                             Essayer en ligne
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
@@ -337,17 +344,17 @@
                     <div class="project-card__content">
                         <div class="project-card__tags">
                         <span class="tag">RAG</span>
-                        <span class="tag tag--teal">IA souveraine</span>
+                        <span class="tag tag--teal" data-i18n="t29">IA souveraine</span>
                         <span class="tag tag--purple">EDN</span>
                     </div>
                         <h3 class="project-card__title">EDN-IA</h3>
-                        <p class="project-card__description">
+                        <p class="project-card__description" data-i18n="t30">
                         Plateforme d'IA pédagogique pour la préparation aux EDN, ancrée exclusivement
                         dans les référentiels officiels des collèges de spécialité (réponses sourcées,
                         génération de QI, mini-DP et KFP). Hébergement 100&nbsp;% français
                         (Scaleway, Mistral AI), déployée à l'Université Paris-Saclay et à l'UVSQ.
                     </p>
-                        <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="card__link">
+                        <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="card__link" data-i18n="t31">
                         Découvrir EDN-IA
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
@@ -364,16 +371,16 @@
                     <div class="project-card__content">
                         <div class="project-card__tags">
                         <span class="tag">Logbook</span>
-                        <span class="tag tag--teal">Formation des internes</span>
-                        <span class="tag tag--purple">Multi-spécialités</span>
+                        <span class="tag tag--teal" data-i18n="t32">Formation des internes</span>
+                        <span class="tag tag--purple" data-i18n="t33">Multi-spécialités</span>
                     </div>
                         <h3 class="project-card__title">CareLogbook</h3>
-                        <p class="project-card__description">
+                        <p class="project-card__description" data-i18n="t34">
                         Logbook numérique de suivi de formation médicale : actes et niveaux d'autonomie,
                         gardes, validation par les seniors et tableaux de bord de coordination.
                         Multi-spécialités et multilingue (DESAR, SFCTCV…).
                     </p>
-                        <a href="https://carelogbook.com" target="_blank" rel="noopener" class="card__link">
+                        <a href="https://carelogbook.com" target="_blank" rel="noopener" class="card__link" data-i18n="t35">
                         Découvrir CareLogbook
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
@@ -393,8 +400,8 @@
     <section class="section" id="research">
         <div class="container">
             <header class="section__header">
-                <p class="section__overline">Recherche</p>
-                <h2 class="section__title">Thématiques de recherche</h2>
+                <p class="section__overline" data-i18n="t98">Recherche</p>
+                <h2 class="section__title" data-i18n="t36">Thématiques de recherche</h2>
             </header>
 
             <div class="card-grid">
@@ -405,16 +412,16 @@
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
                     </div>
-                    <span class="card__badge">Thématique principale</span>
-                    <h3 class="card__title">Intelligence Artificielle en Médecine</h3>
-                    <p class="card__description">
+                    <span class="card__badge" data-i18n="t37">Thématique principale</span>
+                    <h3 class="card__title" data-i18n="t38">Intelligence Artificielle en Médecine</h3>
+                    <p class="card__description" data-i18n="t39">
                         Développement et évaluation d'outils IA pour l'aide à la décision clinique,
                         l'optimisation des soins périopératoires et l'analyse de données médicales.
                         Focus sur les Large Language Models (LLM) et leur application en santé.
                     </p>
                     <div class="card__tags">
                         <span class="tag">LLM</span>
-                        <span class="tag tag--teal">Aide à la décision</span>
+                        <span class="tag tag--teal" data-i18n="t40">Aide à la décision</span>
                         <span class="tag tag--purple">Machine Learning</span>
                     </div>
                 </article>
@@ -426,17 +433,17 @@
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                     </div>
-                    <span class="card__badge">Thématique clinique</span>
-                    <h3 class="card__title">Circulation Extracorporelle</h3>
-                    <p class="card__description">
+                    <span class="card__badge" data-i18n="t41">Thématique clinique</span>
+                    <h3 class="card__title" data-i18n="t42">Circulation Extracorporelle</h3>
+                    <p class="card__description" data-i18n="t43">
                         Recherche sur l'ECMO (Oxygénation par Membrane Extracorporelle) et les techniques
                         de circulation extracorporelle en réanimation. Optimisation des protocoles
                         et amélioration des outcomes patients.
                     </p>
                     <div class="card__tags">
                         <span class="tag">ECMO</span>
-                        <span class="tag tag--teal">Réanimation</span>
-                        <span class="tag tag--purple">Chirurgie cardiaque</span>
+                        <span class="tag tag--teal" data-i18n="t44">Réanimation</span>
+                        <span class="tag tag--purple" data-i18n="t45">Chirurgie cardiaque</span>
                     </div>
                 </article>
             </div>
@@ -449,9 +456,9 @@
     <section class="section section--alt" id="teaching">
         <div class="container">
             <header class="section__header">
-                <p class="section__overline">Enseignement</p>
-                <h2 class="section__title">Formation & Pédagogie</h2>
-                <p class="section__description">
+                <p class="section__overline" data-i18n="t97">Enseignement</p>
+                <h2 class="section__title" data-i18n="t46">Formation & Pédagogie</h2>
+                <p class="section__description" data-i18n="t47">
                     Transmettre les connaissances sur l'IA appliquée à la médecine
                     aux professionnels de santé et aux étudiants.
                 </p>
@@ -469,14 +476,14 @@
                         </div>
                         <img src="logo-paris-saclay.webp" alt="Paris-Saclay" class="card__logo">
                     </div>
-                    <h3 class="card__title">UE IA2M - Paris-Saclay</h3>
-                    <p class="card__description">
+                    <h3 class="card__title" data-i18n="t48">UE IA2M - Paris-Saclay</h3>
+                    <p class="card__description" data-i18n-html="t49">
                         Unité d'enseignement « Intelligence Artificielle Appliquée à la Médecine ».
                         Première édition : satisfaction de <strong>8,2/10</strong>, recommandée
                         unanimement par les étudiants.
                     </p>
                     <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
-                        target="_blank" rel="noopener" class="card__link">
+                        target="_blank" rel="noopener" class="card__link" data-i18n="t50">
                         Voir le programme de l'UE
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
@@ -495,12 +502,12 @@
                             <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path>
                         </svg>
                     </div>
-                    <h3 class="card__title">Formations & Ateliers</h3>
-                    <p class="card__description">
+                    <h3 class="card__title" data-i18n="t51">Formations & Ateliers</h3>
+                    <p class="card__description" data-i18n="t52">
                         Animations d'ateliers pratiques sur l'utilisation des outils IA
                         (ChatGPT, Gemini, Claude) pour les professionnels de santé.
                     </p>
-                    <a href="#contact" class="card__link">
+                    <a href="#contact" class="card__link" data-i18n="t53">
                         Organiser une formation
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
@@ -518,12 +525,12 @@
                             </polygon>
                         </svg>
                     </div>
-                    <h3 class="card__title">Encadrement de thèses</h3>
-                    <p class="card__description">
+                    <h3 class="card__title" data-i18n="t54">Encadrement de thèses</h3>
+                    <p class="card__description" data-i18n="t55">
                         Direction et co-direction de thèses de médecine et de master
                         sur les applications de l'IA en anesthésie-réanimation.
                     </p>
-                    <a href="#contact" class="card__link">
+                    <a href="#contact" class="card__link" data-i18n="t56">
                         Proposer un sujet
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
@@ -534,41 +541,43 @@
             </div>
 
             <div class="talks" id="talks">
-                <h3 class="talks__title">Conférences & interventions</h3>
+                <h3 class="talks__title" data-i18n="t57">Conférences & interventions</h3>
                 <div class="talks__list">
                 <article class="talk-card">
                     <div class="talk-card__date">Sept. 2026</div>
                     <div class="talk-card__content">
-                        <h4 class="talk-card__title">Place de l'IA dans la simulation en santé</h4>
+                        <h4 class="talk-card__title" data-i18n="t58">Place de l'IA dans la simulation en santé</h4>
                         <p class="talk-card__venue">NumIACare · Université Paris-Saclay</p>
                     </div>
+                    <img src="talk-logo-paris-saclay.webp" alt="Université Paris-Saclay" class="talk-card__logo" loading="lazy">
                 </article>
                 <article class="talk-card">
                     <div class="talk-card__date">Juil. 2026</div>
                     <div class="talk-card__content">
-                        <h4 class="talk-card__title">Déontologie et IA en médecine</h4>
-                        <p class="talk-card__venue">Colloque Déontologie · Université Paris Cité</p>
+                        <h4 class="talk-card__title" data-i18n="t59">Déontologie et IA en médecine</h4>
+                        <p class="talk-card__venue" data-i18n="t60">Colloque Déontologie · Université Paris Cité</p>
                     </div>
+                    <img src="talk-logo-paris-cite.webp" alt="Université Paris Cité" class="talk-card__logo" loading="lazy">
                 </article>
                 <article class="talk-card">
                     <div class="talk-card__date">2026</div>
                     <div class="talk-card__content">
-                        <h4 class="talk-card__title">Impacts de l'IA sur la médecine périopératoire</h4>
+                        <h4 class="talk-card__title" data-i18n="t61">Impacts de l'IA sur la médecine périopératoire</h4>
                         <p class="talk-card__venue">MAPAR 2026</p>
                     </div>
                 </article>
                 <article class="talk-card">
                     <div class="talk-card__date">Depuis 2024</div>
                     <div class="talk-card__content">
-                        <h4 class="talk-card__title">IA générative pour les IADE</h4>
-                        <p class="talk-card__venue">École d'IADE de Lyon</p>
+                        <h4 class="talk-card__title" data-i18n="t62">IA générative pour les IADE</h4>
+                        <p class="talk-card__venue" data-i18n="t63">École d'IADE de Lyon</p>
                     </div>
                 </article>
                 <article class="talk-card">
                     <div class="talk-card__date">Depuis 2024</div>
                     <div class="talk-card__content">
-                        <h4 class="talk-card__title">LCA d'un article d'intelligence artificielle</h4>
-                        <p class="talk-card__venue">DESAR · Paris</p>
+                        <h4 class="talk-card__title" data-i18n="t64">LCA d'un article d'intelligence artificielle</h4>
+                        <p class="talk-card__venue" data-i18n="t65">DESAR · Paris</p>
                     </div>
                 </article>
                 </div>
@@ -583,16 +592,33 @@
         <div class="container">
             <header class="section__header">
                 <p class="section__overline">Publications</p>
-                <h2 class="section__title">Articles scientifiques</h2>
-                <p class="section__description">
+                <h2 class="section__title" data-i18n="t66">Articles scientifiques</h2>
+                <p class="section__description" data-i18n="t67">
                     Publications dans des revues à comité de lecture en anesthésie,
                     réanimation et intelligence artificielle.
                 </p>
             </header>
 
-            <div class="publications-list">
+            <div class="pub-filters" id="pubFilters" hidden>
+                <div class="pub-filters__group" data-filter="theme" role="group" aria-label="Thème">
+                    <button type="button" class="pub-chip is-active" data-value="all" data-i18n="t68">Toutes</button>
+                    <button type="button" class="pub-chip" data-value="ia">IA</button>
+                    <button type="button" class="pub-chip" data-value="ecmo">ECMO / CEC</button>
+                    <button type="button" class="pub-chip" data-value="pedagogie" data-i18n="t69">Pédagogie</button>
+                    <button type="button" class="pub-chip" data-value="covid">COVID</button>
+                </div>
+                <div class="pub-filters__group" data-filter="position" role="group" aria-label="Position d'auteur">
+                    <button type="button" class="pub-chip is-active" data-value="all" data-i18n="t70">Toutes positions</button>
+                    <button type="button" class="pub-chip" data-value="first" data-i18n="t71">1er auteur</button>
+                    <button type="button" class="pub-chip" data-value="last" data-i18n="t72">Dernier auteur</button>
+                </div>
+            </div>
+
+            <p class="pub-selection-label" id="pubSelectionLabel" hidden data-i18n="t73">Publications choisies</p>
+
+            <div class="publications-list" id="publicationsList">
                 <!-- PUBLICATIONS:START -->
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="first">
                     <div class="publication-card__year">2026</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/42031111/" target="_blank" rel="noopener">
@@ -609,7 +635,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ia" data-position="first" data-featured="true">
                     <div class="publication-card__year">2026</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/41833732/" target="_blank" rel="noopener">
@@ -626,7 +652,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="co">
                     <div class="publication-card__year">2026</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/41791457/" target="_blank" rel="noopener">
@@ -643,7 +669,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="pedagogie" data-position="co">
                     <div class="publication-card__year">2025</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/41367735/" target="_blank" rel="noopener">
@@ -660,7 +686,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ia" data-position="first" data-featured="true">
                     <div class="publication-card__year">2025</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/41318097/" target="_blank" rel="noopener">
@@ -677,7 +703,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first">
                     <div class="publication-card__year">2024</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/35038287/" target="_blank" rel="noopener">
@@ -694,7 +720,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2023</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/37673644/" target="_blank" rel="noopener">
@@ -711,7 +737,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2023</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/37573946/" target="_blank" rel="noopener">
@@ -728,7 +754,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="pedagogie" data-position="co">
                     <div class="publication-card__year">2023</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/37023786/" target="_blank" rel="noopener">
@@ -745,7 +771,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first" data-featured="true">
                     <div class="publication-card__year">2023</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/36899029/" target="_blank" rel="noopener">
@@ -762,7 +788,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ia" data-position="first" data-featured="true">
                     <div class="publication-card__year">2023</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/36871626/" target="_blank" rel="noopener">
@@ -779,7 +805,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="covid" data-position="co">
                     <div class="publication-card__year">2023</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/36494003/" target="_blank" rel="noopener">
@@ -796,7 +822,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2022</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/35803576/" target="_blank" rel="noopener">
@@ -813,7 +839,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="co">
                     <div class="publication-card__year">2022</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/35609777/" target="_blank" rel="noopener">
@@ -830,7 +856,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2022</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/35470050/" target="_blank" rel="noopener">
@@ -847,7 +873,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2022</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/35460922/" target="_blank" rel="noopener">
@@ -864,7 +890,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="first">
                     <div class="publication-card__year">2022</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34930887/" target="_blank" rel="noopener">
@@ -881,7 +907,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2022</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34625886/" target="_blank" rel="noopener">
@@ -898,7 +924,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34950993/" target="_blank" rel="noopener">
@@ -915,7 +941,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="covid" data-position="last">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34936655/" target="_blank" rel="noopener">
@@ -932,7 +958,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34686306/" target="_blank" rel="noopener">
@@ -949,7 +975,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34650063/" target="_blank" rel="noopener">
@@ -966,7 +992,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="covid" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34637936/" target="_blank" rel="noopener">
@@ -983,7 +1009,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34617676/" target="_blank" rel="noopener">
@@ -1000,7 +1026,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34233748/" target="_blank" rel="noopener">
@@ -1017,7 +1043,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/34014886/" target="_blank" rel="noopener">
@@ -1034,7 +1060,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="covid" data-position="first">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/33946037/" target="_blank" rel="noopener">
@@ -1051,7 +1077,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="covid" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/33774261/" target="_blank" rel="noopener">
@@ -1068,7 +1094,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2021</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/33725225/" target="_blank" rel="noopener">
@@ -1085,7 +1111,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="co">
                     <div class="publication-card__year">2020</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/32644199/" target="_blank" rel="noopener">
@@ -1102,7 +1128,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="co">
                     <div class="publication-card__year">2020</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/32451698/" target="_blank" rel="noopener">
@@ -1119,7 +1145,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2020</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/32147580/" target="_blank" rel="noopener">
@@ -1136,7 +1162,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first" data-featured="true">
                     <div class="publication-card__year">2019</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/31385880/" target="_blank" rel="noopener">
@@ -1153,7 +1179,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first">
                     <div class="publication-card__year">2018</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/29174419/" target="_blank" rel="noopener">
@@ -1170,7 +1196,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first">
                     <div class="publication-card__year">2017</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/29084498/" target="_blank" rel="noopener">
@@ -1187,7 +1213,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2017</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/28655352/" target="_blank" rel="noopener">
@@ -1204,7 +1230,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first">
                     <div class="publication-card__year">2017</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/28361084/" target="_blank" rel="noopener">
@@ -1221,7 +1247,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="first">
                     <div class="publication-card__year">2017</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/27485804/" target="_blank" rel="noopener">
@@ -1238,7 +1264,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first">
                     <div class="publication-card__year">2016</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/27919283/" target="_blank" rel="noopener">
@@ -1255,7 +1281,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="" data-position="co">
                     <div class="publication-card__year">2016</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/27771739/" target="_blank" rel="noopener">
@@ -1272,7 +1298,7 @@
                     </div>
                 </article>
 
-                <article class="publication-card">
+                <article class="publication-card" data-themes="ecmo" data-position="first">
                     <div class="publication-card__year">2016</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/27619972/" target="_blank" rel="noopener">
@@ -1291,9 +1317,12 @@
                 <!-- PUBLICATIONS:END -->
             </div>
 
-            <div style="text-align: center; margin-top: var(--space-10);">
+            <p class="pub-empty" id="pubEmpty" hidden data-i18n="t74">Aucune publication ne correspond à ces filtres.</p>
+
+            <div class="pub-actions">
+                <button type="button" class="btn btn--primary" id="pubToggle" hidden></button>
                 <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rozencwajg+S&sort=date" target="_blank" rel="noopener"
-                    class="btn btn--secondary">
+                    class="btn btn--secondary" data-i18n="t75">
                     Voir toutes mes publications sur PubMed
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
@@ -1310,9 +1339,9 @@
     <section class="section section--alt" id="opinions">
         <div class="container">
             <header class="section__header">
-                <p class="section__overline">Réflexions</p>
-                <h2 class="section__title">Opinions sur l'IA en médecine</h2>
-                <p class="section__description">
+                <p class="section__overline" data-i18n="t76">Réflexions</p>
+                <h2 class="section__title" data-i18n="t77">Opinions sur l'IA en médecine</h2>
+                <p class="section__description" data-i18n="t78">
                     Perspectives et réflexions sur le rôle croissant de l'intelligence
                     artificielle dans les soins et la pratique clinique.
                 </p>
@@ -1322,14 +1351,14 @@
                 <article class="blog-card">
                     <div class="blog-card__date">
                         <span class="blog-card__date-day">13</span>
-                        <span class="blog-card__date-month">Mars 2026</span>
+                        <span class="blog-card__date-month" data-i18n="t79">Mars 2026</span>
                     </div>
                     <div class="blog-card__content">
-                        <h3 class="blog-card__title">Déclarer l'usage (ou non) de l'IA dans la relecture par les pairs : une relique du passé ?</h3>
-                        <p class="blog-card__excerpt">
+                        <h3 class="blog-card__title" data-i18n="t81">Déclarer l'usage (ou non) de l'IA dans la relecture par les pairs : une relique du passé ?</h3>
+                        <p class="blog-card__excerpt" data-i18n-html="t82">
                             Éditorial (avec D. Benhamou) sur la transparence de l'usage de l'IA générative dans le peer-review. <em>Anaesth Crit Care Pain Med</em>.
                         </p>
-                        <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="blog-card__read-more">
+                        <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="blog-card__read-more" data-i18n="t83">
                             Lire l'éditorial →
                         </a>
                     </div>
@@ -1338,14 +1367,14 @@
                 <article class="blog-card">
                     <div class="blog-card__date">
                         <span class="blog-card__date-day">6</span>
-                        <span class="blog-card__date-month">Fév 2026</span>
+                        <span class="blog-card__date-month" data-i18n="t80">Fév 2026</span>
                     </div>
                     <div class="blog-card__content">
-                        <h3 class="blog-card__title">L'IA dans ma pratique hospitalo-universitaire</h3>
-                        <p class="blog-card__excerpt">
+                        <h3 class="blog-card__title" data-i18n="t84">L'IA dans ma pratique hospitalo-universitaire</h3>
+                        <p class="blog-card__excerpt" data-i18n="t85">
                             Guide pratique (et subjectif) d'usage de l'IA générative en clinique, en pédagogie et en recherche : cadre réglementaire, LLM en local, outils que j'utilise au quotidien.
                         </p>
-                        <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener" class="blog-card__read-more">
+                        <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener" class="blog-card__read-more" data-i18n="t86">
                             Lire le guide →
                         </a>
                     </div>
@@ -1357,11 +1386,11 @@
                         <span class="blog-card__date-month">Nov 2025</span>
                     </div>
                     <div class="blog-card__content">
-                        <h3 class="blog-card__title">IA générative et relecture par les pairs : préserver le jugement, restaurer la confiance</h3>
-                        <p class="blog-card__excerpt">
+                        <h3 class="blog-card__title" data-i18n="t87">IA générative et relecture par les pairs : préserver le jugement, restaurer la confiance</h3>
+                        <p class="blog-card__excerpt" data-i18n-html="t88">
                             Éditorial (avec D. Benhamou) sur la place de l'IA générative dans l'évaluation des manuscrits scientifiques. <em>Anaesth Crit Care Pain Med</em>.
                         </p>
-                        <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="blog-card__read-more">
+                        <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="blog-card__read-more" data-i18n="t83">
                             Lire l'éditorial →
                         </a>
                     </div>
@@ -1377,8 +1406,8 @@
         <div class="container">
             <header class="section__header">
                 <p class="section__overline">Contact</p>
-                <h2 class="section__title">Me contacter</h2>
-                <p class="section__description">
+                <h2 class="section__title" data-i18n="t89">Me contacter</h2>
+                <p class="section__description" data-i18n="t90">
                     Intéressé par du conseil, une collaboration, ou simplement discuter
                     d'IA en médecine ? N'hésitez pas à me contacter.
                 </p>
@@ -1393,7 +1422,7 @@
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                     </div>
-                    <h3 class="card__title">M'envoyer un email</h3>
+                    <h3 class="card__title" data-i18n="t91">M'envoyer un email</h3>
                     <p class="card__description">
                         sacha.rozencwajg@gmail.com
                     </p>
@@ -1410,7 +1439,7 @@
             <div class="footer__inner">
                 <div class="footer__brand">
                     <p class="footer__logo">Sacha Rozencwajg</p>
-                    <p class="footer__tagline">
+                    <p class="footer__tagline" data-i18n="t92">
                         Anesthésiste-Réanimateur et Enseignant en IA à la Faculté de médecine, basé à Paris.
                         Construire l'avenir de la santé, une solution intelligente à la fois.
                     </p>
@@ -1419,11 +1448,11 @@
                 <div>
                     <h4 class="footer__title">Navigation</h4>
                     <nav class="footer__links">
-                        <a href="#about" class="footer__link">À propos</a>
-                        <a href="#projects" class="footer__link">Projets</a>
-                        <a href="#research" class="footer__link">Recherche</a>
-                        <a href="#teaching" class="footer__link">Enseignement</a>
-                        <a href="#talks" class="footer__link">Conférences</a>
+                        <a href="#about" class="footer__link" data-i18n="t93">À propos</a>
+                        <a href="#projects" class="footer__link" data-i18n="t1">Projets</a>
+                        <a href="#research" class="footer__link" data-i18n="t2">Recherche</a>
+                        <a href="#teaching" class="footer__link" data-i18n="t3">Enseignement</a>
+                        <a href="#talks" class="footer__link" data-i18n="t4">Conférences</a>
                         <a href="#publications" class="footer__link">Publications</a>
                     </nav>
                 </div>
@@ -1440,23 +1469,23 @@
                 </div>
 
                 <div>
-                    <h4 class="footer__title">Ressources</h4>
+                    <h4 class="footer__title" data-i18n="t99">Ressources</h4>
                     <nav class="footer__links">
                         <a href="/serious-game/"
                             class="footer__link">Serious Game : dans la peau d'un LLM</a>
                         <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
-                            target="_blank" rel="noopener" class="footer__link">UE IA2M - Programme</a>
+                            target="_blank" rel="noopener" class="footer__link" data-i18n="t94">UE IA2M - Programme</a>
                         <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="footer__link">EDN-IA</a>
                         <a href="https://carelogbook.com" target="_blank" rel="noopener"
                             class="footer__link">CareLogbook</a>
                         <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener"
-                            class="footer__link">Guide : l'IA dans ma pratique HU</a>
+                            class="footer__link" data-i18n="t95">Guide : l'IA dans ma pratique HU</a>
                     </nav>
                 </div>
             </div>
 
             <div class="footer__bottom">
-                <p class="footer__copyright">
+                <p class="footer__copyright" data-i18n-html="t96">
                     © <span id="year">2026</span> Sacha Rozencwajg. Tous droits réservés.
                 </p>
                 <div class="footer__socials">
@@ -1492,6 +1521,7 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 
