@@ -88,6 +88,7 @@
                 <a href="#projects" class="nav__link">Projets</a>
                 <a href="#research" class="nav__link">Recherche</a>
                 <a href="#teaching" class="nav__link">Enseignement</a>
+                <a href="#talks" class="nav__link">Conférences</a>
                 <a href="#publications" class="nav__link">Publications</a>
                 <a href="#contact" class="nav__link">Contact</a>
             </nav>
@@ -307,7 +308,7 @@
             </header>
 
             <div class="card-grid">
-                <!-- Project 1: Gemini Medical Assistant -->
+                <!-- Project 1: Serious Game -->
                 <article class="project-card">
                     <img src="serious-game.webp" alt="Serious Game : dans la peau d'un LLM" class="project-card__image">
                     <div class="project-card__content">
@@ -330,20 +331,63 @@
                     </div>
                 </article>
 
-                <!-- Project 2: Placeholder for future projects -->
+                <!-- Project 2: EDN-IA -->
                 <article class="card">
-                    <div class="card__icon">
+                    <div class="card__icon card__icon--ai">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M12 6v6l4 2"></path>
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                         </svg>
                     </div>
-                    <h3 class="card__title">Bientôt disponible</h3>
+                    <div class="project-card__tags">
+                        <span class="tag">RAG</span>
+                        <span class="tag tag--teal">IA souveraine</span>
+                        <span class="tag tag--purple">EDN</span>
+                    </div>
+                    <h3 class="card__title">EDN-IA</h3>
                     <p class="card__description">
-                        De nouveaux outils IA pour la santé sont en cours de développement.
-                        Restez connectés pour les prochaines mises à jour.
+                        Plateforme d'IA pédagogique pour la préparation aux EDN, ancrée exclusivement
+                        dans les référentiels officiels des collèges de spécialité (réponses sourcées,
+                        génération de QI, mini-DP et KFP). Hébergement 100&nbsp;% français
+                        (Scaleway, Mistral AI), déployée à l'Université Paris-Saclay et à l'UVSQ.
                     </p>
-                    <span class="tag tag--purple">En développement</span>
+                    <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="card__link">
+                        Découvrir EDN-IA
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                                <path d="M15 3h6v6M10 14L21 3"></path>
+                            </svg>
+                    </a>
+                </article>
+
+                <!-- Project 3: CareLogbook -->
+                <article class="card">
+                    <div class="card__icon card__icon--cec">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M9 11l3 3L22 4"></path>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                        </svg>
+                    </div>
+                    <div class="project-card__tags">
+                        <span class="tag">Logbook</span>
+                        <span class="tag tag--teal">Formation des internes</span>
+                        <span class="tag tag--purple">Multi-spécialités</span>
+                    </div>
+                    <h3 class="card__title">CareLogbook</h3>
+                    <p class="card__description">
+                        Logbook numérique de suivi de formation médicale : actes et niveaux d'autonomie,
+                        gardes, validation par les seniors et tableaux de bord de coordination.
+                        Multi-spécialités et multilingue (DESAR, SFCTCV…).
+                    </p>
+                    <a href="https://carelogbook.com" target="_blank" rel="noopener" class="card__link">
+                        Découvrir CareLogbook
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                                <path d="M15 3h6v6M10 14L21 3"></path>
+                            </svg>
+                    </a>
                 </article>
             </div>
         </div>
@@ -433,7 +477,9 @@
                     </div>
                     <h3 class="card__title">UE IA2M - Paris-Saclay</h3>
                     <p class="card__description">
-                        Unité d'enseignement "Intelligence Artificielle Appliquée à la Médecine"
+                        Unité d'enseignement « Intelligence Artificielle Appliquée à la Médecine ».
+                        Première édition : satisfaction de <strong>8,2/10</strong>, recommandée
+                        unanimement par les étudiants.
                     </p>
                     <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
                         target="_blank" rel="noopener" class="card__link">
@@ -492,6 +538,47 @@
                     </a>
                 </article>
             </div>
+
+            <div class="talks" id="talks">
+                <h3 class="talks__title">Conférences & interventions</h3>
+                <div class="talks__list">
+                <article class="talk-card">
+                    <div class="talk-card__date">Sept. 2026</div>
+                    <div class="talk-card__content">
+                        <h4 class="talk-card__title">Place de l'IA dans la simulation en santé</h4>
+                        <p class="talk-card__venue">NumIACare · Université Paris-Saclay</p>
+                    </div>
+                </article>
+                <article class="talk-card">
+                    <div class="talk-card__date">Juil. 2026</div>
+                    <div class="talk-card__content">
+                        <h4 class="talk-card__title">Déontologie et IA en médecine</h4>
+                        <p class="talk-card__venue">Colloque Déontologie · Université Paris Cité</p>
+                    </div>
+                </article>
+                <article class="talk-card">
+                    <div class="talk-card__date">2026</div>
+                    <div class="talk-card__content">
+                        <h4 class="talk-card__title">Impacts de l'IA sur la médecine périopératoire</h4>
+                        <p class="talk-card__venue">MAPAR 2026</p>
+                    </div>
+                </article>
+                <article class="talk-card">
+                    <div class="talk-card__date">Depuis 2024</div>
+                    <div class="talk-card__content">
+                        <h4 class="talk-card__title">IA générative pour les IADE</h4>
+                        <p class="talk-card__venue">École d'IADE de Lyon</p>
+                    </div>
+                </article>
+                <article class="talk-card">
+                    <div class="talk-card__date">Depuis 2024</div>
+                    <div class="talk-card__content">
+                        <h4 class="talk-card__title">LCA d'un article d'intelligence artificielle</h4>
+                        <p class="talk-card__venue">DESAR · Paris</p>
+                    </div>
+                </article>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -510,7 +597,7 @@
             </header>
 
             <div class="publications-list">
-                <!-- Real PubMed publications -->
+                <!-- PUBLICATIONS:START -->
                 <article class="publication-card">
                     <div class="publication-card__year">2026</div>
                     <div class="publication-card__content">
@@ -523,11 +610,10 @@
                             <strong>Rozencwajg S</strong>, Aparicio MT
                         </p>
                         <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2026.101856" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
-
 
                 <article class="publication-card">
                     <div class="publication-card__year">2026</div>
@@ -541,7 +627,7 @@
                             <strong>Rozencwajg S</strong>, Benhamou D
                         </p>
                         <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
@@ -555,590 +641,27 @@
                             </h3>
                         </a>
                         <p class="publication-card__authors">
-                            Bougnoux C, <strong>Rozencwajg S</strong>, <strong>Rozencwajg S</strong>, et al.
+                            Bougnoux C, <strong>Rozencwajg S</strong>, Thes J, et al.
                         </p>
                         <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2026.101789" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/37673644/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Ultrasonography in thoracic and abdominal stab wound injury: results from the FETTHA study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Bouzid D, Tran-Dinh A, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Emergency medicine journal : EMJ</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/37573946/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Graphical Editorial on the guidelines: Human factors in critical situations.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            James A, Clavier T, <strong>Rozencwajg S</strong>, Blet A
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/37023786/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Prior participation as a standardized patient improves OSCE scores of third-year medical students: A pilot comparative study at Université Paris Cité Medical School.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Nguyen Y, Nuzzo A, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Medical teacher</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/36494003/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                COVID-19: Brief overview of therapeutic strategies.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Beaumont AL, <strong>Rozencwajg S</strong>, Peiffer-Smadja N, Montravers P
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35470050/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                In severe necrotising soft-tissue infections, do skin defect surfaces matter?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Tanaka S, Thy M, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35460922/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Peace, not war in Ukraine or anywhere else, please.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Lefrant JY, Pirracchio R, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2024</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35038287/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                A mock circulation loop to evaluate differential hypoxemia during peripheral venoarterial extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Wu EL, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Perfusion</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34950993/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                A clinically relevant sheep model of orthotopic heart transplantation 24 h after donor brainstem death.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            See Hoe LE, Wildi K, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Intensive care medicine experimental</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34936655/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Tracheostomy in COVID-19 acute respiratory distress syndrome patients and follow-up: A parisian bicentric retrospective cohort.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Evrard D, Jurcisin I, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>PloS one</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34930887/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Predatory journals in anaesthesiology and critical care: what to know and how to avoid pitfalls!
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Peiffer-Smadja N, James A, Kantor E
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>European journal of anaesthesiology</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34686306/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                2021 adaptation of the editorial policy of Anaesthesia Critical Care and Pain Medicine (ACCPM).
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Lefrant JY, Pirracchio R, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34650063/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                An innovative ovine model of severe cardiopulmonary failure supported by veno-arterial extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Heinsar S, Jung JS, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Scientific reports</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34637936/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                COVID-19 vaccine boosters: What do we know so far?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Kherabi Y, Fiolet T, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34625886/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Impact of prior antibiotic therapy on severe necrotizing soft-tissue infections in ICU patients: results from a French retrospective and observational study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Tanaka S, Thy M, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>European journal of clinical microbiology & infectious diseases : official publication of the European Society of Clinical Microbiology</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34617676/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Characterizing preclinical sub-phenotypic models of acute respiratory distress syndrome: An experimental ovine study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Millar JE, Wildi K, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Physiological reports</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34233748/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Tracheostomy management in patients with severe acute respiratory distress syndrome receiving extracorporeal membrane oxygenation: an International Multicenter Retrospective Study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Schmidt M, Fisser C, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care (London, England)</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34014886/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                An Ovine Model of Hemorrhagic Shock and Resuscitation, to Assess Recovery of Tissue Oxygen Delivery and Oxygen Debt, and Inform Patient Blood Management.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Dyer WB, Tung JP, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Shock (Augusta, Ga.)</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/33946037/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                SARS-CoV-2 vaccination efficacy on hospitalisation and variants.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Blet A, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/33901708/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                SARS-CoV-2 vaccination efficacy on hospitalisation and variants.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Blet A, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/33774261/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                COVID-19 vaccines: A race against time.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Peiffer-Smadja N, <strong>Rozencwajg S</strong>, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/33725225/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Pain and dyspnea control during awake fiberoptic bronchoscopy in critically ill patients: safety and efficacy of remifentanil target-controlled infusion.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Caron M, Parrot A, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Annals of intensive care</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2020</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/32644199/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                The effect of hyperoxia on inflammation and platelet responses in an ex vivo extracorporeal membrane oxygenation circuit.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Passmore MR, Ki KK, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Artificial organs</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2020</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/32451698/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Heart failure supported by veno-arterial extracorporeal membrane oxygenation (ECMO): a systematic review of pre-clinical models.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Heinsar S, <strong>Rozencwajg S</strong>, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Intensive care medicine experimental</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2020</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/32147580/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Stress ulcer prophylaxis in ICU patients: Answers and questions from the PEPTIC trial.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Dargent A, Jacquier M, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2019</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/31385880/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Ultra-Protective Ventilation Reduces Biotrauma in Patients on Venovenous Extracorporeal Membrane Oxygenation for Severe Acute Respiratory Distress Syndrome.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Guihot A, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2018</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/29174419/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Co-infection with influenza-associated acute respiratory distress syndrome requiring extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Bréchot N, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>International journal of antimicrobial agents</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/29084498/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                To be or not to be on ECMO: can survival prediction models solve the question?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Fraser J, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care and resuscitation : journal of the Australasian Academy of Critical Care Medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/28655352/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Evaluation of early antimicrobial therapy adaptation guided by the BetaLACTA® test: a case-control study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Garnier M, <strong>Rozencwajg S</strong>, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care (London, England)</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/28361084/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Meta-analysis on extracorporeal life support during cardiac arrest: do not compare apples and oranges.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Schmidt M
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Annals of translational medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2016</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27919283/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Outcomes and survival prediction models for severe adult acute respiratory distress syndrome treated with extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Pilcher D, Combes A, Schmidt M
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care (London, England)</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2016</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27771739/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Effect of early postextubation high-flow nasal cannula vs conventional oxygen therapy on hypoxaemia in patients after major abdominal surgery: a French multicentre randomised controlled trial (OPERA).
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Futier E, Paugam-Burtz C, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Intensive care medicine</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2016</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27619972/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Extracorporeal membrane oxygenation for interstitial lung disease: what is on the other side of the bridge?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Schmidt M
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Journal of thoracic disease</em>
-                        </p>
-                    </div>
-                </article>
-
-                <article class="publication-card">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27485804/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                The risk of atrial fibrillation after pneumonectomy is not impaired by preoperative administration of dexamethasone. A cohort study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Desthieux C, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care & pain medicine</em>
-                        </p>
-                    </div>
-                </article>
-
 
                 <article class="publication-card">
                     <div class="publication-card__year">2025</div>
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/41367735/" target="_blank" rel="noopener">
                             <h3 class="publication-card__title">
-                                Assessment of a brief point-of-care ultrasound training workshop among a large cohort of
-                                medical students
+                                Assessment of a brief point-of-care ultrasound training workshop among a large cohort of medical students
                             </h3>
                         </a>
                         <p class="publication-card__authors">
-                            [...] <strong>Rozencwajg S</strong> [...]
+                            Peyrony O, Goudot G, …, <strong>Rozencwajg S</strong>, et al.
                         </p>
                         <p class="publication-card__journal">
-                            <em>Quantitative Imaging in Medicine and Surgery</em>
+                            <em>Quantitative Imaging in Medicine and Surgery</em> · <a href="https://doi.org/10.21037/qims-2025-934" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
@@ -1155,7 +678,75 @@
                             <strong>Rozencwajg S</strong>, Benhamou D
                         </p>
                         <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2024</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/35038287/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                A mock circulation loop to evaluate differential hypoxemia during peripheral venoarterial extracorporeal membrane oxygenation.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Wu EL, Heinsar S, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Perfusion</em> · <a href="https://doi.org/10.1177/02676591211056567" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2023</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/37673644/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Ultrasonography in thoracic and abdominal stab wound injury: results from the FETTHA study.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Bouzid D, Tran-Dinh A, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Emergency medicine journal : EMJ</em> · <a href="https://doi.org/10.1136/emermed-2023-213078" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2023</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/37573946/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Graphical Editorial on the guidelines: Human factors in critical situations.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            James A, Clavier T, <strong>Rozencwajg S</strong>, Blet A
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2023.101295" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2023</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/37023786/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Prior participation as a standardized patient improves OSCE scores of third-year medical students: A pilot comparative study at Université Paris Cité Medical School.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Nguyen Y, Nuzzo A, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Medical teacher</em> · <a href="https://doi.org/10.1080/0142159X.2023.2198665" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
@@ -1165,15 +756,14 @@
                     <div class="publication-card__content">
                         <a href="https://pubmed.ncbi.nlm.nih.gov/36899029/" target="_blank" rel="noopener">
                             <h3 class="publication-card__title">
-                                Effect of flow change on brain injury during an experimental model of differential
-                                hypoxaemia in cardiogenic shock supported by ECMO
+                                Effect of flow change on brain injury during an experimental model of differential hypoxaemia in cardiogenic shock supported by ECMO
                             </h3>
                         </a>
                         <p class="publication-card__authors">
                             <strong>Rozencwajg S</strong>, Heinsar S, Wildi K, et al.
                         </p>
                         <p class="publication-card__journal">
-                            <em>Scientific Reports</em>
+                            <em>Scientific Reports</em> · <a href="https://doi.org/10.1038/s41598-023-30226-6" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
@@ -1190,7 +780,24 @@
                             <strong>Rozencwajg S</strong>, Kantor E
                         </p>
                         <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2023.101209" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2023</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/36494003/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                COVID-19: Brief overview of therapeutic strategies.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Beaumont AL, <strong>Rozencwajg S</strong>, Peiffer-Smadja N, Montravers P
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101181" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
@@ -1207,7 +814,7 @@
                             Caillard A, Vardon-Bounes F, <strong>Rozencwajg S</strong>, et al.
                         </p>
                         <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101123" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
@@ -1224,16 +831,476 @@
                             Carillion A, <strong>Rozencwajg S</strong>, Abou Arab O, et al.
                         </p>
                         <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care & Pain Medicine</em>
+                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101106" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
                         </p>
                     </div>
                 </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2022</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/35470050/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                In severe necrotising soft-tissue infections, do skin defect surfaces matter?
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Tanaka S, Thy M, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101071" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2022</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/35460922/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Peace, not war in Ukraine or anywhere else, please.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Lefrant JY, Pirracchio R, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101068" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2022</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34930887/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Predatory journals in anaesthesiology and critical care: what to know and how to avoid pitfalls!
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Peiffer-Smadja N, James A, Kantor E
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>European journal of anaesthesiology</em> · <a href="https://doi.org/10.1097/EJA.0000000000001651" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2022</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34625886/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Impact of prior antibiotic therapy on severe necrotizing soft-tissue infections in ICU patients: results from a French retrospective and observational study.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Tanaka S, Thy M, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>European journal of clinical microbiology &amp; infectious diseases : official publication of the European Society of Clinical Microbiology</em> · <a href="https://doi.org/10.1007/s10096-021-04354-8" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34950993/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                A clinically relevant sheep model of orthotopic heart transplantation 24 h after donor brainstem death.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            See Hoe LE, Wildi K, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Intensive care medicine experimental</em> · <a href="https://doi.org/10.1186/s40635-021-00425-4" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34936655/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Tracheostomy in COVID-19 acute respiratory distress syndrome patients and follow-up: A parisian bicentric retrospective cohort.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Evrard D, Jurcisin I, …, <strong>Rozencwajg S</strong>
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>PloS one</em> · <a href="https://doi.org/10.1371/journal.pone.0261024" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34686306/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                2021 adaptation of the editorial policy of Anaesthesia Critical Care and Pain Medicine (ACCPM).
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Lefrant JY, Pirracchio R, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100957" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34650063/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                An innovative ovine model of severe cardiopulmonary failure supported by veno-arterial extracorporeal membrane oxygenation.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Heinsar S, Jung JS, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Scientific reports</em> · <a href="https://doi.org/10.1038/s41598-021-00087-y" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34637936/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                COVID-19 vaccine boosters: What do we know so far?
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Kherabi Y, Fiolet T, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100959" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34617676/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Characterizing preclinical sub-phenotypic models of acute respiratory distress syndrome: An experimental ovine study.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Millar JE, Wildi K, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Physiological reports</em> · <a href="https://doi.org/10.14814/phy2.15048" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34233748/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Tracheostomy management in patients with severe acute respiratory distress syndrome receiving extracorporeal membrane oxygenation: an International Multicenter Retrospective Study.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Schmidt M, Fisser C, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Critical care (London, England)</em> · <a href="https://doi.org/10.1186/s13054-021-03649-8" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/34014886/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                An Ovine Model of Hemorrhagic Shock and Resuscitation, to Assess Recovery of Tissue Oxygen Delivery and Oxygen Debt, and Inform Patient Blood Management.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Dyer WB, Tung JP, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Shock (Augusta, Ga.)</em> · <a href="https://doi.org/10.1097/SHK.0000000000001805" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/33946037/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                SARS-CoV-2 vaccination efficacy on hospitalisation and variants.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Blet A, Lamer A, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100874" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/33774261/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                COVID-19 vaccines: A race against time.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Peiffer-Smadja N, <strong>Rozencwajg S</strong>, Kherabi Y, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100848" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2021</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/33725225/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Pain and dyspnea control during awake fiberoptic bronchoscopy in critically ill patients: safety and efficacy of remifentanil target-controlled infusion.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Caron M, Parrot A, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Annals of intensive care</em> · <a href="https://doi.org/10.1186/s13613-021-00832-6" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2020</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/32644199/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                The effect of hyperoxia on inflammation and platelet responses in an ex vivo extracorporeal membrane oxygenation circuit.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Passmore MR, Ki KK, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Artificial organs</em> · <a href="https://doi.org/10.1111/aor.13771" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2020</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/32451698/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Heart failure supported by veno-arterial extracorporeal membrane oxygenation (ECMO): a systematic review of pre-clinical models.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Heinsar S, <strong>Rozencwajg S</strong>, Suen J, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Intensive care medicine experimental</em> · <a href="https://doi.org/10.1186/s40635-020-00303-5" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2020</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/32147580/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Stress ulcer prophylaxis in ICU patients: Answers and questions from the PEPTIC trial.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Dargent A, Jacquier M, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2020.03.005" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2019</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/31385880/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Ultra-Protective Ventilation Reduces Biotrauma in Patients on Venovenous Extracorporeal Membrane Oxygenation for Severe Acute Respiratory Distress Syndrome.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Guihot A, Franchineau G, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Critical care medicine</em> · <a href="https://doi.org/10.1097/CCM.0000000000003894" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2018</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/29174419/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Co-infection with influenza-associated acute respiratory distress syndrome requiring extracorporeal membrane oxygenation.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Bréchot N, Schmidt M, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>International journal of antimicrobial agents</em> · <a href="https://doi.org/10.1016/j.ijantimicag.2017.11.005" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2017</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/29084498/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                To be or not to be on ECMO: can survival prediction models solve the question?
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Fraser J, Montero S, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Critical care and resuscitation : journal of the Australasian Academy of Critical Care Medicine</em>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2017</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/28655352/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Evaluation of early antimicrobial therapy adaptation guided by the BetaLACTA® test: a case-control study.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Garnier M, <strong>Rozencwajg S</strong>, Pham T, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Critical care (London, England)</em> · <a href="https://doi.org/10.1186/s13054-017-1746-6" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2017</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/28361084/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Meta-analysis on extracorporeal life support during cardiac arrest: do not compare apples and oranges.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Schmidt M
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Annals of translational medicine</em> · <a href="https://doi.org/10.21037/atm.2017.01.24" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2017</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/27485804/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                The risk of atrial fibrillation after pneumonectomy is not impaired by preoperative administration of dexamethasone. A cohort study.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Desthieux C, Szymkiewicz O, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2016.04.005" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2016</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/27919283/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Outcomes and survival prediction models for severe adult acute respiratory distress syndrome treated with extracorporeal membrane oxygenation.
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Pilcher D, Combes A, Schmidt M
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Critical care (London, England)</em> · <a href="https://doi.org/10.1186/s13054-016-1568-y" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2016</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/27771739/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Effect of early postextubation high-flow nasal cannula vs conventional oxygen therapy on hypoxaemia in patients after major abdominal surgery: a French multicentre randomised controlled trial (OPERA).
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            Futier E, Paugam-Burtz C, …, <strong>Rozencwajg S</strong>, et al.
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Intensive care medicine</em> · <a href="https://doi.org/10.1007/s00134-016-4594-y" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="publication-card">
+                    <div class="publication-card__year">2016</div>
+                    <div class="publication-card__content">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/27619972/" target="_blank" rel="noopener">
+                            <h3 class="publication-card__title">
+                                Extracorporeal membrane oxygenation for interstitial lung disease: what is on the other side of the bridge?
+                            </h3>
+                        </a>
+                        <p class="publication-card__authors">
+                            <strong>Rozencwajg S</strong>, Schmidt M
+                        </p>
+                        <p class="publication-card__journal">
+                            <em>Journal of thoracic disease</em> · <a href="https://doi.org/10.21037/jtd.2016.07.50" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                        </p>
+                    </div>
+                </article>
+                <!-- PUBLICATIONS:END -->
             </div>
 
             <div style="text-align: center; margin-top: var(--space-10);">
                 <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rozencwajg+S&sort=date" target="_blank" rel="noopener"
                     class="btn btn--secondary">
-                    Voir les 42 publications sur PubMed
+                    Voir toutes mes publications sur PubMed
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
                         <path d="M15 3h6v6M10 14L21 3"></path>
@@ -1257,22 +1324,51 @@
                 </p>
             </header>
 
-            <div class="card-grid" style="max-width: 800px; margin: 0 auto;">
-                <!-- Opinion 1 -->
+            <div class="card-grid" style="max-width: 800px; margin: 0 auto; grid-template-columns: 1fr;">
                 <article class="blog-card">
                     <div class="blog-card__date">
-                        <span class="blog-card__date-day">15</span>
-                        <span class="blog-card__date-month">Jan</span>
+                        <span class="blog-card__date-day">13</span>
+                        <span class="blog-card__date-month">Mars 2026</span>
                     </div>
                     <div class="blog-card__content">
-                        <h3 class="blog-card__title">L'usage de l'IA en pratique clinique</h3>
+                        <h3 class="blog-card__title">Déclarer l'usage (ou non) de l'IA dans la relecture par les pairs : une relique du passé ?</h3>
                         <p class="blog-card__excerpt">
-                            Explorer les applications pratiques, les limites et les considérations
-                            éthiques de l'implémentation des outils IA dans la pratique médicale quotidienne.
+                            Éditorial (avec D. Benhamou) sur la transparence de l'usage de l'IA générative dans le peer-review. <em>Anaesth Crit Care Pain Med</em>.
                         </p>
-                        <a href="https://docs.google.com/document/d/1Y20_O5j8x0EjsKt8qxjOTSf6uNm7t3Y9M5UNjM6aOTI/edit?usp=sharing"
-                            target="_blank" rel="noopener" class="blog-card__read-more">
-                            Lire l'article →
+                        <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="blog-card__read-more">
+                            Lire l'éditorial →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-card__date">
+                        <span class="blog-card__date-day">6</span>
+                        <span class="blog-card__date-month">Fév 2026</span>
+                    </div>
+                    <div class="blog-card__content">
+                        <h3 class="blog-card__title">L'IA dans ma pratique hospitalo-universitaire</h3>
+                        <p class="blog-card__excerpt">
+                            Guide pratique (et subjectif) d'usage de l'IA générative en clinique, en pédagogie et en recherche : cadre réglementaire, LLM en local, outils que j'utilise au quotidien.
+                        </p>
+                        <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener" class="blog-card__read-more">
+                            Lire le guide →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-card__date">
+                        <span class="blog-card__date-day">27</span>
+                        <span class="blog-card__date-month">Nov 2025</span>
+                    </div>
+                    <div class="blog-card__content">
+                        <h3 class="blog-card__title">IA générative et relecture par les pairs : préserver le jugement, restaurer la confiance</h3>
+                        <p class="blog-card__excerpt">
+                            Éditorial (avec D. Benhamou) sur la place de l'IA générative dans l'évaluation des manuscrits scientifiques. <em>Anaesth Crit Care Pain Med</em>.
+                        </p>
+                        <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="blog-card__read-more">
+                            Lire l'éditorial →
                         </a>
                     </div>
                 </article>
@@ -1333,6 +1429,7 @@
                         <a href="#projects" class="footer__link">Projets</a>
                         <a href="#research" class="footer__link">Recherche</a>
                         <a href="#teaching" class="footer__link">Enseignement</a>
+                        <a href="#talks" class="footer__link">Conférences</a>
                         <a href="#publications" class="footer__link">Publications</a>
                     </nav>
                 </div>
@@ -1351,17 +1448,22 @@
                 <div>
                     <h4 class="footer__title">Ressources</h4>
                     <nav class="footer__links">
-                        <a href="https://gemini.google.com/app/ea0dc1d49e3b0e5c" target="_blank" rel="noopener"
+                        <a href="/serious-game/"
                             class="footer__link">Serious Game : dans la peau d'un LLM</a>
                         <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
                             target="_blank" rel="noopener" class="footer__link">UE IA2M - Programme</a>
+                        <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="footer__link">EDN-IA</a>
+                        <a href="https://carelogbook.com" target="_blank" rel="noopener"
+                            class="footer__link">CareLogbook</a>
+                        <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener"
+                            class="footer__link">Guide : l'IA dans ma pratique HU</a>
                     </nav>
                 </div>
             </div>
 
             <div class="footer__bottom">
                 <p class="footer__copyright">
-                    © 2025 Sacha Rozencwajg. Tous droits réservés.
+                    © <span id="year">2026</span> Sacha Rozencwajg. Tous droits réservés.
                 </p>
                 <div class="footer__socials">
                     <a href="mailto:sacha.rozencwajg@gmail.com" class="footer__social" aria-label="Email">

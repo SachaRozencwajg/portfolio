@@ -206,6 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize theme
     initTheme();
 
+    // Current year in footer
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
     // Initialize scroll animations
     initScrollAnimations();
 

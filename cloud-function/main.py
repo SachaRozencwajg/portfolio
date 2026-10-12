@@ -9,6 +9,8 @@ from email.mime.multipart import MIMEMultipart
 from github import Github
 from datetime import datetime
 
+from publications_html import format_authors, replace_block
+
 # Configuration
 PUBMED_AUTHOR = "Rozencwajg+S"
 GITHUB_REPO = "SachaRozencwajg/portfolio"
@@ -84,14 +86,11 @@ def get_new_publications(known_pmids):
                     elif i == len(author_names) - 1:
                         position = "last"
                     else:
-                        position = f"{i+1}th"
+                        position = str(i + 1)
                     break
             
-            # Formater les auteurs pour l'affichage
-            if len(author_names) > 4:
-                authors_display = f"{author_names[0]}, {author_names[1]}, Rozencwajg S, et al."
-            else:
-                authors_display = ", ".join(author_names)
+            # Formater les auteurs pour l'affichage (vraie position de Rozencwajg S)
+            authors_display = format_authors(author_names)
             
             # Extraire l'année
             pubdate = pub.get("pubdate", "")
@@ -111,31 +110,6 @@ def get_new_publications(known_pmids):
     return new_publications
 
 
-def generate_html_snippet(publication):
-    """Génère le HTML pour une publication."""
-    # Mettre Rozencwajg en gras
-    authors_html = publication["authors"].replace("Rozencwajg S", "<strong>Rozencwajg S</strong>")
-    
-    return f'''                <article class="publication-card">
-                    <div class="publication-card__year">{publication["year"]}</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/{publication["pmid"]}/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                {publication["title"]}
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            {authors_html}
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>{publication["journal"]}</em>
-                        </p>
-                    </div>
-                </article>
-
-'''
-
-
 def update_github_files(g, new_publications, current_data, current_html):
     """Met à jour les fichiers sur GitHub."""
     repo = g.get_repo(GITHUB_REPO)
@@ -148,20 +122,9 @@ def update_github_files(g, new_publications, current_data, current_html):
     
     new_json = json.dumps(current_data, indent=4, ensure_ascii=False)
     
-    # 2. Mettre à jour index.html (insérer après <!-- Real PubMed publications -->)
-    new_html_snippets = "".join([generate_html_snippet(pub) for pub in new_publications])
-    marker = '<div class="publications-list">\n                <!-- Real PubMed publications -->'
-    updated_html = current_html.replace(
-        marker,
-        marker + "\n" + new_html_snippets
-    )
-    
-    # 3. Mettre à jour le compteur de publications
-    # Rechercher et remplacer le texte "Voir les X publications sur PubMed"
-    old_count_pattern = r"Voir les \d+ publications sur PubMed"
-    new_count_text = f"Voir les {current_data['total_count']} publications sur PubMed"
-    updated_html = re.sub(old_count_pattern, new_count_text, updated_html)
-    
+    # 2. Régénérer toute la liste dans index.html (triée par année, sans doublon masqué)
+    updated_html = replace_block(current_html, current_data["publications"])
+
     # Commit les changements
     commit_message = f"🔄 Auto-update: {len(new_publications)} nouvelle(s) publication(s) ajoutée(s)"
     
@@ -228,11 +191,13 @@ def check_publications(request):
         publications_content = repo.get_contents(PUBLICATIONS_FILE)
         current_data = json.loads(publications_content.decoded_content.decode())
         
-        # Récupérer le nombre actuel sur PubMed
-        pubmed_count = get_pubmed_count()
-        stored_count = current_data.get("total_count", 0)
-        
-        if pubmed_count <= stored_count:
+        # Comparer les PMID (et non les compteurs, qui divergent à cause des doublons
+        # masqués et des articles absents de la recherche auteur)
+        known_pmids = [pub["pmid"] for pub in current_data.get("publications", [])]
+        new_publications = get_new_publications(known_pmids)
+
+        if not new_publications:
+            pubmed_count = get_pubmed_count()
             message = "Aucune nouvelle publication détectée."
             send_email(
                 subject="PubMed Agent: Rien à signaler",
@@ -240,21 +205,10 @@ def check_publications(request):
             )
             return {
                 "status": "no_update",
-                "message": f"{message} PubMed: {pubmed_count}, Stocké: {stored_count}",
+                "message": f"{message} PubMed: {pubmed_count}, Stocké: {len(known_pmids)}",
                 "checked_at": datetime.now().isoformat()
             }
-        
-        # Il y a de nouvelles publications !
-        known_pmids = [pub["pmid"] for pub in current_data.get("publications", [])]
-        new_publications = get_new_publications(known_pmids)
-        
-        if not new_publications:
-            return {
-                "status": "no_new_found",
-                "message": "Différence de compteur mais pas de nouvelles publications identifiées",
-                "checked_at": datetime.now().isoformat()
-            }
-        
+
         # Récupérer index.html pour mise à jour
         html_content = repo.get_contents(INDEX_FILE)
         current_html = html_content.decoded_content.decode()
