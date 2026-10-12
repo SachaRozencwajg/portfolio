@@ -1751,3 +1751,177 @@ a.timeline__item--clickable:hover .timeline__year {
 [hidden] {
     display: none !important;
 }
+
+/* =====================================================================
+   Identité « Moniteur » — pouls bleu-violet (clair & sombre)
+   Polices : Space Grotesk (titres), JetBrains Mono (libellés)
+   ===================================================================== */
+:root {
+    --font-display: 'Space Grotesk', var(--font-sans);
+    --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+    --color-accent: #4f5bd5;
+    --color-accent-hover: #4350c8;
+    --color-accent-light: rgba(79, 91, 213, 0.1);
+    --grad-a: #3b6cf6;
+    --grad-b: #8b5cf6;
+    --grad: linear-gradient(90deg, var(--grad-a), var(--grad-b));
+
+    --bg-primary: #f7f8fc;
+    --bg-secondary: #eef0f8;
+    --bg-tertiary: #fbfbfe;
+    --bg-elevated: rgba(255, 255, 255, 0.78);
+    --bg-card: #ffffff;
+    --glass-bg: rgba(247, 248, 252, 0.78);
+
+    --text-primary: #0f1630;
+    --text-secondary: #4a5272;
+    --text-tertiary: #6b7394;
+
+    --border-color: rgba(15, 22, 48, 0.08);
+    --border-color-strong: rgba(15, 22, 48, 0.14);
+    --shadow-card: 0 6px 24px -14px rgba(15, 22, 48, 0.22);
+}
+
+:root[data-theme="dark"] {
+    --color-accent: #7c8cff;
+    --color-accent-hover: #93a0ff;
+    --color-accent-light: rgba(124, 140, 255, 0.14);
+    --grad-a: #4f8bff;
+    --grad-b: #a78bfa;
+
+    --bg-primary: #0a1020;
+    --bg-secondary: #0d1628;
+    --bg-tertiary: #0c1324;
+    --bg-elevated: rgba(10, 16, 32, 0.85);
+    --bg-card: #0f1a2c;
+    --glass-bg: rgba(10, 16, 32, 0.8);
+
+    --text-primary: #e6edf7;
+    --text-secondary: #9fb0c8;
+    --text-tertiary: #6f81a0;
+
+    --border-color: rgba(138, 160, 191, 0.14);
+    --border-color-strong: rgba(138, 160, 191, 0.24);
+    --shadow-card: 0 10px 30px -18px rgba(0, 0, 0, 0.6);
+}
+
+/* Titres */
+.hero__title,
+.section__title,
+.timeline__title,
+.card__title,
+.project-card__title,
+.blog-card__title,
+.talks__title,
+.header__logo span {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+}
+
+.hero__title {
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 1.02;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--text-primary);
+}
+
+.hero__title-accent,
+.btn--primary {
+    background: var(--grad);
+}
+
+.hero__title-accent {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn--primary:hover {
+    background: var(--grad);
+    filter: brightness(1.08);
+}
+
+.section__title {
+    font-size: clamp(2.2rem, 4vw, 3rem);
+}
+
+/* Libellés façon moniteur */
+.section__overline,
+.nav__link,
+.talk-card__date,
+.timeline__year,
+.card__badge,
+.publication-card__year,
+.pub-selection-label,
+.blog-card__date-month {
+    font-family: var(--font-mono);
+}
+
+.section__overline::before {
+    content: '// ';
+    opacity: 0.6;
+}
+
+.section__overline {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+}
+
+.nav__link {
+    font-size: 13px;
+}
+
+/* Photo : carré arrondi, cadre et halo */
+.hero__image-wrapper {
+    border-radius: 28px;
+    padding: 0;
+    background: none;
+    box-shadow: 0 0 0 8px var(--bg-card), 0 28px 70px -22px rgba(79, 91, 213, 0.45);
+}
+
+[data-theme="dark"] .hero__image-wrapper {
+    box-shadow: 0 0 0 1px var(--border-color-strong), 0 0 0 9px #0f1a2c, 0 0 70px rgba(124, 140, 255, 0.22);
+}
+
+.hero__photo {
+    border-radius: 28px;
+    border: none;
+}
+
+.hero::before {
+    opacity: 0.35;
+}
+
+/* Onde de pouls animée sous l'accueil */
+.hero {
+    padding-bottom: calc(var(--space-24) + 120px);
+}
+
+.pulse-wave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.pulse-wave__stop-a { stop-color: var(--grad-a); }
+.pulse-wave__stop-b { stop-color: var(--grad-b); }
+
+.pulse-wave__track {
+    animation: pulse-scroll 8.4s linear infinite;
+}
+
+@keyframes pulse-scroll {
+    to { transform: translateX(-1260px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pulse-wave__track { animation: none; }
+}
