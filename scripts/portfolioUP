@@ -36,7 +36,8 @@ if [ "${1:-}" = "--install" ]; then
         *)     RC="$HOME/.bashrc" ;;
     esac
     chmod +x "$SCRIPT_PATH"
-    LINE="alias portfolioUP='$SCRIPT_PATH'"
+    # Guillemets imbriqués : le chemin peut contenir des espaces (ex. « Mon Drive »)
+    LINE="alias portfolioUP=\"'$SCRIPT_PATH'\""
     if grep -qs "alias portfolioUP=" "$RC"; then
         { grep -v "alias portfolioUP=" "$RC" || true; } > "$RC.tmp"
         mv "$RC.tmp" "$RC"
