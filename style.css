@@ -1908,20 +1908,7 @@ a.timeline__item--clickable:hover .timeline__year {
     width: 100%;
     height: 150px;
     pointer-events: none;
-    overflow: hidden;
+    display: block;
 }
 
-.pulse-wave__stop-a { stop-color: var(--grad-a); }
-.pulse-wave__stop-b { stop-color: var(--grad-b); }
 
-.pulse-wave__track {
-    animation: pulse-scroll 8.4s linear infinite;
-}
-
-@keyframes pulse-scroll {
-    to { transform: translateX(-1260px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .pulse-wave__track { animation: none; }
-}

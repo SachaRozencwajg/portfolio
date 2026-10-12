@@ -22,6 +22,7 @@ COPY 404.html /usr/share/nginx/html/
 COPY style.css /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
 COPY i18n.js /usr/share/nginx/html/
+COPY pulse.js /usr/share/nginx/html/
 COPY manifest.json /usr/share/nginx/html/
 
 # Copie toutes les images (jpg, png, webp)
