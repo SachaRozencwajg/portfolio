@@ -105,7 +105,8 @@ const I18N_EN = {
     "t96": "© <span id=\"year\">2026</span> Sacha Rozencwajg. All rights reserved.",
     "t49": "“Artificial Intelligence Applied to Medicine” course. First edition: <strong>8.2/10</strong> satisfaction, unanimously recommended by students.",
     "t82": "Editorial (with D. Benhamou) on transparency in the use of generative AI in peer review. <em>Anaesth Crit Care Pain Med</em>.",
-    "t88": "Editorial (with D. Benhamou) on the role of generative AI in the evaluation of scientific manuscripts. <em>Anaesth Crit Care Pain Med</em>."
+    "t88": "Editorial (with D. Benhamou) on the role of generative AI in the evaluation of scientific manuscripts. <em>Anaesth Crit Care Pain Med</em>.",
+    "t100": "Skip to content"
 };
 
 // Chaînes générées par le JavaScript

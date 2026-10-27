@@ -67,26 +67,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 });
 
 // ===========================
-// Header Scroll Effect
-// ===========================
-let lastScroll = 0;
-
-function handleScroll() {
-    const currentScroll = window.scrollY;
-
-    // Add scrolled class when page is scrolled
-    if (currentScroll > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-
-    lastScroll = currentScroll;
-}
-
-window.addEventListener('scroll', handleScroll, { passive: true });
-
-// ===========================
 // Mobile Navigation Toggle
 // ===========================
 function toggleNav() {
@@ -122,16 +102,26 @@ document.addEventListener('click', (e) => {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const href = this.getAttribute('href');
+
+        // Logo (href="#") : retour en haut de page
+        if (href === '#') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        const target = document.querySelector(href);
 
         if (target) {
             const headerHeight = header.offsetHeight;
-            const targetPosition = target.offsetTop - headerHeight;
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight;
 
             window.scrollTo({
                 top: targetPosition,
                 behavior: 'smooth'
             });
+            // Lien « Aller au contenu » : le focus clavier suit le défilement
+            target.focus({ preventScroll: true });
         }
     });
 });
@@ -147,8 +137,13 @@ const observerOptions = {
 const animateOnScroll = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            animateOnScroll.unobserve(entry.target);
+            const el = entry.target;
+            el.classList.add('is-visible');
+            animateOnScroll.unobserve(el);
+            // Le décalage ne sert qu'à l'apparition : sans ça, il retarderait aussi le survol
+            if (el.style.transitionDelay) {
+                setTimeout(() => { el.style.transitionDelay = ''; }, 1200);
+            }
         }
     });
 }, observerOptions);
@@ -167,7 +162,8 @@ function initScrollAnimations() {
             const parent = el.parentElement;
             const siblings = Array.from(parent.children);
             const childIndex = siblings.indexOf(el);
-            el.style.transitionDelay = `${childIndex * 100}ms`;
+            // 80 ms entre cartes, plafonné pour que les longues listes ne traînent pas
+            el.style.transitionDelay = `${Math.min(childIndex, 5) * 80}ms`;
         }
         animateOnScroll.observe(el);
     });
@@ -176,28 +172,36 @@ function initScrollAnimations() {
 // ===========================
 // Active Navigation Link
 // ===========================
-const sections = document.querySelectorAll('section[id]');
+// Une bande fine au milieu de l'écran : la dernière zone (ordre du document) qui la
+// traverse est la section courante. Remplace l'ancien écouteur de défilement.
+const navTargets = Array.from(document.querySelectorAll('section[id], #talks'));
+const inBand = new Set();
 
-function updateActiveNavLink() {
-    const scrollY = window.scrollY;
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${sectionId}`) {
-                    link.classList.add('active');
-                }
-            });
+function setActiveNavLink(id) {
+    navLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${id}`;
+        link.classList.toggle('active', isActive);
+        if (isActive) {
+            link.setAttribute('aria-current', 'true');
+        } else {
+            link.removeAttribute('aria-current');
         }
     });
 }
 
-window.addEventListener('scroll', updateActiveNavLink, { passive: true });
+const activeSectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            inBand.add(entry.target);
+        } else {
+            inBand.delete(entry.target);
+        }
+    });
+    const current = navTargets.filter(el => inBand.has(el)).pop();
+    if (current) setActiveNavLink(current.id);
+}, { rootMargin: '-45% 0px -50% 0px' });
+
+navTargets.forEach(el => activeSectionObserver.observe(el));
 
 // ===========================
 // Initialize
@@ -212,10 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize scroll animations
     initScrollAnimations();
-
-    // Initial scroll check
-    handleScroll();
-    updateActiveNavLink();
 
     // Trigger initial animations for visible elements
     setTimeout(() => {

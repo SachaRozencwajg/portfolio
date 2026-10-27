@@ -65,7 +65,7 @@
     <!-- Performance Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
     <link rel="preload" as="image" href="photo-sacha.webp">
 
     <!-- PWA Manifest -->
@@ -78,6 +78,8 @@
 </head>
 
 <body>
+    <a href="#contenu" class="skip-link" data-i18n="t100">Aller au contenu</a>
+
     <!-- ===========================
          Header & Navigation
          =========================== -->
@@ -127,6 +129,8 @@
             </div>
         </div>
     </header>
+
+    <main id="contenu" tabindex="-1">
 
     <!-- ===========================
          Hero Section
@@ -1419,7 +1423,7 @@
 
             <div class="card-grid" style="max-width: 600px; margin: 0 auto;">
                 <a href="mailto:sacha.rozencwajg@gmail.com" class="card" style="text-align: center; cursor: pointer;">
-                    <div class="card__icon" style="margin: 0 auto var(--space-5);">
+                    <div class="card__icon" style="margin: 0 auto var(--space-6);">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
                             </path>
@@ -1434,6 +1438,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- ===========================
          Footer
