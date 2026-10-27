@@ -39,7 +39,7 @@ priment sur le texte d'origine des skills.
 ### Cache des CSS et JS
 
 nginx sert les `.css` et `.js` avec un cache d'un an (`immutable`). Après toute modification de
-`style.css` ou d'un script, changer le paramètre `?v=AAAAMMJJ` de son lien dans `index.html`
+`style.css` ou d'un script, changer le paramètre `?v=AAAAMMJJ` de son lien (ajouter une lettre pour un deuxième changement le même jour) dans `index.html`
 (et `404.html`, `mentions-legales.html` pour `style.css`), sinon les visiteurs gardent l'ancienne version.
 Un nouveau fichier servi par le site doit aussi être ajouté au `Dockerfile`.
 

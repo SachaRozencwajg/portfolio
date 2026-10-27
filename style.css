@@ -1723,14 +1723,15 @@ a.timeline__item--clickable:focus-visible {
 }
 
 .tagline__text {
-    max-width: 680px;
+    /* Plus large que le titre d'accueil : la phrase tient en 3 à 4 lignes sur ordinateur */
+    max-width: 1024px;
     margin: 0 auto;
     font-size: var(--text-3xl);
     line-height: 2.25rem;
     font-weight: var(--font-semibold);
     letter-spacing: -0.02em;
     color: var(--text-primary);
-    text-wrap: balance;
+    text-wrap: pretty;
 }
 
 .tagline__word {
