@@ -19,11 +19,16 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Copie tous les fichiers du site dans le répertoire nginx
 COPY index.html /usr/share/nginx/html/
 COPY 404.html /usr/share/nginx/html/
+COPY mentions-legales.html /usr/share/nginx/html/
 COPY style.css /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
 COPY i18n.js /usr/share/nginx/html/
 COPY pulse.js /usr/share/nginx/html/
+COPY motion.js /usr/share/nginx/html/
 COPY manifest.json /usr/share/nginx/html/
+
+# Polices hébergées sur le site
+COPY fonts/ /usr/share/nginx/html/fonts/
 
 # Copie toutes les images (jpg, png, webp)
 COPY *.jpg *.png *.webp /usr/share/nginx/html/

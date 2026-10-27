@@ -200,21 +200,21 @@ The single source of truth for this skill. Edit this section to adapt it to your
 > **Adapté pour sacha-rozencwajg.fr.** Les valeurs ci-dessous remplacent celles d'origine.
 > Voir aussi `CLAUDE.md` à la racine du repo (tirets en français, ton médical, i18n).
 
-**Fonts:** Geist only, loaded from Google Fonts. Geist Mono only for dates, years, and monitor style labels (`.section__overline`, `.timeline__year`, etc.). Never Inter, Roboto, Arial, Open Sans, Helvetica. No italics (`em` is styled as medium weight). No weights above bold.
+**Fonts:** Geist only, self hosted in `fonts/` (never Google Fonts). Geist Mono only for dates, years, and monitor style labels (`.section__overline`, `.timeline__year`, etc.). Never Inter, Roboto, Arial, Open Sans, Helvetica. No italics (`em` is styled as medium weight). No weights above bold.
 
 **Backgrounds (light):** `#f7f8fc` primary · `#eef0f8` secondary · `#ffffff` cards.
 
 **Backgrounds (dark):** `#0a1020` primary · `#0d1628` secondary · `#0f1a2c` cards. This tinted navy is the site's identity and replaces the neutral dark palette of the original skill.
 
-**Accent:** `--color-accent` (`#4f5bd5` light, `#7c8cff` dark) for text and borders. `--accent-solid` (`#4f5bd5` in both themes) for any filled surface carrying white text.
+**Accent:** one flat accent only. `--color-accent` (`#4f5bd5` light, `#7c8cff` dark) for text and borders. `--accent-solid` (`#4f5bd5` in both themes) for any filled surface carrying white text. No second accent color; `--color-error` only for error states.
 
-**Hero heading gradient:** only on `.hero__title-accent`, left to right, `--grad` (`#3b6cf6` → `#8b5cf6` light, `#4f8bff` → `#a78bfa` dark). Rest of the heading is flat `--text-primary`. No other gradient anywhere.
+**Hero heading:** flat, `--text-primary`, with `.hero__title-accent` in `--color-accent`. No gradient anywhere, text included (this overrides the hero gradient rule of the original skill).
 
 **Spacing:** 0, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64, 80, 96px (the `--space-*` tokens in `style.css`). Main buttons 12px vertical, 24px horizontal, pill shaped.
 
 **Radius:** Tailwind values only: 8, 12, 16 (cards), 24 (hero photo), full. Nested shapes under a 32px gap use `inner = outer − gap`, applied only when the result exceeds 2.
 
-**Icons:** existing inline SVGs stay (2px stroke). New icons come from Phosphor, at the same stroke weight.
+**Icons:** Phosphor, regular weight, inline SVG (`viewBox="0 0 256 256"`, `fill="currentColor"`, `aria-hidden="true"`).
 
 **Motion:** base curve `--ease-out` = `cubic-bezier(0.22,1,0.36,1)`, 500ms for movement, 200 to 300ms for color and opacity. Loops (pulse, float) use `--ease-loop`. Scroll reveals rise 32px over 600 to 800ms via `IntersectionObserver`. Respect `prefers-reduced-motion`.
 

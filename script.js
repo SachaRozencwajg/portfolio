@@ -1,6 +1,6 @@
 /**
  * Sacha Rozencwajg - Personal Website
- * Apple-inspired design with light/dark mode
+ * Thème clair/sombre (suit le système par défaut), navigation, apparitions au défilement
  */
 
 // ===========================
@@ -14,86 +14,103 @@ const themeToggle = document.getElementById('themeToggle');
 
 // ===========================
 // Theme Management
+// Par défaut le site suit le réglage du système ; le menu permet de forcer clair ou sombre.
+// localStorage 'theme' : 'light' | 'dark', absent = système.
 // ===========================
-function getSystemTheme() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
+const themeMenu = document.getElementById('themeMenu');
+const themeOptions = document.getElementById('themeOptions');
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
 function getStoredTheme() {
-    return localStorage.getItem('theme');
+    try { return localStorage.getItem('theme'); } catch (e) { return null; }
 }
 
-function setTheme(theme) {
+function getThemeChoice() {
+    const stored = getStoredTheme();
+    return stored === 'light' || stored === 'dark' ? stored : 'system';
+}
+
+function applyTheme() {
+    const choice = getThemeChoice();
+    const theme = choice === 'system' ? (systemDark.matches ? 'dark' : 'light') : choice;
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    updateThemeToggle(theme);
-}
-
-function updateThemeToggle(theme) {
-    const sunIcon = document.querySelector('.theme-toggle__sun');
-    const moonIcon = document.querySelector('.theme-toggle__moon');
-
-    if (theme === 'dark') {
-        document.documentElement.style.setProperty('--theme-icon-sun', '0');
-        document.documentElement.style.setProperty('--theme-icon-moon', '1');
-    } else {
-        document.documentElement.style.setProperty('--theme-icon-sun', '1');
-        document.documentElement.style.setProperty('--theme-icon-moon', '0');
-    }
-}
-
-function initTheme() {
-    const storedTheme = getStoredTheme();
-    if (storedTheme) {
-        setTheme(storedTheme);
-    } else {
-        // Use system preference
-        const systemTheme = getSystemTheme();
-        setTheme(systemTheme);
-    }
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || getSystemTheme();
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-}
-
-// Listen for system theme changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!getStoredTheme()) {
-        setTheme(e.matches ? 'dark' : 'light');
-    }
-});
-
-// ===========================
-// Mobile Navigation Toggle
-// ===========================
-function toggleNav() {
-    nav.classList.toggle('active');
-
-    // Update ARIA attributes
-    const isOpen = nav.classList.contains('active');
-    navToggle.setAttribute('aria-expanded', isOpen);
-}
-
-navToggle.addEventListener('click', toggleNav);
-themeToggle.addEventListener('click', toggleTheme);
-
-// Close nav when clicking a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        nav.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
+    themeMenu.dataset.choice = choice;
+    themeOptions.querySelectorAll('[data-theme-choice]').forEach(option => {
+        option.setAttribute('aria-checked', String(option.dataset.themeChoice === choice));
     });
+}
+
+function setThemeChoice(choice) {
+    try {
+        if (choice === 'system') {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', choice);
+        }
+    } catch (e) { /* stockage indisponible : le choix vaut pour la page en cours */ }
+    if (choice !== 'system') document.documentElement.setAttribute('data-theme', choice);
+    applyTheme();
+}
+
+function setThemeMenu(open) {
+    themeOptions.hidden = !open;
+    themeToggle.setAttribute('aria-expanded', String(open));
+}
+
+themeToggle.addEventListener('click', () => setThemeMenu(themeOptions.hidden));
+
+themeOptions.addEventListener('click', (e) => {
+    const option = e.target.closest('[data-theme-choice]');
+    if (!option) return;
+    setThemeChoice(option.dataset.themeChoice);
+    setThemeMenu(false);
+    themeToggle.focus();
 });
 
-// Close nav when clicking outside
+systemDark.addEventListener('change', () => {
+    if (getThemeChoice() === 'system') applyTheme();
+});
+
+// ===========================
+// Mobile Navigation (panneau plein écran)
+// ===========================
+const mobileNav = window.matchMedia('(max-width: 1024px)');
+
+function setNav(open) {
+    nav.classList.toggle('active', open);
+    document.body.classList.toggle('nav-open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    navToggle.setAttribute('aria-label', t(open ? 'nav.close' : 'nav.open'));
+}
+
+navToggle.addEventListener('click', () => setNav(!nav.classList.contains('active')));
+
+// Fermer le menu en choisissant un lien
+navLinks.forEach(link => {
+    link.addEventListener('click', () => setNav(false));
+});
+
+// Fermer le menu thème en cliquant ailleurs
 document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && !navToggle.contains(e.target)) {
-        nav.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
+    if (!themeMenu.contains(e.target)) setThemeMenu(false);
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!themeOptions.hidden) {
+        setThemeMenu(false);
+        themeToggle.focus();
+    } else if (nav.classList.contains('active')) {
+        setNav(false);
+        navToggle.focus();
     }
+});
+
+mobileNav.addEventListener('change', () => setNav(false));
+
+document.addEventListener('languagechange-site', () => {
+    navToggle.setAttribute('aria-label', t(nav.classList.contains('active') ? 'nav.close' : 'nav.open'));
+    themeToggle.setAttribute('aria-label', t('theme.label'));
 });
 
 // ===========================
@@ -208,7 +225,7 @@ navTargets.forEach(el => activeSectionObserver.observe(el));
 // ===========================
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize theme
-    initTheme();
+    applyTheme();
 
     // Current year in footer
     const yearEl = document.getElementById('year');
@@ -216,19 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize scroll animations
     initScrollAnimations();
-
-    // Trigger initial animations for visible elements
-    setTimeout(() => {
-        document.querySelectorAll('.hero__grid').forEach(el => {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-        });
-    }, 100);
 });
-
-// Console greeting for fellow developers
-console.log('%c👋 Hello, fellow developer!', 'font-size: 16px; font-weight: bold; color: #0071e3;');
-console.log('%cInterested in AI & Medicine? Let\'s connect!', 'font-size: 12px; color: #86868b;');
 
 // ===========================
 // Publications : sélection + filtres

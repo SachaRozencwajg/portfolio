@@ -23,22 +23,28 @@ Le skill demande un rapport avant toute correction : les points ✅ ont été co
 | Boutons | Texte en graisse normale, pas de retour à l'appui | Semibold, `scale(0.98)` à l'appui |
 | Mots orphelins | « IA » seul sur la dernière ligne du titre | `text-wrap: balance` sur les titres, `pretty` sur les paragraphes |
 
-## ⏳ À décider (étape 3 et suivantes)
+## ✅ Deuxième passe (tes choix du 27 octobre)
 
-**Nouveautés prévues**
-1. **Phrase révélée au défilement** : une grande phrase dont les mots s'allument un par un (par exemple « Je fais le lien entre la médecine clinique et l'IA »).
-2. **Apparition du haut de page** : chaque élément monte de 6px et passe du flou au net, l'un après l'autre en 1,2s (`design-to-motion`).
-3. **Cartes Applications IA animées** : chaque carte « raconte » son app en boucle, et un GIF peut en être exporté pour LinkedIn (`design-to-motion`).
+| # | Point | Ce qui a été fait |
+|---|---|---|
+| 1 | Phrase révélée | Nouvelle section entre le CV et les Applications IA : les mots s'allument un par un en passant le milieu de l'écran (FR et EN) |
+| 2 | Apparition de l'accueil | La page s'ouvre sur le fond seul ; barre, titre ligne par ligne, texte, boutons montent de 6px du flou au net (60ms d'écart), puis la photo et l'onde de pouls |
+| 3 | Cartes animées | Chaque visuel raconte son app en boucle, horloge en pause hors écran. EDN-IA : la question est retapée, les référentiels sont interrogés un par un, la réponse sourcée arrive. CareLogbook : un acte arrive en haut de la liste puis le senior le valide. Serious Game : le modèle écrit « 8 g de paracétamol par jour », l'erreur est repérée puis corrigée en « 4 g » |
+| 4 | Accent uni | Plus aucun dégradé, y compris sur le titre et l'onde de pouls |
+| 5 | Une seule couleur d'accent | Étiquettes, frise du CV, icônes : tout passe sur l'accent. Seul le rouge reste, pour signaler l'erreur du modèle |
+| 6 | Mosaïque | EDN-IA en bandeau (visuel à gauche, texte à droite), CareLogbook et Serious Game côte à côte ; une colonne sur mobile |
+| 7 | Thème | Suit le réglage du système par défaut ; un menu Système / Clair / Sombre remplace le bouton soleil/lune ; plus de flash clair au chargement en mode sombre |
+| 8 | Navigation | Barre compacte qui flotte sous le bord haut ; sous 1024px, menu plein écran dont les liens arrivent un par un, bouton qui se transforme en croix, fermeture par Échap |
+| 9 | Icônes | 21 icônes remplacées par Phosphor ; la fusée (cliché) devient une ampoule |
+| 10 | Mentions légales | Page `mentions-legales.html` : éditeur, hébergeur, information médicale, propriété intellectuelle, données personnelles, résumé en anglais. Lien dans le pied de page |
+| 11 | Nettoyages | Styles en ligne remplacés par des classes, bordure du logo réparée, messages console supprimés |
+| 12 | Textes | Meta description et partage réseaux réécrits (FR et EN) ; « une solution intelligente à la fois » retiré du pied de page |
 
-**Points que le skill signale, mais qui touchent ton identité**
-4. **Dégradé bleu vers violet** : le skill le qualifie d'« empreinte IA la plus courante ». Il ne reste plus que sur le titre. On le garde ou on passe en accent uni ?
-5. **Plusieurs couleurs d'accent** : étiquettes vertes et violettes, trois couleurs pour la frise. Le skill en veut une seule.
-6. **Trois cartes égales en ligne** (Applications IA) : c'est la mise en page « IA générique » selon le skill. Il propose une grille asymétrique ou en mosaïque.
-7. **Bouton thème soleil et lune** : le skill préfère suivre le réglage du système, avec un menu. Je le garderais : il est discret et pratique.
+**Faits en plus, parce que nécessaires**
+- **Polices hébergées sur le site** (`fonts/`) au lieu de Google Fonts : aucune donnée ne part vers un tiers, ce qui permet à la page de confidentialité de dire « aucun cookie, aucun traceur » sans réserve.
+- **Version dans les liens CSS et JS** (`?v=20261027`) : nginx les garde un an en cache ; sans ce numéro, les visiteurs réguliers auraient eu l'ancien CSS avec le nouveau HTML (menu cassé).
+- **Vraie page 404** : nginx renvoyait l'accueil pour toute adresse inconnue. La page 404 existait mais n'était jamais servie ; elle est maintenant branchée et mise au nouveau style.
 
-**Navigation et finitions**
-8. **Barre de navigation flottante** (détachée du haut, centrée) et **menu mobile plein écran** avec liens qui arrivent un par un.
-9. **Icônes** : les SVG actuels sont dans le style Feather, que le skill déconseille ; le remplacement serait Phosphor.
-10. **Mentions légales** : aucune page ni lien. Elles sont obligatoires en France pour un site à visée professionnelle (éditeur, hébergeur). À ajouter dans le pied de page.
-11. **Petits nettoyages** : 3 styles écrits directement dans `index.html`, bordure de la photo du logo qui pointe vers une variable inexistante (`--color-primary`, donc invisible), messages `console.log` d'accueil.
-12. **Texte** : « Solutions intelligentes » dans la meta description est du vocabulaire creux selon le skill. Une formulation plus concrète serait meilleure.
+**À vérifier de ton côté**
+- **Mentions légales.** Si ton activité de conseil (« Sacha MD & AI Consulting ») est déclarée (micro-entreprise ou société), il faut ajouter la raison sociale, le numéro SIREN et l'adresse professionnelle. L'hébergeur indiqué (Google Cloud EMEA Limited, Dublin) est l'entité habituelle pour Google Cloud en Europe ; à confirmer sur ta facture GCP.
+- **nginx.** La nouvelle configuration (404) n'a pas pu être testée ici, faute de Docker. À vérifier après le déploiement : une adresse inconnue doit afficher la page 404, et `/serious-game/` doit toujours fonctionner.
