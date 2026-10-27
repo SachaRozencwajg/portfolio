@@ -1,7 +1,7 @@
 /**
  * Onde de pouls façon scope : un curseur balaie l'écran de gauche à droite,
  * dessine le nouveau tracé et efface l'ancien juste devant lui (comme sur un moniteur).
- * Couleurs reprises des variables CSS --grad-a / --grad-b (suivent le thème clair/sombre).
+ * Couleur reprise de la variable CSS --color-accent (suit le thème clair/sombre).
  */
 (function () {
     const canvas = document.getElementById('pulseWave');
@@ -16,15 +16,14 @@
     let trace = [];            // ordonnée par pixel
     let stamp = [];            // instant d'écriture de chaque pixel (pour l'atténuation)
     let cursor = 0, last = null, time = 0;
-    let colorA = '#3b6cf6', colorB = '#8b5cf6';
+    let color = '#4f5bd5';
     let beatLen = BEAT_MS, beatStart = 0, beatAmp = 1;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function readColors() {
         const css = getComputedStyle(document.documentElement);
-        colorA = css.getPropertyValue('--grad-a').trim() || colorA;
-        colorB = css.getPropertyValue('--grad-b').trim() || colorB;
+        color = css.getPropertyValue('--color-accent').trim() || color;
     }
 
     // Forme d'une onde de pléthysmographie sur un battement (phase 0 → 1)
@@ -79,14 +78,10 @@
 
     function draw() {
         ctx.clearRect(0, 0, width, height);
-        const grad = ctx.createLinearGradient(0, 0, width, 0);
-        grad.addColorStop(0, colorA);
-        grad.addColorStop(1, colorB);
-
         ctx.lineWidth = 2.2;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
-        ctx.strokeStyle = grad;
+        ctx.strokeStyle = color;
 
         const sweepMs = (width / SWEEP_SPEED) * 1000;
         const paths = [];
@@ -114,7 +109,7 @@
 
         // point lumineux en tête de balayage
         if (!reduceMotion && trace[cursor] !== null) {
-            ctx.fillStyle = colorA;
+            ctx.fillStyle = color;
             ctx.globalAlpha = 0.18;
             ctx.beginPath();
             ctx.arc(cursor, trace[cursor], 9, 0, Math.PI * 2);

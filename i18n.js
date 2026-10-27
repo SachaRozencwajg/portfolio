@@ -11,7 +11,7 @@ const I18N_EN = {
     "t2": "Research",
     "t3": "Teaching",
     "t4": "Talks",
-    "t7": "Anesthesiologist &amp; Intensivist, <br>\n                        <span class=\"hero__title-accent\">AI Educator</span>",
+    "t7": "<span class=\"hero__line\">Anesthesiologist &amp; Intensivist,</span>\n                        <span class=\"hero__line hero__title-accent\">AI Educator</span>",
     "t8": "I bridge clinical medicine and artificial intelligence, building practical AI solutions that improve patient care and medical practice.",
     "t6": "See my projects",
     "t5": "Get in touch",
@@ -97,7 +97,7 @@ const I18N_EN = {
     "t89": "Get in touch",
     "t90": "Interested in consulting, a collaboration, or simply discussing AI in medicine? Feel free to reach out.",
     "t91": "Send me an email",
-    "t92": "Anesthesiologist, intensivist and AI educator at the Faculty of Medicine, based in Paris. Building the future of healthcare, one smart solution at a time.",
+    "t92": "Anesthesiologist, intensivist and AI educator at the Faculty of Medicine, based in Paris.",
     "t93": "About",
     "t99": "Resources",
     "t94": "IA2M course – Syllabus",
@@ -105,7 +105,12 @@ const I18N_EN = {
     "t96": "© <span id=\"year\">2026</span> Sacha Rozencwajg. All rights reserved.",
     "t49": "“Artificial Intelligence Applied to Medicine” course. First edition: <strong>8.2/10</strong> satisfaction, unanimously recommended by students.",
     "t82": "Editorial (with D. Benhamou) on transparency in the use of generative AI in peer review. <em>Anaesth Crit Care Pain Med</em>.",
-    "t88": "Editorial (with D. Benhamou) on the role of generative AI in the evaluation of scientific manuscripts. <em>Anaesth Crit Care Pain Med</em>."
+    "t88": "Editorial (with D. Benhamou) on the role of generative AI in the evaluation of scientific manuscripts. <em>Anaesth Crit Care Pain Med</em>.",
+    "t100": "Skip to content",
+    "t101": "System",
+    "t102": "Light",
+    "t103": "Dark",
+    "t104": "Legal notice and privacy"
 };
 
 // Chaînes générées par le JavaScript
@@ -115,16 +120,24 @@ const I18N_UI = {
         'pub.showSelection': 'Revenir à la sélection',
         'lang.toggle': 'EN',
         'lang.label': 'Switch to English',
+        'nav.open': 'Ouvrir le menu',
+        'nav.close': 'Fermer le menu',
+        'theme.label': 'Thème',
+        'tagline': "Médecin au bloc et en réanimation, enseignant à la faculté. Je construis des outils d'IA pour ceux qui soignent et ceux qui apprennent.",
         'meta.title': 'Sacha Rozencwajg | Médecin & Enseignant en IA',
-        'meta.description': "Sacha Rozencwajg - Anesthésiste-Réanimateur & Enseignant en IA à la Faculté de médecine. Solutions intelligentes à l'intersection de la médecine et de l'intelligence artificielle."
+        'meta.description': "Anesthésiste-réanimateur et enseignant en IA à l'Université Paris-Saclay : recherche sur l'ECMO, publications, cours et applications d'IA pour la formation médicale."
     },
     en: {
         'pub.showAll': 'See all {n} publications',
         'pub.showSelection': 'Back to selection',
         'lang.toggle': 'FR',
         'lang.label': 'Passer en français',
+        'nav.open': 'Open menu',
+        'nav.close': 'Close menu',
+        'theme.label': 'Theme',
+        'tagline': 'A physician in the operating room and the ICU, a teacher at medical school. I build AI tools for those who care for patients and those who learn.',
         'meta.title': 'Sacha Rozencwajg | Physician & AI Educator',
-        'meta.description': 'Sacha Rozencwajg - Anesthesiologist, intensivist and AI educator at the Faculty of Medicine. Practical AI solutions at the intersection of medicine and artificial intelligence.'
+        'meta.description': 'Anaesthesiologist, intensivist and AI educator at Université Paris-Saclay: ECMO research, publications, teaching and AI tools for medical training.'
     }
 };
 

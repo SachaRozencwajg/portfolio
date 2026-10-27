@@ -4,12 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page non trouvée | Sacha Rozencwajg</title>
-    <meta name="description" content="Erreur 404 - Page non trouvée">
-    <link rel="stylesheet" href="style.css">
+    <title>Page introuvable | Sacha Rozencwajg</title>
+    <meta name="description" content="Erreur 404 : cette page n'existe pas.">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/webp" href="/photo-sacha.webp">
+    <script>
+        (function () {
+            var t = null;
+            try { t = localStorage.getItem('theme'); } catch (e) { }
+            if (t !== 'light' && t !== 'dark') {
+                t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <link rel="stylesheet" href="/style.css?v=20261027">
     <style>
         .error-page {
-            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -19,53 +31,43 @@
         }
 
         .error-code {
-            font-size: 8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--color-accent) 0%, #5856d6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            letter-spacing: 0.12em;
+            color: var(--color-accent);
             margin-bottom: var(--space-4);
-            line-height: 1;
         }
 
         .error-message {
-            font-size: var(--text-2xl);
-            font-weight: 600;
+            font-size: var(--text-4xl);
+            line-height: 2.5rem;
+            font-weight: var(--font-bold);
+            letter-spacing: -0.02em;
             margin-bottom: var(--space-4);
         }
 
         .error-description {
             color: var(--text-secondary);
-            max-width: 500px;
+            max-width: 480px;
             margin-bottom: var(--space-8);
         }
     </style>
 </head>
 
 <body>
-    <div class="container error-page">
-        <div class="error-code">404</div>
-        <h1 class="error-message">Oups ! Cette page n'existe pas.</h1>
+    <main class="container error-page">
+        <p class="error-code">// ERREUR 404</p>
+        <h1 class="error-message">Cette page n'existe pas</h1>
         <p class="error-description">
-            Il semble que vous ayez suivi un lien brisé ou que la page ait été déplacée.
-            Ne vous inquiétez pas, vous pouvez retourner à l'accueil.
+            Le lien est peut-être ancien, ou la page a été déplacée.
+            Tout le contenu du site est accessible depuis l'accueil.
         </p>
         <a href="/" class="btn btn--primary">
+            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>
             Retour à l'accueil
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M3 12l6 6M3 12l6-6" />
-            </svg>
         </a>
-    </div>
-
-    <!-- Script for theme consistency -->
-    <script>
-        // Check for saved theme
-        const savedTheme = localStorage.getItem('theme');
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        const theme = savedTheme || systemTheme;
-        document.documentElement.setAttribute('data-theme', theme);
-    </script>
+    </main>
 </body>
 
 </html>
