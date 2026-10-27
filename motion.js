@@ -71,6 +71,7 @@
     const ICONS = {
         check: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>',
         clock: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg>',
+        lock: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>',
         warning: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/></svg>'
     };
 
@@ -146,10 +147,13 @@
             `<span class="story__fix">${esc(txt.fix)}</span>${esc(txt.after)}`;
     }
 
+    // Barre d'adresse : le visuel se lit comme un aperçu de l'app, pas comme du texte de la page
+    const bar = (domain) => `<div class="story__bar"><span class="story__url">${ICONS.lock}${domain}</span></div>`;
+
     // Visuels au repos : c'est l'état de départ et d'arrivée de chaque histoire
     const BUILD = {
         edn(txt) {
-            return `<div class="story story--edn"><div class="story__panel">
+            return `<div class="story story--edn">${bar('edn-ia.fr')}<div class="story__panel">
                 <div><span class="story__label">${esc(txt.qLabel)}</span>
                     <p><span class="story__typed">${esc(txt.question)}</span><span class="story__caret"></span></p></div>
                 <div><span class="story__label">${esc(txt.srcLabel)}</span>
@@ -160,7 +164,7 @@
             </div></div>`;
         },
         logbook(txt) {
-            return `<div class="story story--logbook"><div class="story__panel">
+            return `<div class="story story--logbook">${bar('carelogbook.com')}<div class="story__panel">
                 <div class="story__head"><span class="story__label">${esc(txt.title)}</span><span class="story__label">${esc(txt.sub)}</span></div>
                 <ul class="story__list">${txt.acts.slice(0, 3).map(act => rowHtml(act, txt, true)).join('')}</ul>
             </div></div>`;
