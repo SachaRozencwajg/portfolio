@@ -58,9 +58,6 @@ const I18N_EN = {
     "t47": "Sharing knowledge about AI in medicine with healthcare professionals and students.",
     "t48": "IA2M course – Paris-Saclay",
     "t50": "See the course syllabus",
-    "t51": "Training &amp; Workshops",
-    "t52": "Hands-on workshops on using AI tools (ChatGPT, Gemini, Claude) for healthcare professionals.",
-    "t53": "Book a training session",
     "t54": "Thesis supervision",
     "t55": "Supervision of MD and master's theses on AI applications in anaesthesia and critical care.",
     "t56": "Suggest a topic",
@@ -110,7 +107,12 @@ const I18N_EN = {
     "t101": "System",
     "t102": "Light",
     "t103": "Dark",
-    "t104": "Legal notice and privacy"
+    "t104": "Legal notice and privacy",
+    "t105": "Online game",
+    "t106": "AI for beginners",
+    "t107": "Necker Hospital · AP-HP",
+    "t108": "Research in medical education in the age of artificial intelligence",
+    "t109": "French national conference on medical education and research · Lille"
 };
 
 // Chaînes générées par le JavaScript

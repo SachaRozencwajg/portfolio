@@ -2205,7 +2205,7 @@ a.timeline__item--clickable:focus-visible {
 
 .bento-card__visual {
     position: relative;
-    height: 224px;
+    height: 256px;
     flex-shrink: 0;
     overflow: hidden;
     background: var(--bg-secondary);
@@ -2403,7 +2403,7 @@ a.timeline__item--clickable:focus-visible {
     flex-direction: column;
     gap: var(--space-2);
     /* 3 lignes visibles : celle qui sort glisse sous le bord et disparaît */
-    height: calc(3 * 2.25rem + 2 * var(--space-2));
+    height: calc(3 * 2rem + 2 * var(--space-2));
     overflow: hidden;
 }
 
@@ -2627,4 +2627,215 @@ a.timeline__item--clickable:focus-visible {
 
 .card--centered .card__icon {
     margin: 0 auto var(--space-6);
+}
+
+/* ===========================
+   Mosaïque : lisibilité
+   Côté texte : logo et adresse de l'app, titre plus grand, étiquettes en bas.
+   Côté visuel : un aperçu dans les couleurs de chaque app, avec sa barre d'adresse,
+   pour qu'on ne le confonde pas avec le texte de la page. Les couleurs de marque
+   (EDN-IA bordeaux, CareLogbook vert) ne servent que dans ces aperçus.
+   =========================== */
+.bento-card .project-card__content {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+}
+
+.bento-card .card__link {
+    margin-top: auto;
+}
+
+.bento-card__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.bento-card__logo {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+}
+
+.bento-card__logo--wordmark {
+    width: auto;
+    height: 40px;
+    padding: var(--space-2) var(--space-3);
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+}
+
+.bento-card__logo--icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-solid);
+    color: white;
+}
+
+.bento-card__domain {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1rem;
+    letter-spacing: 0.02em;
+    color: var(--text-tertiary);
+}
+
+.bento-card .project-card__title {
+    font-size: var(--text-2xl);
+    line-height: 2rem;
+    font-weight: var(--font-bold);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-3);
+}
+
+.bento-card .project-card__tags {
+    margin-bottom: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+    .bento .bento-card--large .project-card__content {
+        padding: var(--space-8);
+    }
+}
+
+/* Aperçus : barre d'adresse */
+.story {
+    padding-top: var(--space-12);
+}
+
+.story__bar {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    right: var(--space-3);
+    display: flex;
+    justify-content: center;
+}
+
+.story__url {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1rem;
+}
+
+/* Les petites cartes : texte d'aperçu plus petit que le texte de la carte */
+.bento-card:not(.bento-card--large) .story {
+    font-size: var(--text-xs);
+    line-height: 1rem;
+    padding-top: var(--space-12);
+}
+
+/* Aperçu EDN-IA : application claire, accent bordeaux (couleurs du logo) */
+.bento-card__visual[data-story="edn"] {
+    background: #f1ecef;
+}
+
+.story--edn {
+    color: #1a1a2c;
+}
+
+.story--edn .story__url {
+    background: #ffffff;
+    border: 1px solid rgba(26, 26, 44, 0.1);
+    color: #5b5566;
+}
+
+.story--edn .story__panel {
+    background: #ffffff;
+    border-color: rgba(26, 26, 44, 0.08);
+    box-shadow: 0 12px 32px -20px rgba(26, 26, 44, 0.45);
+}
+
+.story--edn .story__label {
+    color: #6f6a7a;
+}
+
+.story--edn .story__chip {
+    background: #ffffff;
+    border-color: rgba(26, 26, 44, 0.16);
+    color: #4b4658;
+}
+
+.story--edn .story__chip.is-checking {
+    border-color: #65203e;
+    color: #1a1a2c;
+}
+
+.story--edn .story__chip.is-match {
+    border-color: #65203e;
+    background: rgba(101, 32, 62, 0.08);
+    color: #65203e;
+}
+
+.story--edn .story__cite,
+.story--edn .story__caret {
+    background: #65203e;
+}
+
+/* Aperçu CareLogbook : application sombre, vert et sarcelle (couleurs du logo) */
+.bento-card__visual[data-story="logbook"] {
+    background: #142d2d;
+}
+
+.story--logbook {
+    color: #e8f1ef;
+}
+
+.story--logbook .story__url {
+    background: rgba(255, 255, 255, 0.08);
+    color: #a9c6c1;
+}
+
+.story--logbook .story__panel {
+    background: #1b3838;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+}
+
+.story--logbook .story__label,
+.story--logbook .story__level,
+.story--logbook .story__status {
+    color: #8fb3ae;
+}
+
+.story--logbook .story__row {
+    background: #224545;
+}
+
+.story--logbook .story__status.is-ok {
+    color: #4cc2b4;
+}
+
+/* Bandeau EDN-IA : l'aperçu occupe toute la hauteur de la carte */
+@media (min-width: 1024px) {
+    .bento .bento-card--large .bento-card__visual {
+        height: auto;
+        min-height: 320px;
+    }
+}
+
+/* Logos clairs sur carte claire : un liseré pour garder leur contour */
+.bento-card__logo:not(.bento-card__logo--icon) {
+    box-shadow: 0 0 0 1px var(--border-color);
+}
+
+/* Mobile : l'aperçu EDN-IA garde de la place sous sa barre d'adresse */
+@media (max-width: 639px) {
+    .bento-card--large .bento-card__visual {
+        height: 360px;
+    }
+
+    .bento-card--large .story {
+        font-size: var(--text-xs);
+        line-height: 1rem;
+    }
 }
