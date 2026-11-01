@@ -1,8 +1,17 @@
 {
-    "last_checked": "2026-05-01",
-    "total_count": 42,
+    "last_checked": "2026-11-01",
+    "total_count": 43,
     "author_search": "Rozencwajg+S",
     "publications": [
+        {
+            "pmid": "42887688",
+            "year": 2026,
+            "title": "VentiProtect ARDS, vibe coding lung protection: a five-minute clinician-built ventilator tool as proof-of-concept for physician prompt engineering.",
+            "authors": "Rozencwajg S",
+            "author_position": "1st",
+            "journal": "Anaesthesia, critical care & pain medicine",
+            "doi": "10.1016/j.accpm.2026.101934"
+        },
         {
             "pmid": "42031111",
             "year": 2026,
