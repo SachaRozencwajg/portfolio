@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The page is self-contained: this policy makes the browser refuse any network request it could make. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<title>VentiProtect ARDS: lung-protective ventilation calculator</title>
+<meta name="description" content="Free, open-source calculator for lung-protective ventilation in ARDS: predicted body weight, tidal volume, plateau and driving pressure, compliance, mechanical power, P/F and S/F ratio. Runs in your browser, nothing is stored or sent.">
+<meta name="author" content="Sacha Rozencwajg">
+<link rel="canonical" href="https://www.sacha-rozencwajg.fr/ventiprotect/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.sacha-rozencwajg.fr/ventiprotect/">
+<meta property="og:title" content="VentiProtect ARDS: lung-protective ventilation calculator">
+<meta property="og:description" content="Predicted body weight, tidal volume, driving pressure, mechanical power and oxygenation in one screen. Open source, runs in your browser.">
+<meta property="og:image" content="https://www.sacha-rozencwajg.fr/ventiprotect/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0f1117">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1117'/%3E%3Cpath d='M8 34h12l5-14 8 28 6-20 4 6h13' fill='none' stroke='%2360a5fa' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<!--
+  VentiProtect ARDS v1.1
+  Lung-protective ventilation titration assistant for medical ARDS.
+
+  Author : Sacha Rozencwajg, MD
+           Anesthesiologist-Intensivist
+           Hopital Marie Lannelongue / GH Paris Saint-Joseph
+           INSERM U1358, Universite Paris-Saclay
+
+  Single file, no dependency, no storage, no network request.
+  v1.0 (the version described in the article, Anaesth Crit Care Pain Med 2026,
+  doi:10.1016/j.accpm.2026.101934) is kept unchanged in app/index.html.
+  Source and licence (MIT): https://github.com/SachaRozencwajg/VentiProtect_ARDS
+-->
+<script>
+/* Theme is chosen before first paint: ?theme=dark|light, otherwise the system setting. */
+(function () {
+  var p = new URLSearchParams(location.search).get("theme");
+  var light = p === "light" || (p !== "dark" && window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches);
+  document.documentElement.setAttribute("data-theme", light ? "light" : "dark");
+  if (light) document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f3f5f9");
+})();
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #1a1d27;
+  --bg-input: #252836;
+  --bg-card: #1e2130;
+  --bg-item: rgba(255, 255, 255, 0.035);
+  --text-primary: #e8eaed;
+  --text-secondary: #a5abba;
+  --text-muted: #8b93a5;
+  --border: #2d3148;
+  --accent: #60a5fa;
+  --accent-bg: rgba(96, 165, 250, 0.15);
+
+  --safe: #22c55e;      --safe-bg: rgba(34, 197, 94, 0.12);
+  --warning: #f59e0b;   --warning-bg: rgba(245, 158, 11, 0.12);
+  --danger: #ef4444;    --danger-bg: rgba(239, 68, 68, 0.12);
+  --mild: #38bdf8;      --mild-bg: rgba(56, 189, 248, 0.12);
+  --orange: #f97316;    --orange-bg: rgba(249, 115, 22, 0.12);
+}
+
+:root[data-theme="light"] {
+  --bg-primary: #f3f5f9;
+  --bg-secondary: #ffffff;
+  --bg-input: #f1f3f8;
+  --bg-card: #ffffff;
+  --bg-item: rgba(15, 23, 42, 0.035);
+  --text-primary: #111827;
+  --text-secondary: #414a5a;
+  --text-muted: #5b6472;
+  --border: #d3d9e4;
+  --accent: #1d4ed8;
+  --accent-bg: rgba(29, 78, 216, 0.09);
+
+  --safe: #15803d;      --safe-bg: rgba(21, 128, 61, 0.09);
+  --warning: #b45309;   --warning-bg: rgba(180, 83, 9, 0.10);
+  --danger: #b91c1c;    --danger-bg: rgba(185, 28, 28, 0.08);
+  --mild: #0369a1;      --mild-bg: rgba(3, 105, 161, 0.09);
+  --orange: #c2410c;    --orange-bg: rgba(194, 65, 12, 0.09);
+}
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+a { color: var(--accent); }
+sub { line-height: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+/* === HEADER === */
+.app-header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.app-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+.app-title span { color: var(--accent); }
+.app-title small { font-size: 0.75rem; font-weight: 500; color: var(--text-muted); margin-left: 0.4rem; letter-spacing: 0; }
+.app-subtitle { font-size: 0.8rem; color: var(--text-secondary); }
+
+.toolbar { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.btn {
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); }
+.btn--icon { width: 2.5rem; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+.btn--icon svg { width: 1.1rem; height: 1.1rem; }
+:root[data-theme="light"] .icon-sun, :root[data-theme="dark"] .icon-moon { display: none; }
+
+.segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.segmented button {
+  min-height: 2.5rem;
+  min-width: 2.6rem;
+  padding: 0 0.6rem;
+  background: var(--bg-input);
+  border: 0;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.segmented button + button { border-left: 1px solid var(--border); }
+.segmented button[aria-pressed="true"] { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+.segmented--sm button { min-height: 1.9rem; min-width: 2.2rem; font-size: 0.78rem; }
+
+/* === NOTICE === */
+.notice {
+  background: var(--bg-item);
+  border-bottom: 1px solid var(--border);
+  padding: 0.55rem 2rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.notice strong { color: var(--text-primary); font-weight: 600; }
+
+/* === MOBILE SUMMARY BAR === */
+.summary-bar {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.35rem;
+  text-decoration: none;
+}
+.chip {
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--text-muted);
+  border-radius: 6px;
+  padding: 0.2rem 0.15rem 0.25rem;
+  text-align: center;
+  background: var(--bg-card);
+  min-width: 0;
+}
+.chip-label { display: block; font-size: 0.68rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+.chip-value { display: block; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chip.safe { border-top-color: var(--safe); background: var(--safe-bg); }
+.chip.warning, .chip.moderate { border-top-color: var(--warning); background: var(--warning-bg); }
+.chip.danger, .chip.severe { border-top-color: var(--danger); background: var(--danger-bg); }
+.chip.mild { border-top-color: var(--mild); background: var(--mild-bg); }
+
+/* === LAYOUT === */
+.main-container { display: flex; gap: 2rem; padding: 1.5rem 2rem; max-width: 1600px; margin: 0 auto; }
+.input-panel { flex: 0 0 40%; min-width: 340px; }
+.results-panel { flex: 1; min-width: 0; scroll-margin-top: 4.5rem; }
+
+/* === INPUT SECTIONS === */
+.input-section {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.input-section h2, .action-panel h2, .about h2 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+.field-group { margin-bottom: 0.85rem; }
+.field-group:last-child { margin-bottom: 0; }
+/* Two fields side by side: labels, inputs and error messages each share a row, so inputs stay aligned
+   even when one label wraps onto two lines. */
+.field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 0.75rem; margin-bottom: 0.85rem; }
+.field-row > .field-group { display: contents; }
+.field-row > .field-group:nth-child(1) > * { grid-column: 1; }
+.field-row > .field-group:nth-child(2) > * { grid-column: 2; }
+.field-row label { grid-row: 1; align-self: end; }
+.field-row input { grid-row: 2; }
+.field-row .field-error { grid-row: 3; }
+.label-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.3rem; }
+.label-row label { margin-bottom: 0; }
+
+label, .label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.3rem; }
+.label-aside { color: var(--text-muted); font-weight: 400; }
+
+input[type="number"] {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  transition: border-color 200ms;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]:focus { border-color: var(--accent); }
+input[type="number"]::placeholder { color: var(--text-muted); opacity: 0.8; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[aria-invalid="true"] { border-color: var(--danger); }
+
+.field-error { font-size: 0.8rem; color: var(--danger); margin-top: 0.3rem; line-height: 1.4; }
+.field-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+.sex-toggle { display: flex; gap: 0.5rem; }
+.sex-toggle button {
+  flex: 1;
+  min-height: 2.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 200ms, background 200ms, color 200ms;
+}
+.sex-toggle button[aria-pressed="true"] { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+.sex-toggle button:hover:not([aria-pressed="true"]) { border-color: var(--text-muted); }
+
+.fio2-row { display: flex; align-items: center; gap: 0.75rem; }
+.fio2-row input[type="number"] { flex: 0 0 6.5rem; }
+.fio2-row input[type="range"] { flex: 1; min-width: 0; height: 2.75rem; background: transparent; accent-color: var(--accent); cursor: pointer; }
+.fio2-row input[type="range"].unset { opacity: 0.45; }
+
+/* === SEVERE ARDS BANNER === */
+.severe-banner {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: fade-in 200ms ease;
+}
+.severe-banner h3 { color: var(--danger); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+.severe-banner ul { list-style: none; }
+.severe-banner li { padding: 0.25rem 0; font-size: 0.9rem; }
+.severe-banner .ref { color: var(--text-muted); font-size: 0.8rem; }
+.severe-banner .sf-warning {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--warning-bg);
+  border-left: 3px solid var(--warning);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--warning);
+}
+@keyframes fade-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* === METRIC CARDS === */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--text-muted);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  transition: background 300ms ease, border-color 300ms ease;
+}
+.metric-card.empty { border-top-color: var(--border); }
+.metric-card.safe { background: var(--safe-bg); border-color: var(--safe); }
+.metric-card.warning, .metric-card.moderate, .metric-card.reduced { background: var(--warning-bg); border-color: var(--warning); }
+.metric-card.danger, .metric-card.severe, .metric-card.critical { background: var(--danger-bg); border-color: var(--danger); }
+.metric-card.mild { background: var(--mild-bg); border-color: var(--mild); }
+.metric-card.crs-severe { background: var(--orange-bg); border-color: var(--orange); }
+
+.metric-label { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+.metric-value { font-size: 1.6rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.metric-card.empty .metric-value { color: var(--text-muted); }
+.metric-unit { font-size: 0.8rem; font-weight: 400; color: var(--text-secondary); margin-left: 0.25rem; }
+.metric-status { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.35rem; color: var(--text-secondary); }
+.metric-card.empty .metric-status { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--text-muted); font-size: 0.78rem; }
+.metric-card.safe .metric-status { color: var(--safe); }
+.metric-card.warning .metric-status, .metric-card.moderate .metric-status, .metric-card.reduced .metric-status { color: var(--warning); }
+.metric-card.danger .metric-status, .metric-card.severe .metric-status, .metric-card.critical .metric-status { color: var(--danger); }
+.metric-card.mild .metric-status { color: var(--mild); }
+.metric-card.crs-severe .metric-status { color: var(--orange); }
+.metric-disclaimer { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.35; }
+
+/* === ACTION PLAN === */
+.action-panel { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+.action-item {
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.65rem;
+  background: var(--bg-item);
+  border-left: 3px solid var(--warning);
+  border-radius: 4px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  animation: fade-in 200ms ease;
+}
+.action-item.priority-high { border-left-color: var(--danger); }
+.action-item .action-title { font-weight: 600; margin-bottom: 0.3rem; }
+.action-item .action-detail { color: var(--text-secondary); font-size: 0.85rem; }
+.action-item .action-detail strong { color: var(--text-primary); }
+.action-item .action-note { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.3rem; }
+.action-foot { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.85rem; line-height: 1.45; }
+.all-safe { color: var(--safe); font-size: 0.95rem; font-weight: 600; padding: 1rem 0; text-align: center; }
+.no-data { color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 1.5rem 0; }
+
+/* === ABOUT === */
+.about { max-width: 1600px; margin: 0 auto; padding: 0 2rem 1.5rem; }
+.about-inner { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; }
+.about details { border-top: 1px solid var(--border); }
+.about details:first-of-type { border-top: 0; }
+.about summary { cursor: pointer; padding: 0.8rem 0; font-size: 0.95rem; font-weight: 600; }
+.about .about-body { padding: 0 0 1rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; max-width: 75ch; }
+.about .about-body p + p, .about .about-body ul + p, .about .about-body p + ul { margin-top: 0.6rem; }
+.about .about-body ul { padding-left: 1.2rem; }
+.about .about-body li { margin-bottom: 0.35rem; }
+.about .about-body strong { color: var(--text-primary); font-weight: 600; }
+.about code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.85em; background: var(--bg-item); padding: 0.05rem 0.3rem; border-radius: 4px; color: var(--text-primary); }
+
+/* === FOOTER === */
+.app-footer { border-top: 1px solid var(--border); padding: 1rem 2rem 1.5rem; font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; text-align: center; max-width: 1600px; margin: 0 auto; }
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .app-header, .notice { padding-left: 1rem; padding-right: 1rem; }
+  .summary-bar { display: grid; }
+  .btn, .segmented:not(.segmented--sm) button { min-height: 2.75rem; }
+  .btn--icon { width: 2.75rem; }
+  .segmented--sm button { min-height: 2.25rem; min-width: 2.75rem; }
+  .main-container { flex-direction: column; padding: 1rem; gap: 1rem; }
+  .input-panel { flex: none; min-width: 0; }
+  .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about { padding: 0 1rem 1.5rem; }
+  .app-footer { padding-left: 1rem; padding-right: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div>
+    <h1 class="app-title">Venti<span>Protect</span> ARDS <small>v1.1</small></h1>
+    <div class="app-subtitle" data-i18n="subtitle">Lung-Protective Ventilation Titration Assistant</div>
+  </div>
+  <div class="toolbar">
+    <button type="button" class="btn" id="btn-example" data-i18n="btnExample">Example</button>
+    <button type="button" class="btn" id="btn-reset" data-i18n="btnReset">Reset</button>
+    <div class="segmented" role="group" data-i18n-aria="ariaLang" aria-label="Language">
+      <button type="button" id="lang-en" aria-pressed="true" lang="en">EN</button>
+      <button type="button" id="lang-fr" aria-pressed="false" lang="fr">FR</button>
+    </div>
+    <button type="button" class="btn btn--icon" id="btn-theme" data-i18n-aria="ariaTheme" aria-label="Switch between light and dark theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="notice" data-i18n-html="notice">
+  <strong>Educational and research tool</strong> accompanying a peer-reviewed technical note. Not a medical device. It does not replace clinical judgment or local protocols.
+</div>
+
+<noscript><div class="notice">This calculator needs JavaScript to run.</div></noscript>
+
+<!-- Mobile only: the key results stay visible while typing -->
+<a class="summary-bar" id="summary-bar" href="#results" data-i18n-aria="ariaSummary" aria-label="Results summary, go to results"></a>
+
+<div class="main-container">
+
+  <!-- ========== INPUTS ========== -->
+  <form class="input-panel" id="inputs" autocomplete="off" novalidate onsubmit="return false">
+
+    <section class="input-section">
+      <h2 data-i18n="secPatient">Patient</h2>
+
+      <div class="field-group">
+        <div class="label-row">
+          <label for="height" data-i18n="lblHeight">Height</label>
+          <div class="segmented segmented--sm" role="group" data-i18n-aria="ariaHeightUnit" aria-label="Height unit">
+            <button type="button" id="unit-cm" aria-pressed="true">cm</button>
+            <button type="button" id="unit-in" aria-pressed="false">in</button>
+          </div>
+        </div>
+        <input type="number" id="height" inputmode="decimal" step="any" placeholder="170" aria-describedby="err-height">
+        <div class="field-error" id="err-height" role="alert" hidden></div>
+      </div>
+
+      <div class="field-group">
+        <span class="label" id="lbl-sex" data-i18n="lblSex">Biological sex</span>
+        <div class="sex-toggle" role="group" aria-labelledby="lbl-sex">
+          <button type="button" id="sex-male" aria-pressed="false" data-i18n="male">Male</button>
+          <button type="button" id="sex-female" aria-pressed="false" data-i18n="female">Female</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="actual-weight"><span data-i18n="lblWeight">Actual body weight (kg)</span> <span class="label-aside" data-i18n="lblWeightAside">reference only</span></label>
+        <input type="number" id="actual-weight" inputmode="decimal" step="any" data-i18n-ph="phOptional" placeholder="optional" aria-describedby="err-actual-weight">
+        <div class="field-error" id="err-actual-weight" role="alert" hidden></div>
+        <div class="field-note" data-i18n="noteWeight">Shown for reference only. Never used to compute tidal volume.</div>
+      </div>
+    </section>
+
+    <section class="input-section">
+      <h2 data-i18n="secOxy">Oxygenation</h2>
+
+      <div class="field-group">
+        <label for="fio2" id="lbl-fio2">FiO<sub>2</sub> (%)</label>
+        <div class="fio2-row">
+          <input type="number" id="fio2" inputmode="numeric" step="1" placeholder="21–100" aria-describedby="err-fio2">
+          <input type="range" id="fio2-slider" class="unset" min="21" max="100" step="1" value="21" aria-labelledby="lbl-fio2">
+        </div>
+        <div class="field-error" id="err-fio2" role="alert" hidden></div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="pao2">PaO<sub>2</sub> (mmHg)</label>
+          <input type="number" id="pao2" inputmode="decimal" step="any" data-i18n-ph="phAbg" placeholder="blood gas" aria-describedby="err-pao2">
+          <div class="field-error" id="err-pao2" role="alert" hidden></div>
+        </div>
+        <div class="field-group">
+          <label for="spo2">SpO<sub>2</sub> (%)</label>
+          <input type="number" id="spo2" inputmode="decimal" step="any" data-i18n-ph="phSpo2" placeholder="pulse oximetry" aria-describedby="err-spo2">
+          <div class="field-error" id="err-spo2" role="alert" hidden></div>
+        </div>
+      </div>
+      <div class="field-note" data-i18n-html="noteOxy">If both are entered, PaO<sub>2</sub> takes priority. The S/F ratio is only interpreted when SpO<sub>2</sub> is 97% or lower.</div>
+    </section>
+
+    <section class="input-section">
+      <h2 data-i18n="secVent">Ventilator settings</h2>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="rr" data-i18n="lblRr">Respiratory rate (/min)</label>
+          <input type="number" id="rr" inputmode="numeric" step="any" placeholder="20" aria-describedby="err-rr">
+          <div class="field-error" id="err-rr" role="alert" hidden></div>
+        </div>
+        <div class="field-group">
+          <label for="vt" data-i18n-html="lblVt">Tidal volume V<sub>t</sub> (mL)</label>
+          <input type="number" id="vt" inputmode="numeric" step="any" placeholder="400" aria-describedby="err-vt">
+          <div class="field-error" id="err-vt" role="alert" hidden></div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="ppeak" data-i18n-html="lblPpeak">Peak pressure P<sub>peak</sub> (cmH<sub>2</sub>O)</label>
+          <input type="number" id="ppeak" inputmode="decimal" step="any" placeholder="30" aria-describedby="err-ppeak">
+          <div class="field-error" id="err-ppeak" role="alert" hidden></div>
+        </div>
+        <div class="field-group">
+          <label for="pplat" data-i18n-html="lblPplat">Plateau pressure P<sub>plat</sub> (cmH<sub>2</sub>O)</label>
+          <input type="number" id="pplat" inputmode="decimal" step="any" placeholder="25" aria-describedby="err-pplat">
+          <div class="field-error" id="err-pplat" role="alert" hidden></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="peep" data-i18n-html="lblPeep">PEEP (cmH<sub>2</sub>O)</label>
+        <input type="number" id="peep" inputmode="decimal" step="any" placeholder="10" aria-describedby="err-peep">
+        <div class="field-error" id="err-peep" role="alert" hidden></div>
+      </div>
+      <div class="field-note" data-i18n="noteVent">Volume-controlled ventilation, passive patient. Plateau pressure is measured during an inspiratory hold.</div>
+    </section>
+
+  </form>
+
+  <!-- ========== RESULTS ========== -->
+  <div class="results-panel" id="results">
+    <div class="severe-banner" id="severe-banner" role="alert" hidden></div>
+    <div class="metrics-grid" id="metrics-grid"></div>
+    <section class="action-panel">
+      <h2 data-i18n="secPlan">Action plan</h2>
+      <div id="action-plan-content" role="status" aria-live="polite"></div>
+    </section>
+  </div>
+
+</div>
+
+<!-- ========== ABOUT ========== -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <h2 data-i18n="secAbout">About this tool</h2>
+    <details><summary data-i18n="abFormulasT">Formulas and references</summary><div class="about-body" data-i18n-html="abFormulas"></div></details>
+    <details><summary data-i18n="abScopeT">Scope and limitations</summary><div class="about-body" data-i18n-html="abScope"></div></details>
+    <details><summary data-i18n="abChangesT">What changed since v1.0</summary><div class="about-body" data-i18n-html="abChanges"></div></details>
+    <details><summary data-i18n="abPrivacyT">Privacy</summary><div class="about-body" data-i18n-html="abPrivacy"></div></details>
+    <details><summary data-i18n="abCiteT">Article, source code and licence</summary><div class="about-body" data-i18n-html="abCite"></div></details>
+  </div>
+</section>
+
+<footer class="app-footer">
+  <span data-i18n="footDisclaimer">Decision-support demonstration. Does not replace clinical judgment.</span><br>
+  VentiProtect ARDS v1.1 · S.&nbsp;Rozencwajg, MD · 2026 ·
+  <a href="https://github.com/SachaRozencwajg/VentiProtect_ARDS" rel="noopener" data-i18n="footSource">Source code (MIT)</a> ·
+  <a href="https://doi.org/10.1016/j.accpm.2026.101934" rel="noopener" data-i18n="footArticle">Article</a>
+</footer>
+
+<!-- ============================================================
+     CALCULATION ENGINE
+     Pure functions, no access to the page. This block is what the
+     automated tests load and run (tests/test_engine.mjs).
+     ============================================================ -->
+<script id="vp-engine">
+const VentiProtect = (function () {
+  "use strict";
+
+  const VERSION = "1.1.0";
+
+  // Accepted input ranges. Outside them the value is rejected and nothing is computed from it.
+  const LIMITS = {
+    heightCm: [120, 230],
+    weightKg: [20, 300],
+    fio2:     [21, 100],
+    pao2:     [20, 600],
+    spo2:     [50, 100],
+    rr:       [4, 60],
+    vt:       [50, 1200],
+    ppeak:    [5, 80],
+    pplat:    [5, 60],
+    peep:     [0, 30]
+  };
+
+  const T = {
+    vtSafe: 6, vtWarn: 8, vtFloor: 4,          // mL/kg PBW
+    pplatSafe: 28, pplatWarn: 30,              // cmH2O
+    dpSafe: 13, dpWarn: 15, dpTarget: 14,      // cmH2O
+    mpSafe: 17, mpWarn: 27,                    // J/min
+    crsReduced: 40, crsSevere: 25,             // mL/cmH2O
+    pfSevere: 100, pfModerate: 200, pfMild: 300,
+    sfSevere: 148, sfModerate: 235, sfMild: 315,
+    spo2Max: 97,                               // S/F is validated for SpO2 <= 97% only
+    peepMin: 5                                 // Berlin classes require PEEP >= 5 cmH2O
+  };
+
+  function isNum(x) { return typeof x === "number" && isFinite(x); }
+
+  // Predicted body weight (kg).
+  // Devine BJ. Drug Intell Clin Pharm 1974;8:650-655, as used by the ARDS Network (N Engl J Med 2000;342:1301-1308).
+  function pbw(heightCm, sex) {
+    return (sex === "male" ? 50 : 45.5) + 0.91 * (heightCm - 152.4);
+  }
+
+  // Mechanical power (J/min), simplified equation for volume-controlled ventilation with constant flow.
+  // Gattinoni L et al. Intensive Care Med 2016;42:1567-1575. doi:10.1007/s00134-016-4505-2
+  // Restated in Chiumello D et al. Crit Care 2020;24:417. doi:10.1186/s13054-020-03116-w
+  //   MP = 0.098 x RR x Vt(L) x (Ppeak - 1/2 x (Pplat - PEEP))
+  function mechanicalPower(rr, vtMl, ppeak, pplat, peep) {
+    return 0.098 * rr * (vtMl / 1000) * (ppeak - (pplat - peep) / 2);
+  }
+
+  // Alert levels. Boundaries are written once, here.
+  const classify = {
+    // <= 6 safe, 6-8 warning, > 8 danger (mL/kg PBW)
+    vtPbw: function (x) { return x <= T.vtSafe ? "safe" : x <= T.vtWarn ? "warning" : "danger"; },
+    // < 28 safe, 28-30 warning, > 30 danger (cmH2O)
+    pplat: function (x) { return x < T.pplatSafe ? "safe" : x <= T.pplatWarn ? "warning" : "danger"; },
+    // Amato MB et al. N Engl J Med 2015;372:747-755. < 13 safe, 13-15 warning, > 15 danger
+    dp: function (x) { return x < T.dpSafe ? "safe" : x <= T.dpWarn ? "warning" : "danger"; },
+    // > 40 reduced, 25-40 severely reduced, < 25 critical (mL/cmH2O)
+    crs: function (x) { return x > T.crsReduced ? "reduced" : x >= T.crsSevere ? "severe" : "critical"; },
+    // < 17 safe, 17-27 warning (17 included), > 27 danger (J/min)
+    mp: function (x) { return x < T.mpSafe ? "safe" : x <= T.mpWarn ? "warning" : "danger"; },
+    // Berlin definition, JAMA 2012;307:2526-2533. Upper bounds are inclusive: P/F 200 is moderate.
+    pf: function (x) { return x <= T.pfSevere ? "severe" : x <= T.pfModerate ? "moderate" : x <= T.pfMild ? "mild" : "none"; },
+    // Rice TW et al. Chest 2007;132:410-417: S/F = 64 + 0.84 x P/F, so 148, 235 and 315 match P/F 100, 200 and 300.
+    sf: function (x) { return x <= T.sfSevere ? "severe" : x <= T.sfModerate ? "moderate" : x <= T.sfMild ? "mild" : "none"; }
+  };
+
+  /**
+   * raw: { heightCm, sex, weightKg, fio2, pao2, spo2, rr, vt, ppeak, pplat, peep }
+   *      numbers, or null when the field is empty. sex is "male", "female" or null.
+   */
+  function compute(raw) {
+    const errors = {};
+    const v = {};
+
+    // 1. Range checks: an out-of-range value is an error, never a result.
+    Object.keys(LIMITS).forEach(function (k) {
+      const x = raw[k];
+      if (x === null || x === undefined) { v[k] = null; return; }
+      if (!isNum(x) || x < LIMITS[k][0] || x > LIMITS[k][1]) { v[k] = null; errors[k] = "range"; return; }
+      v[k] = x;
+    });
+    const sex = raw.sex === "male" || raw.sex === "female" ? raw.sex : null;
+
+    // 2. Consistency between pressures.
+    let pplat = v.pplat, peep = v.peep, ppeak = v.ppeak;
+    if (pplat !== null && peep !== null && pplat <= peep) {
+      errors.pplat = "pplat_le_peep";
+      errors.peep = "pplat_le_peep";
+      pplat = null; peep = null;
+    }
+    if (ppeak !== null && v.pplat !== null && ppeak < v.pplat) {
+      errors.ppeak = "ppeak_lt_pplat";
+      ppeak = null;
+    }
+
+    // 3. Metrics.
+    const m = {};
+    let pbwKg = null;
+    if (v.heightCm !== null && sex) {
+      pbwKg = pbw(v.heightCm, sex);
+      m.pbw = { value: pbwKg, state: "neutral", sex: sex, actualKg: v.weightKg };
+    }
+    if (pbwKg !== null && v.vt !== null) {
+      const x = v.vt / pbwKg;
+      m.vtPbw = { value: x, state: classify.vtPbw(x) };
+    }
+    if (pplat !== null) {
+      m.pplat = { value: pplat, state: classify.pplat(pplat) };
+    }
+    let dp = null;
+    if (pplat !== null && peep !== null) {
+      dp = pplat - peep;
+      m.dp = { value: dp, state: classify.dp(dp) };
+    }
+    if (dp !== null && v.vt !== null) {
+      const c = v.vt / dp;
+      m.crs = { value: c, state: classify.crs(c) };
+    }
+    let mp = null;
+    if (v.rr !== null && v.vt !== null && ppeak !== null && pplat !== null && peep !== null) {
+      mp = mechanicalPower(v.rr, v.vt, ppeak, pplat, peep);
+      m.mp = { value: mp, state: classify.mp(mp) };
+    }
+
+    // 4. Oxygenation: PaO2 first (Berlin), SpO2 as a surrogate when no PaO2 was entered.
+    let oxy = null;
+    if (v.fio2 !== null) {
+      const f = v.fio2 / 100;
+      if (v.pao2 !== null) {
+        const pf = v.pao2 / f;
+        oxy = { path: "pf", value: pf, cls: classify.pf(pf), fio2: v.fio2 };
+      } else if (!errors.pao2 && v.spo2 !== null) {
+        const sf = v.spo2 / f;
+        oxy = { path: "sf", value: sf, cls: v.spo2 > T.spo2Max ? "uninterpretable" : classify.sf(sf), fio2: v.fio2 };
+      }
+      if (oxy && (oxy.cls === "mild" || oxy.cls === "moderate" || oxy.cls === "severe") && peep !== null && peep < T.peepMin) {
+        oxy.cls = "peep_lt5";
+        oxy.peep = peep;
+      }
+    }
+    const severe = !!oxy && oxy.cls === "severe";
+
+    // 5. Suggestions. Priority: driving pressure > mechanical power > Vt/PBW, then flags without a computed correction.
+    const suggestions = [];
+
+    if (m.dp && m.dp.state === "danger") {
+      if (v.vt !== null && pbwKg !== null) {
+        // Vt that brings the driving pressure to 14 cmH2O at unchanged compliance, never below 4 mL/kg PBW.
+        const vtCorr = v.vt * (T.dpTarget / dp);
+        const floor = T.vtFloor * pbwKg;
+        if (vtCorr >= floor) {
+          let vt = Math.floor(vtCorr);
+          if (vt < floor) vt = Math.ceil(floor);
+          suggestions.push({ type: "dp", priority: 1, state: "danger", mode: "reduce", dp: dp, vt: vt, vtPerKg: vt / pbwKg });
+        } else {
+          suggestions.push({ type: "dp", priority: 1, state: "danger", mode: "floor", dp: dp, vtFloor: Math.ceil(floor) });
+        }
+      } else {
+        suggestions.push({ type: "flag", metric: "dp", priority: 1, state: "danger", value: dp, reason: "need_vt_pbw" });
+      }
+    }
+
+    if (m.mp && m.mp.state !== "safe") {
+      // Largest RR (Vt unchanged) and largest Vt (RR unchanged) that keep MP below 17 J/min,
+      // with the pressure term held constant. Both are rounded down so that the result is below the target.
+      const k = ppeak - (pplat - peep) / 2;
+      let rrOpt = Math.floor(T.mpSafe / (0.098 * (v.vt / 1000) * k));
+      while (rrOpt > 0 && mechanicalPower(rrOpt, v.vt, ppeak, pplat, peep) >= T.mpSafe) rrOpt--;
+      let vtOpt = Math.floor((T.mpSafe / (0.098 * v.rr * k)) * 1000);
+      while (vtOpt > 0 && mechanicalPower(v.rr, vtOpt, ppeak, pplat, peep) >= T.mpSafe) vtOpt--;
+      suggestions.push({
+        type: "mp", priority: 2, state: m.mp.state, mp: mp,
+        rr: rrOpt, vt: vtOpt, currentRr: v.rr, currentVt: v.vt,
+        vtBelowFloor: pbwKg !== null ? vtOpt < T.vtFloor * pbwKg : null
+      });
+    }
+
+    if (m.vtPbw && m.vtPbw.state !== "safe") {
+      const target = Math.floor(T.vtSafe * pbwKg);
+      suggestions.push({
+        type: "vt", priority: 3, state: m.vtPbw.state, vtPbw: m.vtPbw.value,
+        target: target, delta: Math.round(v.vt - target), min: Math.ceil(T.vtFloor * pbwKg)
+      });
+    }
+
+    if (m.pplat && m.pplat.state !== "safe") {
+      suggestions.push({ type: "flag", metric: "pplat", priority: 4, state: m.pplat.state, value: pplat, reason: m.pplat.state });
+    }
+    if (m.dp && m.dp.state === "warning") {
+      suggestions.push({ type: "flag", metric: "dp", priority: 5, state: "warning", value: dp, reason: "warning_zone" });
+    }
+    suggestions.sort(function (a, b) { return a.priority - b.priority; });
+
+    // 6. "All protective" is only claimed when every ventilator input is there and every alert is green.
+    const missing = [];
+    if (v.heightCm === null) missing.push("heightCm");
+    if (!sex) missing.push("sex");
+    if (v.rr === null) missing.push("rr");
+    if (v.vt === null) missing.push("vt");
+    if (ppeak === null) missing.push("ppeak");
+    if (pplat === null) missing.push("pplat");
+    if (peep === null) missing.push("peep");
+    const complete = missing.length === 0;
+    const allSafe = complete && ["vtPbw", "pplat", "dp", "mp"].every(function (k) { return m[k] && m[k].state === "safe"; });
+    const anyInput = !!sex || Object.keys(LIMITS).some(function (k) { return raw[k] !== null && raw[k] !== undefined; });
+
+    return {
+      version: VERSION, errors: errors, metrics: m, oxy: oxy, suggestions: suggestions,
+      banner: { show: severe, usedSF: severe && oxy.path === "sf" },
+      missing: missing, complete: complete, allSafe: allSafe, anyInput: anyInput
+    };
+  }
+
+  return { VERSION: VERSION, LIMITS: LIMITS, THRESHOLDS: T, pbw: pbw, mechanicalPower: mechanicalPower, classify: classify, compute: compute };
+})();
+</script>
+
+<!-- ============================================================
+     INTERFACE
+     Reads the fields, calls the engine on every keystroke, writes the page.
+     Nothing is stored and nothing is sent.
+     ============================================================ -->
+<script>
+(function () {
+  "use strict";
+
+  const VP = VentiProtect;
+  const $ = function (id) { return document.getElementById(id); };
+
+  // ------------------------------------------------------------
+  // Texts (English and French)
+  // ------------------------------------------------------------
+  const REF = {
+    devine: 'Devine BJ. <em>Drug Intell Clin Pharm</em> 1974;8:650-655',
+    ardsnet: '<a href="https://pubmed.ncbi.nlm.nih.gov/10793162/" rel="noopener">ARDS Network. <em>N Engl J Med</em> 2000</a>',
+    amato: '<a href="https://pubmed.ncbi.nlm.nih.gov/25693014/" rel="noopener">Amato et al. <em>N Engl J Med</em> 2015</a>',
+    gattinoni: '<a href="https://pubmed.ncbi.nlm.nih.gov/27620287/" rel="noopener">Gattinoni et al. <em>Intensive Care Med</em> 2016</a>',
+    chiumello: '<a href="https://pubmed.ncbi.nlm.nih.gov/32653011/" rel="noopener">Chiumello et al. <em>Crit Care</em> 2020</a>',
+    berlin: '<a href="https://pubmed.ncbi.nlm.nih.gov/22797452/" rel="noopener">ARDS Definition Task Force. <em>JAMA</em> 2012</a>',
+    rice: '<a href="https://pubmed.ncbi.nlm.nih.gov/17573487/" rel="noopener">Rice et al. <em>Chest</em> 2007</a>',
+    brown: '<a href="https://pubmed.ncbi.nlm.nih.gov/26836924/" rel="noopener">Brown et al. <em>Chest</em> 2016</a>',
+    matthay: '<a href="https://pubmed.ncbi.nlm.nih.gov/37487152/" rel="noopener">Matthay et al. <em>Am J Respir Crit Care Med</em> 2024</a>',
+    proseva: '<a href="https://pubmed.ncbi.nlm.nih.gov/23688302/" rel="noopener">Guérin et al. <em>N Engl J Med</em> 2013</a>',
+    acurasys: '<a href="https://pubmed.ncbi.nlm.nih.gov/20843245/" rel="noopener">Papazian et al. <em>N Engl J Med</em> 2010</a>',
+    eolia: '<a href="https://pubmed.ncbi.nlm.nih.gov/29791822/" rel="noopener">Combes et al. <em>N Engl J Med</em> 2018</a>',
+    article: '<a href="https://doi.org/10.1016/j.accpm.2026.101934" rel="noopener">doi:10.1016/j.accpm.2026.101934</a>',
+    repo: '<a href="https://github.com/SachaRozencwajg/VentiProtect_ARDS" rel="noopener">github.com/SachaRozencwajg/VentiProtect_ARDS</a>'
+  };
+
+  const I18N = {
+    en: {
+      docTitle: "VentiProtect ARDS: lung-protective ventilation calculator",
+      subtitle: "Lung-Protective Ventilation Titration Assistant",
+      btnExample: "Example", btnReset: "Reset",
+      ariaLang: "Language", ariaTheme: "Switch between light and dark theme",
+      ariaHeightUnit: "Height unit", ariaSummary: "Results summary, go to results",
+      notice: "<strong>Educational and research tool</strong> accompanying a peer-reviewed technical note. Not a medical device. It does not replace clinical judgment or local protocols.",
+      secPatient: "Patient", secOxy: "Oxygenation", secVent: "Ventilator settings", secPlan: "Action plan", secAbout: "About this tool",
+      lblHeight: "Height", lblSex: "Biological sex", male: "Male", female: "Female",
+      lblWeight: "Actual body weight (kg)", lblWeightAside: "reference only", phOptional: "optional",
+      noteWeight: "Shown for reference only. Never used to compute tidal volume.",
+      phAbg: "blood gas", phSpo2: "pulse oximetry",
+      noteOxy: "If both are entered, PaO<sub>2</sub> takes priority. The S/F ratio is only interpreted when SpO<sub>2</sub> is 97% or lower.",
+      lblRr: "Respiratory rate (/min)",
+      lblVt: "Tidal volume V<sub>t</sub> (mL)",
+      lblPpeak: "Peak pressure P<sub>peak</sub> (cmH<sub>2</sub>O)",
+      lblPplat: "Plateau pressure P<sub>plat</sub> (cmH<sub>2</sub>O)",
+      lblPeep: "PEEP (cmH<sub>2</sub>O)",
+      noteVent: "Volume-controlled ventilation, passive patient. Plateau pressure is measured during an inspiratory hold.",
+
+      errRange: "Expected value: {lo} to {hi} {unit}.",
+      errHeightInches: "Expected value: 120 to 230 cm. If this is in inches, switch the unit to “in”.",
+      errPao2Low: "Expected value: 20 to 600 mmHg. If this is in kPa, multiply by 7.5.",
+      errPplatPeep: "Plateau pressure must be higher than PEEP.",
+      errPpeakPplat: "Peak pressure cannot be lower than plateau pressure.",
+
+      cPbw: "Predicted body weight", cVt: "Vt / PBW", cPplat: "Plateau pressure", cDp: "Driving pressure",
+      cCrs: "Compliance (Crs)", cMp: "Mechanical power", cOxy: "Oxygenation", cPf: "P/F ratio", cSf: "S/F ratio",
+      needPbw: "Needs height and sex", needVt: "Needs height, sex and Vt", needPplat: "Needs Pplat",
+      needDp: "Needs Pplat and PEEP", needCrs: "Needs Vt, Pplat and PEEP",
+      needMp: "Needs RR, Vt, Ppeak, Pplat and PEEP", needOxy: "Needs FiO₂ and PaO₂ or SpO₂",
+      safe: "Protective", warning: "Warning", danger: "Danger",
+      crsReduced: "Reduced", crsSevere: "Severely reduced", crsCritical: "Critical",
+      ardsMild: "Mild ARDS", ardsModerate: "Moderate ARDS", ardsSevere: "Severe ARDS", est: " (est.)",
+      pfNone: "P/F > 300", sfNone: "S/F > 315",
+      oxyUninterp: "Not interpretable", oxyPeep: "Not classified: PEEP < 5",
+      pbwActual: "Actual weight: {kg} kg",
+      dCrs: "Total respiratory system compliance (lung and chest wall). Interpret with caution in obesity, pleural effusion or raised intra-abdominal pressure.",
+      dMp: "Simplified equation for volume-controlled ventilation with constant flow.",
+      dPf: "P/F depends on FiO₂ (current FiO₂: {fio2}%). Berlin classes require PEEP ≥ 5 cmH₂O.",
+      dSf: "Estimate from SpO₂: an arterial blood gas is strongly recommended. S/F depends on FiO₂ (current FiO₂: {fio2}%). Classes require PEEP ≥ 5 cmH₂O.",
+      dUninterp: "The S/F ratio is only validated for SpO₂ ≤ 97%. Lower FiO₂ if appropriate, or obtain an arterial blood gas.",
+      dPeep: "Berlin severity classes require PEEP ≥ 5 cmH₂O (current PEEP: {peep}).",
+
+      chipVt: "Vt/kg", chipPplat: "Pplat", chipDp: "ΔP", chipMp: "MP",
+
+      bannerTitle: "Severe ARDS: discuss with your team",
+      bannerProne: "Prone positioning ≥ 16 h/day",
+      bannerNmb: "Early neuromuscular blockade if asynchrony",
+      bannerEcmo: "ECMO referral if P/F < 80 despite optimisation",
+      bannerSf: "Severity is estimated from SpO₂. Obtain an arterial blood gas to confirm P/F ≤ 100 before escalating to prone positioning or ECMO.",
+
+      planEmpty: "Enter patient data to begin.",
+      planAllSafe: "✓ All ventilation parameters are within the protective range.",
+      planIncomplete: "To assess every parameter, complete or correct: {list}.",
+      planCo2: "Reducing Vt or RR raises PaCO₂. PaCO₂ and pH are not assessed by this tool: check an arterial blood gas after any change.",
+      nmHeight: "height", nmSex: "sex", nmRr: "RR", nmVt: "Vt", nmPpeak: "Ppeak", nmPplat: "Pplat", nmPeep: "PEEP",
+      sDpTitle: "Driving pressure {dp} cmH₂O (target ≤ 15)",
+      sDpReduce: "→ Reduce Vt to <strong>{vt} mL</strong> ({kg} mL/kg PBW) to target a driving pressure ≤ 14 cmH₂O",
+      sDpReduceNote: "Linear approximation, valid in passive patients.",
+      sDpFloor: "→ Minimum safe Vt reached (4 mL/kg PBW = <strong>{vt} mL</strong>).",
+      sDpFloorNote: "Consider neuromuscular blockade, prone positioning, or ECMO referral if refractory.",
+      sDpNeed: "→ Enter height, sex and tidal volume to compute a corrective Vt.",
+      sDpWarnTitle: "Driving pressure {dp} cmH₂O (warning zone 13 to 15)",
+      sDpWarn: "→ No correction is computed below 15 cmH₂O.",
+      sMpTitle: "Mechanical power {mp} J/min (target < 17)",
+      sMpA: "→ <strong>Option A:</strong> reduce RR to <strong>{rr}/min</strong> (Vt unchanged at {vt} mL)",
+      sMpB: "→ <strong>Option B:</strong> reduce Vt to <strong>{vt} mL</strong> (RR unchanged at {rr}/min)",
+      sMpBFloor: " This is below 4 mL/kg PBW: prefer option A.",
+      sMpNote: "Option B is preferred if Vt/PBW is also elevated. Pressures are assumed unchanged; they fall when Vt is reduced, so option B is a conservative estimate.",
+      sVtTitle: "Vt/PBW {x} mL/kg (target ≤ 6)",
+      sVtTarget: "→ Target protective Vt: <strong>{vt} mL</strong> (6 mL/kg PBW)",
+      sVtDelta: "Suggested reduction: <strong>{d} mL</strong> from the current setting",
+      sVtMin: "Absolute minimum: {vt} mL (4 mL/kg PBW)",
+      sPplatDangerTitle: "Plateau pressure {p} cmH₂O (target ≤ 30)",
+      sPplatWarnTitle: "Plateau pressure {p} cmH₂O (warning zone 28 to 30)",
+      sPplat: "→ No corrective value is computed for plateau pressure: reassess Vt and PEEP.",
+
+      footDisclaimer: "Decision-support demonstration. Does not replace clinical judgment.",
+      footSource: "Source code (MIT)", footArticle: "Article",
+
+      abFormulasT: "Formulas and references",
+      abFormulas:
+        "<ul>" +
+        "<li><strong>Predicted body weight (PBW):</strong> men <code>50 + 0.91 × (height in cm − 152.4)</code>, women <code>45.5 + 0.91 × (height in cm − 152.4)</code>. " + REF.devine + "; " + REF.ardsnet + ".</li>" +
+        "<li><strong>Tidal volume:</strong> <code>Vt / PBW</code>. Protective ≤ 6 mL/kg, warning 6 to 8, danger > 8. Floor used in suggestions: 4 mL/kg. " + REF.ardsnet + ".</li>" +
+        "<li><strong>Plateau pressure:</strong> protective < 28 cmH₂O, warning 28 to 30, danger > 30.</li>" +
+        "<li><strong>Driving pressure:</strong> <code>ΔP = Pplat − PEEP</code>. Protective < 13 cmH₂O, warning 13 to 15, danger > 15. " + REF.amato + ".</li>" +
+        "<li><strong>Compliance:</strong> <code>Crs = Vt / ΔP</code>. Above 40 mL/cmH₂O reduced, 25 to 40 severely reduced, below 25 critical. " + REF.amato + ".</li>" +
+        "<li><strong>Mechanical power:</strong> <code>MP = 0.098 × RR × Vt (L) × (Ppeak − ½ × (Pplat − PEEP))</code>. Protective < 17 J/min, warning 17 to 27, danger > 27. " + REF.gattinoni + "; " + REF.chiumello + ".</li>" +
+        "<li><strong>P/F ratio:</strong> <code>PaO₂ / FiO₂</code>. Mild 200 < P/F ≤ 300, moderate 100 < P/F ≤ 200, severe ≤ 100, with PEEP ≥ 5 cmH₂O. " + REF.berlin + ".</li>" +
+        "<li><strong>S/F ratio:</strong> <code>SpO₂ / FiO₂</code>, only when SpO₂ ≤ 97%. Thresholds 148, 235 and 315 correspond to P/F 100, 200 and 300 through <code>S/F = 64 + 0.84 × P/F</code>. " + REF.rice + "; " + REF.brown + "; " + REF.matthay + ".</li>" +
+        "<li><strong>Severe ARDS banner:</strong> prone positioning (" + REF.proseva + "), neuromuscular blockade (" + REF.acurasys + "), ECMO (" + REF.eolia + ").</li>" +
+        "</ul>",
+      abScopeT: "Scope and limitations",
+      abScope:
+        "<p>VentiProtect ARDS was built as a proof of concept for a published technical note. It is an educational and research tool, not a medical device, and it has not been evaluated in a clinical study.</p>" +
+        "<ul>" +
+        "<li>It is written for adult patients who are passive on volume-controlled ventilation. The tidal volume correction for driving pressure assumes a constant compliance and does not hold in a patient with spontaneous effort.</li>" +
+        "<li>The mechanical power equation applies to volume-controlled ventilation with constant flow, not to pressure-controlled modes.</li>" +
+        "<li>Compliance is that of the whole respiratory system, lung and chest wall together.</li>" +
+        "<li>PaCO₂ and pH are not assessed, so permissive hypercapnia and respiratory acidosis cannot be judged here.</li>" +
+        "<li>Thresholds, targets and safety floors were chosen by a single author from the literature. They have not been validated by a consensus process.</li>" +
+        "</ul>" +
+        "<p>Always assess the patient individually and follow your local protocols.</p>",
+      abChangesT: "What changed since v1.0",
+      abChanges:
+        "<p>v1.0 is the version described in the article. It is kept unchanged in the repository (<code>app/index.html</code>). v1.1 changes the following.</p>" +
+        "<ul>" +
+        "<li><strong>Mechanical power</strong> now uses the published simplified equation, which needs the peak pressure. v1.0 computed <code>0.098 × RR × Vt × (Pplat − PEEP/2)</code>.</li>" +
+        "<li><strong>S/F thresholds</strong> are 148, 235 and 315, and the ratio is only interpreted for SpO₂ ≤ 97%. v1.0 used 146, 236 and 296.</li>" +
+        "<li><strong>Plateau pressure</strong> has its own card and alert.</li>" +
+        "<li><strong>Input checks:</strong> values outside the accepted ranges, or inconsistent pressures, are reported as errors and nothing is computed from them. FiO₂ no longer has a default value.</li>" +
+        "<li>No Berlin class is shown when PEEP is below 5 cmH₂O.</li>" +
+        "<li>The “all parameters protective” message only appears when every ventilator input is present and every alert is green.</li>" +
+        "<li>Suggested values are rounded towards the protective side.</li>" +
+        "<li>Height in cm or inches, English and French, light and dark themes, results summary on small screens.</li>" +
+        "<li>The page no longer loads a web font: it makes no network request at all.</li>" +
+        "</ul>",
+      abPrivacyT: "Privacy",
+      abPrivacy:
+        "<p>Everything is computed in your browser. Nothing is stored (no cookie, no local storage), nothing is sent, and there is no analytics. A content security policy in the page forbids any network request. Do not enter data that identifies a patient: none is needed.</p>" +
+        "<p>You can save this page and use it offline.</p>",
+      abCiteT: "Article, source code and licence",
+      abCite:
+        "<p>Rozencwajg S. VentiProtect ARDS, vibe coding lung protection: a five-minute clinician-built ventilator tool as proof-of-concept for physician prompt engineering. <em>Anaesth Crit Care Pain Med</em> 2026:101934. " + REF.article + "</p>" +
+        "<p>Source code, prompt, pre-prompt transcript and tests: " + REF.repo + ". Free to reuse and adapt under the MIT licence.</p>"
+    },
+
+    fr: {
+      docTitle: "VentiProtect ARDS : calculateur de ventilation protectrice",
+      subtitle: "Assistant de réglage de la ventilation protectrice",
+      btnExample: "Exemple", btnReset: "Réinitialiser",
+      ariaLang: "Langue", ariaTheme: "Basculer entre thème clair et thème sombre",
+      ariaHeightUnit: "Unité de taille", ariaSummary: "Résumé des résultats, aller aux résultats",
+      notice: "<strong>Outil pédagogique et de recherche</strong>, associé à une note technique publiée dans une revue à comité de lecture. Ce n'est pas un dispositif médical. Il ne remplace ni le jugement clinique ni les protocoles locaux.",
+      secPatient: "Patient", secOxy: "Oxygénation", secVent: "Réglages du ventilateur", secPlan: "Plan d'action", secAbout: "À propos de cet outil",
+      lblHeight: "Taille", lblSex: "Sexe biologique", male: "Homme", female: "Femme",
+      lblWeight: "Poids réel (kg)", lblWeightAside: "à titre indicatif", phOptional: "facultatif",
+      noteWeight: "Affiché à titre indicatif. Jamais utilisé pour calculer le volume courant.",
+      phAbg: "gaz du sang", phSpo2: "oxymétrie",
+      noteOxy: "Si les deux sont saisies, la PaO<sub>2</sub> est prioritaire. Le rapport S/F n'est interprété que si la SpO<sub>2</sub> est inférieure ou égale à 97&nbsp;%.",
+      lblRr: "Fréquence respiratoire (/min)",
+      lblVt: "Volume courant V<sub>t</sub> (mL)",
+      lblPpeak: "Pression de crête P<sub>crête</sub> (cmH<sub>2</sub>O)",
+      lblPplat: "Pression de plateau P<sub>plat</sub> (cmH<sub>2</sub>O)",
+      lblPeep: "PEP (cmH<sub>2</sub>O)",
+      noteVent: "Ventilation en volume contrôlé, patient passif. La pression de plateau se mesure en pause inspiratoire.",
+
+      errRange: "Valeur attendue : {lo} à {hi} {unit}.",
+      errHeightInches: "Valeur attendue : 120 à 230 cm. Si la taille est en pouces, choisissez l'unité « in ».",
+      errPao2Low: "Valeur attendue : 20 à 600 mmHg. Si la valeur est en kPa, multipliez par 7,5.",
+      errPplatPeep: "La pression de plateau doit être supérieure à la PEP.",
+      errPpeakPplat: "La pression de crête ne peut pas être inférieure à la pression de plateau.",
+
+      cPbw: "Poids prédit", cVt: "Vt / poids prédit", cPplat: "Pression de plateau", cDp: "Pression motrice",
+      cCrs: "Compliance (Crs)", cMp: "Puissance mécanique", cOxy: "Oxygénation", cPf: "Rapport P/F", cSf: "Rapport S/F",
+      needPbw: "Nécessite taille et sexe", needVt: "Nécessite taille, sexe et Vt", needPplat: "Nécessite Pplat",
+      needDp: "Nécessite Pplat et PEP", needCrs: "Nécessite Vt, Pplat et PEP",
+      needMp: "Nécessite FR, Vt, Pcrête, Pplat et PEP", needOxy: "Nécessite FiO₂ et PaO₂ ou SpO₂",
+      safe: "Protecteur", warning: "Vigilance", danger: "Danger",
+      crsReduced: "Réduite", crsSevere: "Très réduite", crsCritical: "Critique",
+      ardsMild: "SDRA léger", ardsModerate: "SDRA modéré", ardsSevere: "SDRA sévère", est: " (est.)",
+      pfNone: "P/F > 300", sfNone: "S/F > 315",
+      oxyUninterp: "Non interprétable", oxyPeep: "Non classé : PEP < 5",
+      pbwActual: "Poids réel : {kg} kg",
+      dCrs: "Compliance de l'ensemble du système respiratoire (poumon et paroi). À interpréter avec prudence en cas d'obésité, d'épanchement pleural ou d'hyperpression abdominale.",
+      dMp: "Équation simplifiée, pour une ventilation en volume contrôlé à débit constant.",
+      dPf: "Le P/F dépend de la FiO₂ (FiO₂ actuelle : {fio2} %). Les classes de Berlin exigent une PEP ≥ 5 cmH₂O.",
+      dSf: "Estimation à partir de la SpO₂ : un gaz du sang artériel est fortement recommandé. Le S/F dépend de la FiO₂ (FiO₂ actuelle : {fio2} %). Les classes exigent une PEP ≥ 5 cmH₂O.",
+      dUninterp: "Le rapport S/F n'est validé que pour une SpO₂ ≤ 97 %. Baisser la FiO₂ si c'est approprié, ou faire un gaz du sang artériel.",
+      dPeep: "Les classes de sévérité de Berlin exigent une PEP ≥ 5 cmH₂O (PEP actuelle : {peep}).",
+
+      chipVt: "Vt/kg", chipPplat: "Pplat", chipDp: "ΔP", chipMp: "PM",
+
+      bannerTitle: "SDRA sévère : à discuter en équipe",
+      bannerProne: "Décubitus ventral ≥ 16 h/jour",
+      bannerNmb: "Curarisation précoce en cas d'asynchronies",
+      bannerEcmo: "Avis ECMO si P/F < 80 malgré l'optimisation",
+      bannerSf: "La sévérité est estimée à partir de la SpO₂. Faire un gaz du sang artériel pour confirmer un P/F ≤ 100 avant d'envisager le décubitus ventral ou l'ECMO.",
+
+      planEmpty: "Saisissez les données du patient pour commencer.",
+      planAllSafe: "✓ Tous les paramètres ventilatoires sont dans la zone protectrice.",
+      planIncomplete: "Pour évaluer tous les paramètres, complétez ou corrigez : {list}.",
+      planCo2: "Réduire le Vt ou la FR augmente la PaCO₂. La PaCO₂ et le pH ne sont pas évalués par cet outil : contrôler un gaz du sang artériel après toute modification.",
+      nmHeight: "taille", nmSex: "sexe", nmRr: "FR", nmVt: "Vt", nmPpeak: "Pcrête", nmPplat: "Pplat", nmPeep: "PEP",
+      sDpTitle: "Pression motrice {dp} cmH₂O (cible ≤ 15)",
+      sDpReduce: "→ Réduire le Vt à <strong>{vt} mL</strong> ({kg} mL/kg de poids prédit) pour viser une pression motrice ≤ 14 cmH₂O",
+      sDpReduceNote: "Approximation linéaire, valable chez un patient passif.",
+      sDpFloor: "→ Vt minimal de sécurité atteint (4 mL/kg de poids prédit = <strong>{vt} mL</strong>).",
+      sDpFloorNote: "À discuter : curarisation, décubitus ventral, ou avis ECMO si la situation est réfractaire.",
+      sDpNeed: "→ Saisissez la taille, le sexe et le volume courant pour calculer un Vt corrigé.",
+      sDpWarnTitle: "Pression motrice {dp} cmH₂O (zone de vigilance 13 à 15)",
+      sDpWarn: "→ Aucune correction n'est calculée en dessous de 15 cmH₂O.",
+      sMpTitle: "Puissance mécanique {mp} J/min (cible < 17)",
+      sMpA: "→ <strong>Option A :</strong> réduire la FR à <strong>{rr}/min</strong> (Vt inchangé à {vt} mL)",
+      sMpB: "→ <strong>Option B :</strong> réduire le Vt à <strong>{vt} mL</strong> (FR inchangée à {rr}/min)",
+      sMpBFloor: " Cette valeur est inférieure à 4 mL/kg de poids prédit : préférer l'option A.",
+      sMpNote: "L'option B est préférable si le Vt/poids prédit est aussi élevé. Les pressions sont supposées inchangées ; elles baissent quand le Vt diminue, l'option B est donc une estimation prudente.",
+      sVtTitle: "Vt/poids prédit {x} mL/kg (cible ≤ 6)",
+      sVtTarget: "→ Vt protecteur cible : <strong>{vt} mL</strong> (6 mL/kg de poids prédit)",
+      sVtDelta: "Réduction suggérée : <strong>{d} mL</strong> par rapport au réglage actuel",
+      sVtMin: "Minimum absolu : {vt} mL (4 mL/kg de poids prédit)",
+      sPplatDangerTitle: "Pression de plateau {p} cmH₂O (cible ≤ 30)",
+      sPplatWarnTitle: "Pression de plateau {p} cmH₂O (zone de vigilance 28 à 30)",
+      sPplat: "→ Aucune valeur corrective n'est calculée pour la pression de plateau : réévaluer le Vt et la PEP.",
+
+      footDisclaimer: "Démonstration d'aide à la décision. Ne remplace pas le jugement clinique.",
+      footSource: "Code source (MIT)", footArticle: "Article",
+
+      abFormulasT: "Formules et références",
+      abFormulas:
+        "<ul>" +
+        "<li><strong>Poids prédit :</strong> hommes <code>50 + 0,91 × (taille en cm − 152,4)</code>, femmes <code>45,5 + 0,91 × (taille en cm − 152,4)</code>. " + REF.devine + " ; " + REF.ardsnet + ".</li>" +
+        "<li><strong>Volume courant :</strong> <code>Vt / poids prédit</code>. Protecteur ≤ 6 mL/kg, vigilance de 6 à 8, danger > 8. Plancher utilisé dans les suggestions : 4 mL/kg. " + REF.ardsnet + ".</li>" +
+        "<li><strong>Pression de plateau :</strong> protecteur < 28 cmH₂O, vigilance de 28 à 30, danger > 30.</li>" +
+        "<li><strong>Pression motrice :</strong> <code>ΔP = Pplat − PEP</code>. Protecteur < 13 cmH₂O, vigilance de 13 à 15, danger > 15. " + REF.amato + ".</li>" +
+        "<li><strong>Compliance :</strong> <code>Crs = Vt / ΔP</code>. Au-dessus de 40 mL/cmH₂O réduite, de 25 à 40 très réduite, en dessous de 25 critique. " + REF.amato + ".</li>" +
+        "<li><strong>Puissance mécanique :</strong> <code>PM = 0,098 × FR × Vt (L) × (Pcrête − ½ × (Pplat − PEP))</code>. Protecteur < 17 J/min, vigilance de 17 à 27, danger > 27. " + REF.gattinoni + " ; " + REF.chiumello + ".</li>" +
+        "<li><strong>Rapport P/F :</strong> <code>PaO₂ / FiO₂</code>. Léger 200 < P/F ≤ 300, modéré 100 < P/F ≤ 200, sévère ≤ 100, avec une PEP ≥ 5 cmH₂O. " + REF.berlin + ".</li>" +
+        "<li><strong>Rapport S/F :</strong> <code>SpO₂ / FiO₂</code>, seulement si SpO₂ ≤ 97 %. Les seuils 148, 235 et 315 correspondent aux P/F 100, 200 et 300 par la relation <code>S/F = 64 + 0,84 × P/F</code>. " + REF.rice + " ; " + REF.brown + " ; " + REF.matthay + ".</li>" +
+        "<li><strong>Bandeau SDRA sévère :</strong> décubitus ventral (" + REF.proseva + "), curarisation (" + REF.acurasys + "), ECMO (" + REF.eolia + ").</li>" +
+        "</ul>",
+      abScopeT: "Cadre d'usage et limites",
+      abScope:
+        "<p>VentiProtect ARDS a été construit comme preuve de concept pour une note technique publiée. C'est un outil pédagogique et de recherche, pas un dispositif médical, et il n'a pas été évalué dans une étude clinique.</p>" +
+        "<ul>" +
+        "<li>Il s'adresse à des patients adultes, passifs, en ventilation en volume contrôlé. La correction du volume courant pour la pression motrice suppose une compliance constante et n'est pas valable chez un patient qui a des efforts spontanés.</li>" +
+        "<li>L'équation de puissance mécanique s'applique à la ventilation en volume contrôlé à débit constant, pas aux modes en pression contrôlée.</li>" +
+        "<li>La compliance est celle de l'ensemble du système respiratoire, poumon et paroi.</li>" +
+        "<li>La PaCO₂ et le pH ne sont pas évalués : l'hypercapnie permissive et l'acidose respiratoire ne peuvent pas être jugées ici.</li>" +
+        "<li>Les seuils, les cibles et les planchers de sécurité ont été choisis par un seul auteur à partir de la littérature. Ils n'ont pas été validés par une méthode de consensus.</li>" +
+        "</ul>" +
+        "<p>Évaluez toujours le patient individuellement et suivez vos protocoles locaux.</p>",
+      abChangesT: "Ce qui change depuis la v1.0",
+      abChanges:
+        "<p>La v1.0 est la version décrite dans l'article. Elle est conservée telle quelle dans le dépôt (<code>app/index.html</code>). La v1.1 apporte les changements suivants.</p>" +
+        "<ul>" +
+        "<li><strong>La puissance mécanique</strong> utilise désormais l'équation simplifiée publiée, qui nécessite la pression de crête. La v1.0 calculait <code>0,098 × FR × Vt × (Pplat − PEP/2)</code>.</li>" +
+        "<li><strong>Les seuils du S/F</strong> sont 148, 235 et 315, et le rapport n'est interprété que pour une SpO₂ ≤ 97 %. La v1.0 utilisait 146, 236 et 296.</li>" +
+        "<li><strong>La pression de plateau</strong> a sa propre carte et sa propre alerte.</li>" +
+        "<li><strong>Contrôles de saisie :</strong> les valeurs hors bornes et les pressions incohérentes sont signalées comme des erreurs, et rien n'est calculé à partir d'elles. La FiO₂ n'a plus de valeur par défaut.</li>" +
+        "<li>Aucune classe de Berlin n'est affichée si la PEP est inférieure à 5 cmH₂O.</li>" +
+        "<li>Le message « tous les paramètres sont protecteurs » n'apparaît que si tous les réglages sont saisis et toutes les alertes au vert.</li>" +
+        "<li>Les valeurs suggérées sont arrondies du côté protecteur.</li>" +
+        "<li>Taille en cm ou en pouces, anglais et français, thèmes clair et sombre, résumé des résultats sur petit écran.</li>" +
+        "<li>La page ne charge plus de police en ligne : elle n'émet aucune requête réseau.</li>" +
+        "</ul>",
+      abPrivacyT: "Confidentialité",
+      abPrivacy:
+        "<p>Tout est calculé dans votre navigateur. Rien n'est enregistré (ni cookie, ni stockage local), rien n'est envoyé, et il n'y a aucune mesure d'audience. Une politique de sécurité inscrite dans la page interdit toute requête réseau. Ne saisissez aucune donnée identifiant un patient : aucune n'est nécessaire.</p>" +
+        "<p>Vous pouvez enregistrer cette page et l'utiliser hors ligne.</p>",
+      abCiteT: "Article, code source et licence",
+      abCite:
+        "<p>Rozencwajg S. VentiProtect ARDS, vibe coding lung protection: a five-minute clinician-built ventilator tool as proof-of-concept for physician prompt engineering. <em>Anaesth Crit Care Pain Med</em> 2026:101934. " + REF.article + "</p>" +
+        "<p>Code source, prompt, transcript de la réflexion préalable et tests : " + REF.repo + ". Réutilisation et adaptation libres, sous licence MIT.</p>"
+    }
+  };
+
+  // ------------------------------------------------------------
+  // State
+  // ------------------------------------------------------------
+  const query = new URLSearchParams(location.search);
+  let lang = query.get("lang") === "fr" || query.get("lang") === "en"
+    ? query.get("lang")
+    : ((navigator.language || "en").toLowerCase().indexOf("fr") === 0 ? "fr" : "en");
+  let sex = null;
+  let heightUnit = "cm";
+
+  const FIELDS = {            // engine key -> field id
+    heightCm: "height", weightKg: "actual-weight", fio2: "fio2", pao2: "pao2", spo2: "spo2",
+    rr: "rr", vt: "vt", ppeak: "ppeak", pplat: "pplat", peep: "peep"
+  };
+  const UNITS = { weightKg: "kg", fio2: "%", pao2: "mmHg", spo2: "%", rr: "/min", vt: "mL", ppeak: "cmH₂O", pplat: "cmH₂O", peep: "cmH₂O" };
+
+  function t(key, vars) {
+    let s = I18N[lang][key];
+    if (s === undefined) s = I18N.en[key];
+    if (s === undefined) return key;
+    if (vars) Object.keys(vars).forEach(function (k) { s = s.split("{" + k + "}").join(vars[k]); });
+    return s;
+  }
+  function fmt(x, digits) {
+    const s = x.toFixed(digits);
+    return lang === "fr" ? s.replace(".", ",") : s;
+  }
+
+  function applyStaticTexts() {
+    document.documentElement.lang = lang;
+    document.title = t("docTitle");
+    document.querySelectorAll("[data-i18n]").forEach(function (e) { e.textContent = t(e.getAttribute("data-i18n")); });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (e) { e.innerHTML = t(e.getAttribute("data-i18n-html")); });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function (e) { e.placeholder = t(e.getAttribute("data-i18n-ph")); });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (e) { e.setAttribute("aria-label", t(e.getAttribute("data-i18n-aria"))); });
+    $("lang-en").setAttribute("aria-pressed", String(lang === "en"));
+    $("lang-fr").setAttribute("aria-pressed", String(lang === "fr"));
+  }
+
+  // ------------------------------------------------------------
+  // Reading the fields
+  // ------------------------------------------------------------
+  // Empty field -> null. Anything that is not a number -> NaN (reported as an error by the engine).
+  function readNumber(el) {
+    if (el.validity && el.validity.badInput) return NaN;
+    const s = el.value.trim();
+    if (s === "") return null;
+    const n = Number(s.replace(",", "."));
+    return isFinite(n) ? n : NaN;
+  }
+
+  function readInputs() {
+    const raw = { sex: sex };
+    Object.keys(FIELDS).forEach(function (k) { raw[k] = readNumber($(FIELDS[k])); });
+    if (raw.heightCm !== null && heightUnit === "in") raw.heightCm = raw.heightCm * 2.54;
+    return raw;
+  }
+
+  // ------------------------------------------------------------
+  // Rendering
+  // ------------------------------------------------------------
+  // The page is only touched when the content really changes: no flicker while typing.
+  function setHTML(el, html) {
+    if (el.__html !== html) { el.innerHTML = html; el.__html = html; }
+  }
+
+  function errorText(key, code, raw) {
+    if (code === "pplat_le_peep") return t("errPplatPeep");
+    if (code === "ppeak_lt_pplat") return t("errPpeakPplat");
+    if (key === "heightCm") {
+      if (heightUnit === "in") return t("errRange", { lo: 48, hi: 90, unit: "in" });
+      if (typeof raw.heightCm === "number" && raw.heightCm >= 48 && raw.heightCm <= 90) return t("errHeightInches");
+      return t("errRange", { lo: 120, hi: 230, unit: "cm" });
+    }
+    if (key === "pao2" && typeof raw.pao2 === "number" && raw.pao2 < VP.LIMITS.pao2[0]) return t("errPao2Low");
+    return t("errRange", { lo: VP.LIMITS[key][0], hi: VP.LIMITS[key][1], unit: UNITS[key] });
+  }
+
+  function renderErrors(res, raw) {
+    Object.keys(FIELDS).forEach(function (k) {
+      const input = $(FIELDS[k]);
+      const box = $("err-" + FIELDS[k]);
+      const code = res.errors[k];
+      if (code) {
+        input.setAttribute("aria-invalid", "true");
+        box.textContent = errorText(k, code, raw);
+        box.hidden = false;
+      } else {
+        input.removeAttribute("aria-invalid");
+        box.textContent = "";
+        box.hidden = true;
+      }
+    });
+  }
+
+  function card(id, label, metric, value, unit, status, extraClass, disclaimer, need) {
+    if (!metric) {
+      return '<div class="metric-card empty" id="card-' + id + '">' +
+               '<div class="metric-label">' + label + '</div>' +
+               '<div class="metric-value">–</div>' +
+               '<div class="metric-status">' + need + '</div>' +
+             '</div>';
+    }
+    return '<div class="metric-card ' + extraClass + '" id="card-' + id + '">' +
+             '<div class="metric-label">' + label + '</div>' +
+             '<div class="metric-value">' + value + (unit ? '<span class="metric-unit">' + unit + '</span>' : '') + '</div>' +
+             '<div class="metric-status">' + status + '</div>' +
+             (disclaimer ? '<div class="metric-disclaimer">' + disclaimer + '</div>' : '') +
+           '</div>';
+  }
+
+  function oxyView(oxy) {
+    if (!oxy) return null;
+    const isSf = oxy.path === "sf";
+    const classes = { mild: "ardsMild", moderate: "ardsModerate", severe: "ardsSevere" };
+    let status, css, disclaimer;
+    if (classes[oxy.cls]) {
+      status = t(classes[oxy.cls]) + (isSf ? t("est") : "");
+      css = oxy.cls;
+      disclaimer = t(isSf ? "dSf" : "dPf", { fio2: fmt(oxy.fio2, 0) });
+    } else if (oxy.cls === "uninterpretable") {
+      status = t("oxyUninterp"); css = "neutral"; disclaimer = t("dUninterp");
+    } else if (oxy.cls === "peep_lt5") {
+      status = t("oxyPeep"); css = "warning"; disclaimer = t("dPeep", { peep: fmt(oxy.peep, 0) });
+    } else {
+      status = t(isSf ? "sfNone" : "pfNone"); css = "neutral";
+      disclaimer = t(isSf ? "dSf" : "dPf", { fio2: fmt(oxy.fio2, 0) });
+    }
+    return {
+      label: t(isSf ? "cSf" : "cPf"), chip: isSf ? "S/F" : "P/F",
+      value: (isSf ? "≈" : "") + fmt(oxy.value, 0), unit: isSf ? "" : "mmHg",
+      status: status, css: css, disclaimer: disclaimer
+    };
+  }
+
+  function renderCards(res) {
+    const m = res.metrics;
+    const st = function (x) { return t(x.state); };
+    const crsText = { reduced: "crsReduced", severe: "crsSevere", critical: "crsCritical" };
+    const crsCss = { reduced: "reduced", severe: "crs-severe", critical: "critical" };
+    const ox = oxyView(res.oxy);
+
+    let pbwStatus = "";
+    if (m.pbw) {
+      pbwStatus = t(m.pbw.sex);
+      if (m.pbw.actualKg !== null && m.pbw.actualKg !== undefined) pbwStatus += " · " + t("pbwActual", { kg: fmt(m.pbw.actualKg, 0) });
+    }
+
+    setHTML($("metrics-grid"),
+      card("pbw", t("cPbw"), m.pbw, m.pbw && fmt(m.pbw.value, 1), "kg", pbwStatus, "neutral", "", t("needPbw")) +
+      card("vtpbw", t("cVt"), m.vtPbw, m.vtPbw && fmt(m.vtPbw.value, 1), "mL/kg", m.vtPbw && st(m.vtPbw), m.vtPbw && m.vtPbw.state, "", t("needVt")) +
+      card("pplat", t("cPplat"), m.pplat, m.pplat && fmt(m.pplat.value, 0), "cmH₂O", m.pplat && st(m.pplat), m.pplat && m.pplat.state, "", t("needPplat")) +
+      card("dp", t("cDp"), m.dp, m.dp && fmt(m.dp.value, 0), "cmH₂O", m.dp && st(m.dp), m.dp && m.dp.state, "", t("needDp")) +
+      card("crs", t("cCrs"), m.crs, m.crs && fmt(m.crs.value, 0), "mL/cmH₂O", m.crs && t(crsText[m.crs.state]), m.crs && crsCss[m.crs.state], t("dCrs"), t("needCrs")) +
+      card("mp", t("cMp"), m.mp, m.mp && fmt(m.mp.value, 1), "J/min", m.mp && st(m.mp), m.mp && m.mp.state, t("dMp"), t("needMp")) +
+      card("oxy", ox ? ox.label : t("cOxy"), ox, ox && ox.value, ox && ox.unit, ox && ox.status, ox && ox.css, ox && ox.disclaimer, t("needOxy")));
+
+    const chip = function (label, metric, value, css) {
+      return '<span class="chip ' + (metric ? css : "") + '"><span class="chip-label">' + label + '</span><span class="chip-value">' + (metric ? value : "–") + '</span></span>';
+    };
+    setHTML($("summary-bar"),
+      chip(t("chipVt"), m.vtPbw, m.vtPbw && fmt(m.vtPbw.value, 1), m.vtPbw && m.vtPbw.state) +
+      chip(t("chipPplat"), m.pplat, m.pplat && fmt(m.pplat.value, 0), m.pplat && m.pplat.state) +
+      chip(t("chipDp"), m.dp, m.dp && fmt(m.dp.value, 0), m.dp && m.dp.state) +
+      chip(t("chipMp"), m.mp, m.mp && fmt(m.mp.value, 1), m.mp && m.mp.state) +
+      chip(ox ? ox.chip : "P/F", ox, ox && ox.value, ox && ox.css));
+  }
+
+  function renderBanner(res) {
+    const el = $("severe-banner");
+    if (!res.banner.show) { el.hidden = true; return; }
+    setHTML(el,
+      "<h3>" + t("bannerTitle") + "</h3><ul>" +
+      "<li>✓ " + t("bannerProne") + ' <span class="ref">[PROSEVA, Guérin et al., NEJM 2013]</span></li>' +
+      "<li>✓ " + t("bannerNmb") + ' <span class="ref">[ACURASYS, Papazian et al., NEJM 2010]</span></li>' +
+      "<li>✓ " + t("bannerEcmo") + ' <span class="ref">[EOLIA, Combes et al., NEJM 2018]</span></li>' +
+      "</ul>" + (res.banner.usedSF ? '<div class="sf-warning">⚠ ' + t("bannerSf") + "</div>" : ""));
+    el.hidden = false;
+  }
+
+  function suggestionView(s) {
+    if (s.type === "dp") {
+      return {
+        title: t("sDpTitle", { dp: fmt(s.dp, 0) }),
+        detail: s.mode === "reduce" ? t("sDpReduce", { vt: s.vt, kg: fmt(s.vtPerKg, 1) }) : t("sDpFloor", { vt: s.vtFloor }),
+        note: t(s.mode === "reduce" ? "sDpReduceNote" : "sDpFloorNote")
+      };
+    }
+    if (s.type === "mp") {
+      return {
+        title: t("sMpTitle", { mp: fmt(s.mp, 1) }),
+        detail: t("sMpA", { rr: s.rr, vt: fmt(s.currentVt, 0) }) + "<br>" +
+                t("sMpB", { vt: s.vt, rr: fmt(s.currentRr, 0) }) + (s.vtBelowFloor ? t("sMpBFloor") : ""),
+        note: t("sMpNote")
+      };
+    }
+    if (s.type === "vt") {
+      return {
+        title: t("sVtTitle", { x: fmt(s.vtPbw, 1) }),
+        detail: t("sVtTarget", { vt: s.target }) + "<br>" + t("sVtDelta", { d: s.delta }) + "<br>" + t("sVtMin", { vt: s.min }),
+        note: ""
+      };
+    }
+    if (s.metric === "pplat") {
+      return { title: t(s.state === "danger" ? "sPplatDangerTitle" : "sPplatWarnTitle", { p: fmt(s.value, 0) }), detail: t("sPplat"), note: "" };
+    }
+    if (s.reason === "need_vt_pbw") {
+      return { title: t("sDpTitle", { dp: fmt(s.value, 0) }), detail: t("sDpNeed"), note: "" };
+    }
+    return { title: t("sDpWarnTitle", { dp: fmt(s.value, 0) }), detail: t("sDpWarn"), note: "" };
+  }
+
+  function renderPlan(res) {
+    const el = $("action-plan-content");
+    if (!res.anyInput) { setHTML(el, '<div class="no-data">' + t("planEmpty") + "</div>"); return; }
+
+    let html = "";
+    res.suggestions.forEach(function (s, i) {
+      const v = suggestionView(s);
+      html += '<div class="action-item' + (s.state === "danger" ? " priority-high" : "") + '">' +
+                '<div class="action-title">' + (i + 1) + ". " + v.title + "</div>" +
+                '<div class="action-detail">' + v.detail + "</div>" +
+                (v.note ? '<div class="action-note">' + v.note + "</div>" : "") +
+              "</div>";
+    });
+    if (res.suggestions.some(function (s) { return s.type !== "flag"; })) {
+      html += '<p class="action-foot">' + t("planCo2") + "</p>";
+    }
+    if (res.allSafe) {
+      html += '<div class="all-safe">' + t("planAllSafe") + "</div>";
+    } else if (!res.complete) {
+      const names = { heightCm: "nmHeight", sex: "nmSex", rr: "nmRr", vt: "nmVt", ppeak: "nmPpeak", pplat: "nmPplat", peep: "nmPeep" };
+      const list = res.missing.map(function (k) { return t(names[k]); }).join(", ");
+      html += '<p class="' + (res.suggestions.length ? "action-foot" : "no-data") + '">' + t("planIncomplete", { list: list }) + "</p>";
+    }
+    setHTML(el, html);
+  }
+
+  function recalculate() {
+    const raw = readInputs();
+    const res = VP.compute(raw);
+    renderErrors(res, raw);
+    renderBanner(res);
+    renderCards(res);
+    renderPlan(res);
+  }
+
+  // ------------------------------------------------------------
+  // Events
+  // ------------------------------------------------------------
+  function setSex(s) {
+    sex = s;
+    $("sex-male").setAttribute("aria-pressed", String(s === "male"));
+    $("sex-female").setAttribute("aria-pressed", String(s === "female"));
+  }
+  function setHeightUnit(u) {
+    heightUnit = u;
+    $("unit-cm").setAttribute("aria-pressed", String(u === "cm"));
+    $("unit-in").setAttribute("aria-pressed", String(u === "in"));
+    $("height").placeholder = u === "cm" ? "170" : "67";
+  }
+  function syncSlider() {
+    const n = readNumber($("fio2"));
+    const slider = $("fio2-slider");
+    const ok = typeof n === "number" && n >= 21 && n <= 100;
+    slider.classList.toggle("unset", !ok);
+    if (ok) slider.value = String(Math.round(n));
+  }
+
+  Object.keys(FIELDS).forEach(function (k) {
+    $(FIELDS[k]).addEventListener("input", function () {
+      if (k === "fio2") syncSlider();
+      recalculate();
+    });
+  });
+  $("fio2-slider").addEventListener("input", function () {
+    $("fio2").value = this.value;
+    this.classList.remove("unset");
+    recalculate();
+  });
+  $("sex-male").addEventListener("click", function () { setSex("male"); recalculate(); });
+  $("sex-female").addEventListener("click", function () { setSex("female"); recalculate(); });
+  $("unit-cm").addEventListener("click", function () { setHeightUnit("cm"); recalculate(); });
+  $("unit-in").addEventListener("click", function () { setHeightUnit("in"); recalculate(); });
+
+  $("btn-reset").addEventListener("click", function () {
+    Object.keys(FIELDS).forEach(function (k) { $(FIELDS[k]).value = ""; });
+    setSex(null);
+    setHeightUnit("cm");
+    $("fio2-slider").value = "21";
+    syncSlider();
+    recalculate();
+  });
+
+  // Simulated case: Figure 1 of the article, with a peak pressure added.
+  $("btn-example").addEventListener("click", function () {
+    const example = { height: 177, "actual-weight": "", fio2: 90, pao2: 83, spo2: "", rr: 22, vt: 400, ppeak: 38, pplat: 31, peep: 8 };
+    Object.keys(example).forEach(function (id) { $(id).value = example[id]; });
+    setHeightUnit("cm");
+    setSex("female");
+    syncSlider();
+    recalculate();
+  });
+
+  function setLang(l) { lang = l; applyStaticTexts(); recalculate(); }
+  $("lang-en").addEventListener("click", function () { setLang("en"); });
+  $("lang-fr").addEventListener("click", function () { setLang("fr"); });
+
+  $("btn-theme").addEventListener("click", function () {
+    const root = document.documentElement;
+    const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    root.setAttribute("data-theme", next);
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", next === "light" ? "#f3f5f9" : "#0f1117");
+  });
+
+  applyStaticTexts();
+  recalculate();
+})();
+</script>
+
+</body>
+</html>

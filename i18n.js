@@ -112,7 +112,11 @@ const I18N_EN = {
     "t106": "AI for beginners",
     "t107": "Necker Hospital · AP-HP",
     "t108": "Research in medical education in the age of artificial intelligence",
-    "t109": "French national conference on medical education and research · Lille"
+    "t109": "French national conference on medical education and research · Lille",
+    "t110": "Online calculator",
+    "t111": "Lung-protective ventilation calculator for ARDS: tidal volume, driving pressure, mechanical power and oxygenation, with computed corrections. An open-source educational tool, described in a published article (ACCPM, 2026). No data leaves the browser.",
+    "t112": "ARDS",
+    "t113": "Open the calculator"
 };
 
 // Chaînes générées par le JavaScript

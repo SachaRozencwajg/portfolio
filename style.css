@@ -2170,8 +2170,20 @@ a.timeline__item--clickable:focus-visible {
     }
 }
 
+/* Trois petites cartes sous EDN-IA. Sur deux colonnes, la dernière prend toute la largeur
+   pour ne pas laisser une case vide ; sur grand écran, elles tiennent côte à côte. */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .bento-card:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
 /* Sélecteurs préfixés par .bento : ils doivent l'emporter sur les règles de base plus bas */
 @media (min-width: 1024px) {
+    .bento {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     .bento .bento-card--large {
         flex-direction: row;
     }
@@ -2245,6 +2257,8 @@ a.timeline__item--clickable:focus-visible {
 .js .bento-card:nth-child(2) > * { transition-delay: 235ms; }
 .js .bento-card:nth-child(3) { transition-delay: 170ms, 170ms, 170ms, 0s, 0s; }
 .js .bento-card:nth-child(3) > * { transition-delay: 320ms; }
+.js .bento-card:nth-child(4) { transition-delay: 255ms, 255ms, 255ms, 0s, 0s; }
+.js .bento-card:nth-child(4) > * { transition-delay: 405ms; }
 
 .js .bento.is-in .bento-card,
 .js .bento.is-in .bento-card > * {

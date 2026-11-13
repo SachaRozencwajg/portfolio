@@ -36,6 +36,9 @@ COPY *.jpg *.png *.webp /usr/share/nginx/html/
 # Copy built React app to a subdirectory
 COPY --from=build-react /app/dist /usr/share/nginx/html/serious-game
 
+# VentiProtect ARDS : calculateur autonome (un seul fichier HTML, copié depuis le dépôt VentiProtect_ARDS)
+COPY ventiprotect/ /usr/share/nginx/html/ventiprotect/
+
 # S'assurer que nginx peut lire les fichiers
 RUN chmod -R 755 /usr/share/nginx/html && \
     chown -R nginx:nginx /usr/share/nginx/html

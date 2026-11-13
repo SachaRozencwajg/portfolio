@@ -59,6 +59,17 @@ Le script effectue automatiquement :
 | `nginx.conf` | Configuration nginx (gzip, cache, sécurité) |
 | `deploy.sh` | Script de déploiement automatisé |
 
+## Applications servies dans un sous-dossier
+
+| Adresse | Source | Mise à jour |
+|---------|--------|-------------|
+| `/serious-game/` | Dossier `serious-game/` (React), construit par le `Dockerfile` | Modifier le code, puis déployer |
+| `/ventiprotect/` | Dossier `ventiprotect/` : un seul fichier HTML, copie de `web/index.html` du dépôt [VentiProtect_ARDS](https://github.com/SachaRozencwajg/VentiProtect_ARDS) | Recopier le fichier depuis ce dépôt, puis déployer |
+
+Le calculateur VentiProtect se modifie dans son propre dépôt, où se trouvent ses tests. Ici, on ne fait que
+recopier le fichier. `ventiprotect/og.png` est l'image affichée quand le lien est partagé, et
+`ventiprotect.webp` le visuel de la carte de la page d'accueil.
+
 ## Dernière mise à jour
 
 - **Date** : 8 février 2026
