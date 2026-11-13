@@ -89,7 +89,7 @@
     </script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css?v=20261113a">
+    <link rel="stylesheet" href="style.css?v=20261113">
 </head>
 
 <body>
@@ -330,7 +330,7 @@
                 </p>
             </header>
 
-            <!-- Mosaïque : EDN-IA en grand, puis CareLogbook, VentiProtect et le Serious Game.
+            <!-- Mosaïque : EDN-IA en bandeau, puis CareLogbook et le Serious Game, puis VentiProtect en bandeau inversé.
                  Les visuels sont décoratifs (aria-hidden) ; ceux qui portent data-story sont animés par motion.js. -->
             <div class="bento" id="projectsBento">
                 <article class="bento-card bento-card--large">
@@ -385,6 +385,31 @@
                 </article>
 
                 <article class="bento-card">
+                    <div class="bento-card__visual bento-card__visual--photo" data-story="llm" aria-hidden="true">
+                        <img src="serious-game.webp" alt="" class="bento-card__photo" loading="lazy">
+                    </div>
+                    <div class="project-card__content">
+                        <div class="bento-card__brand">
+                            <span class="bento-card__logo bento-card__logo--icon"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M176,112H152a8,8,0,0,1,0-16h24a8,8,0,0,1,0,16ZM104,96H96V88a8,8,0,0,0-16,0v8H72a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0v-8h8a8,8,0,0,0,0-16ZM241.48,200.65a36,36,0,0,1-54.94,4.81c-.12-.12-.24-.24-.35-.37L146.48,160h-37L69.81,205.09l-.35.37A36.08,36.08,0,0,1,44,216,36,36,0,0,1,8.56,173.75a.68.68,0,0,1,0-.14L24.93,89.52A59.88,59.88,0,0,1,83.89,40H172a60.08,60.08,0,0,1,59,49.25c0,.06,0,.12,0,.18l16.37,84.17a.68.68,0,0,1,0,.14A35.74,35.74,0,0,1,241.48,200.65ZM172,144a44,44,0,0,0,0-88H83.89A43.9,43.9,0,0,0,40.68,92.37l0,.13L24.3,176.59A20,20,0,0,0,58,194.3l41.92-47.59a8,8,0,0,1,6-2.71Zm59.7,32.59-8.74-45A60,60,0,0,1,172,160h-4.2L198,194.31a20.09,20.09,0,0,0,17.46,5.39,20,20,0,0,0,16.23-23.11Z"/></svg></span>
+                            <span class="bento-card__domain" data-i18n="t105">Jeu en ligne</span>
+                        </div>
+                        <h3 class="project-card__title" data-i18n="t26">Serious Game : dans la peau d'un LLM</h3>
+                        <p class="project-card__description" data-i18n="t27">
+                            Simulation interactive pour comprendre les hallucinations et biais des LLM en médecine.
+                        </p>
+                        <div class="project-card__tags">
+                            <span class="tag">IA / LLM</span>
+                            <span class="tag">React</span>
+                            <span class="tag" data-i18n="t25">Pédagogie</span>
+                        </div>
+                        <a href="/serious-game/" class="card__link" data-i18n="t28">
+                            Essayer en ligne
+                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="bento-card bento-card--large bento-card--reverse">
                     <div class="bento-card__visual bento-card__visual--photo" aria-hidden="true">
                         <img src="ventiprotect.webp" alt="" class="bento-card__photo" width="1200" height="654" loading="lazy">
                     </div>
@@ -406,31 +431,6 @@
                         </div>
                         <a href="/ventiprotect/" class="card__link" data-i18n="t113">
                             Ouvrir le calculateur
-                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="bento-card">
-                    <div class="bento-card__visual bento-card__visual--photo" data-story="llm" aria-hidden="true">
-                        <img src="serious-game.webp" alt="" class="bento-card__photo" loading="lazy">
-                    </div>
-                    <div class="project-card__content">
-                        <div class="bento-card__brand">
-                            <span class="bento-card__logo bento-card__logo--icon"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M176,112H152a8,8,0,0,1,0-16h24a8,8,0,0,1,0,16ZM104,96H96V88a8,8,0,0,0-16,0v8H72a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0v-8h8a8,8,0,0,0,0-16ZM241.48,200.65a36,36,0,0,1-54.94,4.81c-.12-.12-.24-.24-.35-.37L146.48,160h-37L69.81,205.09l-.35.37A36.08,36.08,0,0,1,44,216,36,36,0,0,1,8.56,173.75a.68.68,0,0,1,0-.14L24.93,89.52A59.88,59.88,0,0,1,83.89,40H172a60.08,60.08,0,0,1,59,49.25c0,.06,0,.12,0,.18l16.37,84.17a.68.68,0,0,1,0,.14A35.74,35.74,0,0,1,241.48,200.65ZM172,144a44,44,0,0,0,0-88H83.89A43.9,43.9,0,0,0,40.68,92.37l0,.13L24.3,176.59A20,20,0,0,0,58,194.3l41.92-47.59a8,8,0,0,1,6-2.71Zm59.7,32.59-8.74-45A60,60,0,0,1,172,160h-4.2L198,194.31a20.09,20.09,0,0,0,17.46,5.39,20,20,0,0,0,16.23-23.11Z"/></svg></span>
-                            <span class="bento-card__domain" data-i18n="t105">Jeu en ligne</span>
-                        </div>
-                        <h3 class="project-card__title" data-i18n="t26">Serious Game : dans la peau d'un LLM</h3>
-                        <p class="project-card__description" data-i18n="t27">
-                            Simulation interactive pour comprendre les hallucinations et biais des LLM en médecine.
-                        </p>
-                        <div class="project-card__tags">
-                            <span class="tag">IA / LLM</span>
-                            <span class="tag">React</span>
-                            <span class="tag" data-i18n="t25">Pédagogie</span>
-                        </div>
-                        <a href="/serious-game/" class="card__link" data-i18n="t28">
-                            Essayer en ligne
                             <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
                         </a>
                     </div>
@@ -1539,10 +1539,10 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="i18n.js?v=20261113a"></script>
+    <script src="i18n.js?v=20261113"></script>
     <script src="script.js?v=20261027c"></script>
     <script src="pulse.js?v=20261027c"></script>
-    <script src="motion.js?v=20261027c"></script>
+    <script src="motion.js?v=20261113"></script>
 </body>
 
 </html>
