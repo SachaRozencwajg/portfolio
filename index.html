@@ -89,7 +89,7 @@
     </script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css?v=20261027c">
+    <link rel="stylesheet" href="style.css?v=20261113">
 </head>
 
 <body>
@@ -330,8 +330,8 @@
                 </p>
             </header>
 
-            <!-- Mosaïque : EDN-IA en grand, puis CareLogbook et le Serious Game.
-                 Les visuels sont décoratifs (aria-hidden) et animés par motion.js. -->
+            <!-- Mosaïque : EDN-IA en bandeau, puis CareLogbook et le Serious Game, puis VentiProtect en bandeau inversé.
+                 Les visuels sont décoratifs (aria-hidden) ; ceux qui portent data-story sont animés par motion.js. -->
             <div class="bento" id="projectsBento">
                 <article class="bento-card bento-card--large">
                     <div class="bento-card__visual" data-story="edn" aria-hidden="true"></div>
@@ -404,6 +404,33 @@
                         </div>
                         <a href="/serious-game/" class="card__link" data-i18n="t28">
                             Essayer en ligne
+                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="bento-card bento-card--large bento-card--reverse">
+                    <div class="bento-card__visual bento-card__visual--photo" aria-hidden="true">
+                        <img src="ventiprotect.webp" alt="" class="bento-card__photo" width="1200" height="654" loading="lazy">
+                    </div>
+                    <div class="project-card__content">
+                        <div class="bento-card__brand">
+                            <span class="bento-card__logo bento-card__logo--icon"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M184,184a32,32,0,0,1-32,32c-13.7,0-26.95-8.93-31.5-21.22a8,8,0,0,1,15-5.56C137.74,195.27,145,200,152,200a16,16,0,0,0,0-32H40a8,8,0,0,1,0-16H152A32,32,0,0,1,184,184Zm-64-80a32,32,0,0,0,0-64c-13.7,0-26.95,8.93-31.5,21.22a8,8,0,0,0,15,5.56C105.74,60.73,113,56,120,56a16,16,0,0,1,0,32H24a8,8,0,0,0,0,16Zm88-32c-13.7,0-26.95,8.93-31.5,21.22a8,8,0,0,0,15,5.56C193.74,92.73,201,88,208,88a16,16,0,0,1,0,32H32a8,8,0,0,0,0,16H208a32,32,0,0,0,0-64Z"/></svg></span>
+                            <span class="bento-card__domain" data-i18n="t110">Calculateur en ligne</span>
+                        </div>
+                        <h3 class="project-card__title">VentiProtect ARDS</h3>
+                        <p class="project-card__description" data-i18n="t111">
+                            Calculateur de ventilation protectrice pour le SDRA : volume courant, pression motrice,
+                            puissance mécanique et oxygénation, avec des corrections chiffrées. Outil pédagogique
+                            à code ouvert, décrit dans un article publié (ACCPM, 2026). Aucune donnée ne quitte le navigateur.
+                        </p>
+                        <div class="project-card__tags">
+                            <span class="tag" data-i18n="t112">SDRA</span>
+                            <span class="tag">Ventilation</span>
+                            <span class="tag">Open source</span>
+                        </div>
+                        <a href="/ventiprotect/" class="card__link" data-i18n="t113">
+                            Ouvrir le calculateur
                             <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
                         </a>
                     </div>
@@ -1512,10 +1539,10 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="i18n.js?v=20261027c"></script>
+    <script src="i18n.js?v=20261113"></script>
     <script src="script.js?v=20261027c"></script>
     <script src="pulse.js?v=20261027c"></script>
-    <script src="motion.js?v=20261027c"></script>
+    <script src="motion.js?v=20261113"></script>
 </body>
 
 </html>

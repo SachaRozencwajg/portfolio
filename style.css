@@ -2152,7 +2152,8 @@ a.timeline__item--clickable:focus-visible {
 
 /* ===========================
    Applications IA : mosaïque (skill redesign) et histoires (skill design-to-motion)
-   EDN-IA en bandeau sur toute la largeur (visuel à gauche), puis deux cartes côte à côte.
+   EDN-IA en bandeau sur toute la largeur (visuel à gauche), puis deux cartes côte à côte,
+   puis VentiProtect en bandeau inversé (visuel à droite).
    =========================== */
 .bento {
     display: grid;
@@ -2185,6 +2186,16 @@ a.timeline__item--clickable:focus-visible {
     .bento .bento-card--large .project-card__content {
         flex: 5;
         align-self: center;
+    }
+
+    /* Deuxième bandeau (VentiProtect), en miroir du premier : texte à gauche, visuel à droite */
+    .bento .bento-card--reverse {
+        flex-direction: row-reverse;
+    }
+
+    .bento .bento-card--reverse .bento-card__visual {
+        border-right: none;
+        border-left: 1px solid var(--border-color);
     }
 }
 
@@ -2245,6 +2256,8 @@ a.timeline__item--clickable:focus-visible {
 .js .bento-card:nth-child(2) > * { transition-delay: 235ms; }
 .js .bento-card:nth-child(3) { transition-delay: 170ms, 170ms, 170ms, 0s, 0s; }
 .js .bento-card:nth-child(3) > * { transition-delay: 320ms; }
+.js .bento-card:nth-child(4) { transition-delay: 255ms, 255ms, 255ms, 0s, 0s; }
+.js .bento-card:nth-child(4) > * { transition-delay: 405ms; }
 
 .js .bento.is-in .bento-card,
 .js .bento.is-in .bento-card > * {
@@ -2837,5 +2850,10 @@ a.timeline__item--clickable:focus-visible {
     .bento-card--large .story {
         font-size: var(--text-xs);
         line-height: 1rem;
+    }
+
+    /* Le bandeau VentiProtect montre une image, sans barre d'adresse : hauteur des autres cartes */
+    .bento-card--reverse .bento-card__visual {
+        height: 256px;
     }
 }

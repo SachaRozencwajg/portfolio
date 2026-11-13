@@ -354,7 +354,9 @@
         if (reduceMotion || !('IntersectionObserver' in window)) {
             bento.classList.add('is-in');
         } else {
-            // Entrée quand 30 % de la mosaïque est visible, une seule fois ; histoires après l'atterrissage
+            // Entrée quand le haut de la mosaïque dépasse le quart inférieur de l'écran, une seule fois ;
+            // histoires après l'atterrissage. Pas de seuil en proportion de la mosaïque : empilée sur
+            // mobile, elle est bien plus haute que l'écran et 30 % de sa hauteur n'y tiennent jamais.
             const introObserver = new IntersectionObserver((entries) => {
                 if (!entries.some(entry => entry.isIntersecting)) return;
                 introObserver.disconnect();
@@ -363,7 +365,7 @@
                     storiesStarted = true;
                     stories.forEach(startStory);
                 }, 1200);
-            }, { threshold: 0.3 });
+            }, { threshold: 0, rootMargin: '0px 0px -25% 0px' });
             introObserver.observe(bento);
 
             // Pause hors écran
