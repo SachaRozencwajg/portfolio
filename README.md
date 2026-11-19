@@ -61,7 +61,15 @@ Le script effectue automatiquement :
 
 ## Ajouter une conférence
 
-Les conférences de la page d'accueil sont dans `data/conferences.json`, et non dans `index.html`.
+**Depuis MyDashboard (le plus simple).** Dans Topos, ouvrir la présentation et régler « Afficher sur
+mon site » sur Oui ; remplir « Titre en anglais » pour la version anglaise du site. Au prochain
+`portfolioUP`, le titre, l'événement, le lieu et la date passent sur le site, jamais le contact,
+l'heure, les notes ni la date d'envoi des slides. `portfolioUP` interroge le dashboard sur ce Mac
+(`http://127.0.0.1:3000`, ou `DASHBOARD_URL`) et en garde une copie dans `data/conferences-dashboard.json`.
+S'il ne répond pas, la dernière copie est gardée. Pour retirer une conférence du site, régler la case
+sur Non.
+
+**À la main.** Les conférences plus anciennes et les cours récurrents sont dans `data/conferences.json`.
 Pour en ajouter une, copier un bloc existant et le remplir (le fichier peut se modifier directement
 sur GitHub, depuis un téléphone) :
 
@@ -77,7 +85,8 @@ sur GitHub, depuis un téléphone) :
 
 Puis lancer `portfolioUP`, qui régénère la liste et déploie. La date s'écrit `AAAA-MM-JJ`, `AAAA-MM`
 ou `AAAA` ; une conférence datée du jour ou plus tard est rangée dans « À venir ». Le bloc `en`
-est facultatif : un champ absent reprend le français.
+est facultatif : un champ absent reprend le français. Une conférence présente des deux côtés (même
+date, même titre) est prise dans `data/conferences.json`, ce qui permet d'en soigner le texte.
 
 ## Applications servies dans un sous-dossier
 
