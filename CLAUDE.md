@@ -52,7 +52,8 @@ priment sur le texte d'origine des skills.
   à partir de `.agent/publications.json` : changer le gabarit là, jamais à la main dans la page.
 - **Conférences.** Même principe : données dans `data/conferences.json` (à la main) et
   `data/conferences-dashboard.json` (copie des présentations cochées « Afficher sur mon site » dans
-  MyDashboard, faite par `portfolioUP`), rendu par `scripts/conferences.py`. Leur traduction anglaise
+  MyDashboard, faite par `portfolioUP` ; le dashboard lance lui-même `portfolioUP --site-only` quand
+  cette liste change), rendu par `scripts/conferences.py`. Leur traduction anglaise
   est portée par l'attribut `data-en`, sans clé dans `i18n.js`. Ne jamais y mettre les coordonnées
   d'un organisateur.
 

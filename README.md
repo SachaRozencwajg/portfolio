@@ -62,9 +62,10 @@ Le script effectue automatiquement :
 ## Ajouter une conférence
 
 **Depuis MyDashboard (le plus simple).** Dans Topos, ouvrir la présentation et régler « Afficher sur
-mon site » sur Oui ; remplir « Titre en anglais » pour la version anglaise du site. Au prochain
-`portfolioUP`, le titre, l'événement, le lieu et la date passent sur le site, jamais le contact,
-l'heure, les notes ni la date d'envoi des slides. `portfolioUP` interroge le dashboard sur ce Mac
+mon site » sur Oui ; remplir « Titre en anglais » pour la version anglaise du site. Le titre,
+l'événement, le lieu et la date passent sur le site, jamais le contact, l'heure, les notes ni la date
+d'envoi des slides. Rien d'autre à faire : le dashboard lance lui-même `portfolioUP --site-only`
+2 minutes après le changement, puis envoie une notification (réglable dans Réglages › Site personnel). `portfolioUP` interroge le dashboard sur ce Mac
 (`http://127.0.0.1:3000`, ou `DASHBOARD_URL`) et en garde une copie dans `data/conferences-dashboard.json`.
 S'il ne répond pas, la dernière copie est gardée. Pour retirer une conférence du site, régler la case
 sur Non.
