@@ -40,14 +40,46 @@ def sort_publications(publications):
     )
 
 
+# Mots qui restent en minuscules dans un nom de revue, sauf en tête
+SMALL_WORDS = {"and", "of", "in", "the", "for", "on", "to", "a", "an"}
+# Graphies que la règle générale ne retrouve pas
+JOURNAL_NAMES = {"plos one": "PLOS ONE"}
+
+
+def tidy_journal(name):
+    """Nom de revue homogène d'une ligne à l'autre.
+
+    PubMed renvoie tantôt « Scientific reports », tantôt « Scientific Reports », avec parfois le
+    lieu d'édition (« Critical care (London, England) ») ou un sous-titre après deux-points.
+    """
+    name = re.sub(r"\s*:\s.*$", "", name or "")
+    name = re.sub(r"\s*\([^)]*\)", "", name)
+    name = name.replace(",", "").strip().rstrip(".")
+    if name.lower() in JOURNAL_NAMES:
+        return JOURNAL_NAMES[name.lower()]
+    words = []
+    for i, word in enumerate(name.split()):
+        low = word.lower()
+        if i and low in SMALL_WORDS:
+            words.append(low)
+        elif len(word) > 1 and word.isupper():
+            words.append(word)  # sigle
+        else:
+            words.append(low[:1].upper() + low[1:])
+    return " ".join(words)
+
+
 def render_card(pub):
+    """Une ligne de la liste : année, titre (lien PubMed), puis auteurs, revue et DOI."""
     authors = html.escape(pub["authors"]).replace(AUTHOR_NAME, f"<strong>{AUTHOR_NAME}</strong>")
-    title = html.escape(pub["title"])
-    journal = html.escape(pub["journal"])
+    title = html.escape(pub["title"].strip())
+    if title.endswith(".") and not title.endswith("..."):
+        title = title[:-1]
+    journal = html.escape(tidy_journal(pub["journal"]))
     doi = pub.get("doi")
     doi_html = (
         f' · <a href="https://doi.org/{html.escape(doi)}" target="_blank" rel="noopener"'
-        f' class="publication-card__doi">DOI</a>'
+        f' class="pub__doi">DOI</a>'
         if doi else ""
     )
     position = pub.get("author_position", "")
@@ -57,19 +89,14 @@ def render_card(pub):
         f' data-position="{role}"'
         + (' data-featured="true"' if pub.get("featured") else "")
     )
-    return f'''                <article class="publication-card"{attrs}>
-                    <div class="publication-card__year">{pub["year"]}</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/{pub["pmid"]}/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                {title}
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            {authors}
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>{journal}</em>{doi_html}
+    return f'''                <article class="pub"{attrs}>
+                    <span class="pub__year">{pub["year"]}</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/{pub["pmid"]}/" target="_blank" rel="noopener">{title}</a>
+                        </h4>
+                        <p class="pub__meta">
+                            {authors} · {journal}{doi_html}
                         </p>
                     </div>
                 </article>

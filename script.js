@@ -1,6 +1,7 @@
 /**
  * Sacha Rozencwajg - Personal Website
- * Thème clair/sombre (suit le système par défaut), navigation, apparitions au défilement
+ * Thème clair/sombre (suit le système par défaut), navigation, apparitions au défilement,
+ * publications (sélection et filtres), conférences (à venir / passées), copie de l'adresse.
  */
 
 // ===========================
@@ -130,68 +131,48 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const target = document.querySelector(href);
 
         if (target) {
-            const headerHeight = header.offsetHeight;
-            const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight;
-
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
+            scrollToElement(target);
             // Lien « Aller au contenu » : le focus clavier suit le défilement
             target.focus({ preventScroll: true });
         }
     });
 });
 
-// ===========================
-// Intersection Observer for Animations
-// ===========================
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const animateOnScroll = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const el = entry.target;
-            el.classList.add('is-visible');
-            animateOnScroll.unobserve(el);
-            // Le décalage ne sert qu'à l'apparition : sans ça, il retarderait aussi le survol
-            if (el.style.transitionDelay) {
-                setTimeout(() => { el.style.transitionDelay = ''; }, 1200);
-            }
-        }
+// L'en-tête est fixe : on s'arrête juste dessous
+function scrollToElement(el) {
+    window.scrollTo({
+        top: el.getBoundingClientRect().top + window.scrollY - header.offsetHeight,
+        behavior: 'smooth'
     });
-}, observerOptions);
+}
 
-// Observe all animatable elements
+// ===========================
+// Apparitions au défilement
+// La classe .reveal est posée ici : sans JavaScript, rien n'est masqué.
+// ===========================
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+    });
+    // Seuil nul : un bloc plus haut que l'écran (la liste dépliée) n'atteindrait jamais 10 % de visibilité
+}, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+
 function initScrollAnimations() {
-    const animatableElements = document.querySelectorAll(
-        '.card, .project-card, .blog-card, .publication-card, .section__header, .card-grid, .publications-list'
-    );
-
-    animatableElements.forEach((el, index) => {
-        // Add staggered delay for cards within grids
-        if (el.classList.contains('card') ||
-            el.classList.contains('project-card') ||
-            el.classList.contains('publication-card')) {
-            const parent = el.parentElement;
-            const siblings = Array.from(parent.children);
-            const childIndex = siblings.indexOf(el);
-            // 80 ms entre cartes, plafonné pour que les longues listes ne traînent pas
-            el.style.transitionDelay = `${Math.min(childIndex, 5) * 80}ms`;
-        }
-        animateOnScroll.observe(el);
+    // La mosaïque des applications a sa propre entrée (motion.js)
+    document.querySelectorAll('.section__head, .section__body > :not(.bento)').forEach(el => {
+        el.classList.add('reveal');
+        revealObserver.observe(el);
     });
 }
 
 // ===========================
 // Active Navigation Link
 // ===========================
-// Une bande fine au milieu de l'écran : la dernière zone (ordre du document) qui la
-// traverse est la section courante. Remplace l'ancien écouteur de défilement.
-const navTargets = Array.from(document.querySelectorAll('section[id], #talks'));
+// Une bande fine au milieu de l'écran : la dernière section (ordre du document) qui la
+// traverse est la section courante. Une section sans entrée de menu n'en allume aucune.
+const navTargets = Array.from(document.querySelectorAll('section[id]'));
 const inBand = new Set();
 
 function setActiveNavLink(id) {
@@ -242,22 +223,33 @@ function initPublications() {
     const list = document.getElementById('publicationsList');
     const toggle = document.getElementById('pubToggle');
     const filters = document.getElementById('pubFilters');
-    const label = document.getElementById('pubSelectionLabel');
+    const heading = document.getElementById('pubHeading');
     const empty = document.getElementById('pubEmpty');
     if (!list || !toggle || !filters) return;
 
-    const cards = Array.from(list.querySelectorAll('.publication-card'));
+    const cards = Array.from(list.querySelectorAll('.pub'));
     const state = { theme: 'all', position: 'all', expanded: false };
+    filters.querySelectorAll('.pub-chip').forEach(chip => {
+        chip.setAttribute('aria-pressed', String(chip.classList.contains('is-active')));
+    });
 
     function applyFilters() {
         let visible = 0;
+        let previousYear = null;
         cards.forEach(card => {
             const themes = (card.dataset.themes || '').split(' ');
             const matchTheme = state.theme === 'all' || themes.includes(state.theme);
             const matchPosition = state.position === 'all' || card.dataset.position === state.position;
-            const show = !state.expanded || (matchTheme && matchPosition);
-            card.classList.toggle('is-filtered-out', !show);
-            if (show && (state.expanded || card.dataset.featured)) visible++;
+            const kept = !state.expanded || (matchTheme && matchPosition);
+            card.classList.toggle('is-filtered-out', !kept);
+
+            const shown = kept && (state.expanded || Boolean(card.dataset.featured));
+            if (!shown) return;
+            visible++;
+            // L'année n'est écrite qu'une fois par groupe de lignes affichées
+            const year = card.querySelector('.pub__year').textContent;
+            card.classList.toggle('is-repeat-year', year === previousYear);
+            previousYear = year;
         });
         empty.hidden = visible > 0;
     }
@@ -265,7 +257,7 @@ function initPublications() {
     function render() {
         list.classList.toggle('is-featured-only', !state.expanded);
         filters.hidden = !state.expanded;
-        label.hidden = state.expanded;
+        heading.textContent = t(state.expanded ? 'pub.all' : 'pub.selected');
         toggle.textContent = state.expanded
             ? t('pub.showSelection')
             : t('pub.showAll').replace('{n}', cards.length);
@@ -276,8 +268,10 @@ function initPublications() {
         group.addEventListener('click', (e) => {
             const chip = e.target.closest('.pub-chip');
             if (!chip) return;
-            group.querySelectorAll('.pub-chip').forEach(c => c.classList.remove('is-active'));
-            chip.classList.add('is-active');
+            group.querySelectorAll('.pub-chip').forEach(c => {
+                c.classList.toggle('is-active', c === chip);
+                c.setAttribute('aria-pressed', String(c === chip));
+            });
             state[group.dataset.filter] = chip.dataset.value;
             applyFilters();
         });
@@ -286,9 +280,7 @@ function initPublications() {
     toggle.addEventListener('click', () => {
         state.expanded = !state.expanded;
         render();
-        if (!state.expanded) {
-            document.getElementById('publications').scrollIntoView({ behavior: 'smooth' });
-        }
+        if (!state.expanded) scrollToElement(document.getElementById('publications'));
     });
 
     toggle.hidden = false;
@@ -296,4 +288,57 @@ function initPublications() {
     render();
 }
 
-document.addEventListener('DOMContentLoaded', initPublications);
+// ===========================
+// Conférences : une date passée quitte « À venir » pour la tête des conférences passées
+// ===========================
+function initTalks() {
+    const upcomingLabel = document.getElementById('talksUpcomingLabel');
+    const pastLabel = document.getElementById('talksPastLabel');
+    if (!upcomingLabel || !pastLabel) return;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    Array.from(document.querySelectorAll('.row[data-date]'))
+        .filter(row => new Date(`${row.dataset.date}T23:59:59`) < today)
+        // De la plus ancienne à la plus récente : chacune passe en tête, la plus récente finit première
+        .sort((a, b) => a.dataset.date.localeCompare(b.dataset.date))
+        .forEach(row => {
+            row.classList.remove('row--next');
+            pastLabel.after(row);
+        });
+    upcomingLabel.hidden = !document.querySelector('.row--next');
+}
+
+// ===========================
+// Contact : copier l'adresse
+// ===========================
+function initCopyEmail() {
+    const button = document.getElementById('copyEmail');
+    const label = document.getElementById('copyEmailLabel');
+    const address = document.getElementById('contactAddress');
+    if (!button || !label || !address || !navigator.clipboard) return;
+
+    let timer;
+    const showIdle = () => { label.textContent = t('copy.idle'); };
+
+    button.addEventListener('click', () => {
+        navigator.clipboard.writeText(address.textContent.trim()).then(() => {
+            label.textContent = t('copy.done');
+            clearTimeout(timer);
+            timer = setTimeout(showIdle, 2000);
+        }).catch(() => { /* presse-papiers refusé : l'adresse reste un lien, que l'on peut sélectionner */ });
+    });
+
+    document.addEventListener('languagechange-site', () => {
+        clearTimeout(timer);
+        showIdle();
+    });
+    showIdle();
+    button.hidden = false;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initPublications();
+    initTalks();
+    initCopyEmail();
+});
