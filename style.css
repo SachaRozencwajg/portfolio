@@ -645,10 +645,12 @@ main:focus {
     font-weight: var(--font-medium);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
+/* La légende de l'animation reste en retrait : seule la forme en cours prend l'accent */
 .hero__legend {
+    color: var(--text-tertiary);
     display: flex;
     justify-content: center;
     gap: var(--space-3);
@@ -671,7 +673,7 @@ main:focus {
 
 .facts__item {
     padding: var(--space-4) 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color-strong);
 }
 
 .facts dd {
@@ -734,7 +736,7 @@ main:focus {
         gap: var(--space-12);
         margin-top: var(--space-10);
         padding: var(--space-8) 0 var(--space-16);
-        border-top: 1px solid var(--border-color);
+        border-top: 1px solid var(--border-color-strong);
     }
 
     .facts__item {
@@ -745,14 +747,15 @@ main:focus {
 
 /* ===========================
    Sections
-   Titre à gauche, contenu à droite sur une colonne fixe. Un filet entre les sections, un seul fond.
-   La mosaïque des applications (--wide) est la seule à sortir de la colonne.
+   Titre à gauche, contenu à droite sur une colonne fixe. Un filet plein ouvre chaque section, un seul fond.
+   Le titre est dans l'accent et presque deux fois plus grand qu'un titre de ligne : on ne le confond pas
+   avec le contenu. La mosaïque des applications (--wide) est la seule à sortir de la colonne.
    =========================== */
 .section__grid {
     display: grid;
     gap: var(--space-6);
     padding: var(--space-12) 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--text-primary);
 }
 
 .section__grid > * {
@@ -764,7 +767,15 @@ main:focus {
     line-height: 2rem;
     font-weight: var(--font-semibold);
     letter-spacing: -0.02em;
-    color: var(--text-primary);
+    color: var(--color-accent);
+}
+
+@media (min-width: 640px) {
+    .section__title {
+        font-size: var(--text-3xl);
+        line-height: 2.25rem;
+        letter-spacing: -0.025em;
+    }
 }
 
 .section__note {
@@ -772,7 +783,7 @@ main:focus {
     margin-top: var(--space-2);
     font-size: var(--text-sm);
     line-height: 1.25rem;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 .section__body {
@@ -812,6 +823,13 @@ main:focus {
         padding: var(--space-20) 0;
     }
 
+    /* Le titre accompagne sa section pendant qu'elle défile, sous l'en-tête flottant */
+    .section__head {
+        position: sticky;
+        top: calc(var(--header-height) + var(--space-10));
+        align-self: start;
+    }
+
     .section__head--sketch {
         display: block;
     }
@@ -831,6 +849,7 @@ main:focus {
         grid-template-columns: var(--rail) minmax(0, 1fr);
         column-gap: var(--space-16);
         align-items: baseline;
+        position: static;
     }
 
     .section__grid--wide .section__note {
@@ -895,7 +914,7 @@ main:focus {
     column-gap: var(--space-4);
     align-items: center;
     padding: var(--space-6) 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color-strong);
 }
 
 .theme:first-child {
@@ -1006,7 +1025,7 @@ main:focus {
     display: grid;
     gap: var(--space-1) var(--space-6);
     padding: var(--space-4) 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color-strong);
 }
 
 .row__when {
@@ -1015,7 +1034,7 @@ main:focus {
     line-height: 1.5rem;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 .row--next .row__when {
@@ -1029,7 +1048,7 @@ main:focus {
 .row__title {
     font-size: var(--text-base);
     line-height: 1.5rem;
-    font-weight: var(--font-medium);
+    font-weight: var(--font-semibold);
     color: var(--text-primary);
 }
 
@@ -1043,7 +1062,7 @@ main:focus {
 .row__side {
     font-size: var(--text-sm);
     line-height: 1.5rem;
-    color: var(--text-secondary);
+    color: var(--text-primary);
 }
 
 a.row__side {
@@ -1131,7 +1150,7 @@ a.row__side {
     display: grid;
     gap: var(--space-1) var(--space-6);
     padding: var(--space-4) 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color-strong);
 }
 
 .publications-list.is-featured-only .pub:not([data-featured]),
@@ -1144,7 +1163,7 @@ a.row__side {
     font-size: var(--text-sm);
     line-height: 1.5rem;
     font-variant-numeric: tabular-nums;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 .pub__body {
@@ -1259,10 +1278,10 @@ a.row__side {
     justify-content: space-between;
     gap: var(--space-3) var(--space-6);
     padding: var(--space-6) 0 var(--space-8);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--text-primary);
     font-size: var(--text-sm);
     line-height: 1.25rem;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 .footer__legal,
@@ -1812,7 +1831,7 @@ a.row__side {
     font-size: var(--text-xs);
     line-height: 1rem;
     letter-spacing: 0.02em;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 .bento-card .project-card__title {
@@ -1823,7 +1842,7 @@ a.row__side {
     margin: var(--space-3) 0 var(--space-6);
     font-size: var(--text-xs);
     line-height: 1rem;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 @media (min-width: 1024px) {
