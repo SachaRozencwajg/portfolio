@@ -50,6 +50,9 @@ priment sur le texte d'origine des skills.
   met dans un `<time datetime>` : sa version anglaise est calculée, sans clé.
 - **Publications.** La liste d'`index.html` est générée par `cloud-function/publications_html.py`
   à partir de `.agent/publications.json` : changer le gabarit là, jamais à la main dans la page.
+- **Conférences.** Même principe : données dans `.agent/conferences.json`, rendu par
+  `scripts/conferences.py`. Leur traduction anglaise est portée par l'attribut `data-en`, sans clé
+  dans `i18n.js`. Ne jamais y mettre les coordonnées d'un organisateur.
 
 ### Cache des CSS et JS
 

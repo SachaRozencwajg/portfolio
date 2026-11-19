@@ -938,11 +938,13 @@
                         </article>
                     </div>
 
-                    <!-- Conférences : une ligne par événement. Une ligne « à venir » porte data-date (AAAA-MM-JJ) ;
+                    <!-- Conférences : générées par scripts/conferences.py à partir de .agent/conferences.json,
+                         ne pas modifier à la main. Une ligne « à venir » porte data-date (AAAA-MM-JJ) ;
                          une fois la date passée, script.js la range en tête des conférences passées. -->
                     <div class="talks" id="talks">
                         <h3 class="block-title" data-i18n="t57">Conférences et interventions</h3>
                         <div class="rows">
+                            <!-- CONFERENCES:START -->
                             <p class="rows__group rows__group--next" id="talksUpcomingLabel" data-i18n="t154">À venir</p>
                             <article class="row row--next" data-date="2026-12-03">
                                 <time class="row__when" datetime="2026-12-03">3 déc. 2026</time>
@@ -954,8 +956,15 @@
                             <article class="row row--next" data-date="2026-12-10">
                                 <time class="row__when" datetime="2026-12-10">10 déc. 2026</time>
                                 <div class="row__body">
-                                    <h4 class="row__title" data-i18n="t108">La recherche en pédagogie à l'heure de l'intelligence artificielle</h4>
-                                    <p class="row__meta" data-i18n="t109">États généraux de la formation et de la recherche médicales · Lille</p>
+                                    <h4 class="row__title" data-en="Research in medical education in the age of artificial intelligence">La recherche en pédagogie à l'heure de l'intelligence artificielle</h4>
+                                    <p class="row__meta" data-en="French national conference on medical education and research · Lille">États généraux de la formation et de la recherche médicales · Lille</p>
+                                </div>
+                            </article>
+                            <article class="row row--next" data-date="2027-06-17">
+                                <time class="row__when" datetime="2027-06-17">17 juin 2027</time>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-en="The impact of AI on perioperative medicine">L'impact de l'IA sur la médecine périopératoire</h4>
+                                    <p class="row__meta" data-en="Evening lecture, Institut Lorrain d'Anesthésie-Réanimation · Nancy">Soirée de conférence de l'Institut Lorrain d'Anesthésie-Réanimation · Nancy</p>
                                 </div>
                             </article>
 
@@ -963,47 +972,48 @@
                             <article class="row">
                                 <time class="row__when" datetime="2026-11-17">17 nov. 2026</time>
                                 <div class="row__body">
-                                    <h4 class="row__title" data-i18n="t106">IA pour les débutants</h4>
-                                    <p class="row__meta" data-i18n="t107">Hôpital Necker · AP-HP</p>
+                                    <h4 class="row__title" data-en="AI for beginners">IA pour les débutants</h4>
+                                    <p class="row__meta" data-en="Necker Hospital · AP-HP">Hôpital Necker · AP-HP</p>
                                 </div>
                             </article>
                             <article class="row">
                                 <time class="row__when" datetime="2026-09">sept. 2026</time>
                                 <div class="row__body">
-                                    <h4 class="row__title" data-i18n="t58">Place de l'IA dans la simulation en santé</h4>
+                                    <h4 class="row__title" data-en="AI in healthcare simulation">Place de l'IA dans la simulation en santé</h4>
                                     <p class="row__meta">NumIACare · Université Paris-Saclay</p>
                                 </div>
                             </article>
                             <article class="row">
                                 <time class="row__when" datetime="2026-07">juil. 2026</time>
                                 <div class="row__body">
-                                    <h4 class="row__title" data-i18n="t59">Déontologie et IA en médecine</h4>
-                                    <p class="row__meta" data-i18n="t60">Colloque Déontologie · Université Paris Cité</p>
+                                    <h4 class="row__title" data-en="Medical ethics and AI">Déontologie et IA en médecine</h4>
+                                    <p class="row__meta" data-en="Medical Ethics Symposium · Université Paris Cité">Colloque Déontologie · Université Paris Cité</p>
                                 </div>
                             </article>
                             <article class="row">
                                 <time class="row__when" datetime="2026">2026</time>
                                 <div class="row__body">
-                                    <h4 class="row__title" data-i18n="t61">Impacts de l'IA sur la médecine périopératoire</h4>
+                                    <h4 class="row__title" data-en="Impact of AI on perioperative medicine">Impacts de l'IA sur la médecine périopératoire</h4>
                                     <p class="row__meta">MAPAR 2026</p>
                                 </div>
                             </article>
 
                             <p class="rows__group" data-i18n="t156">Cours récurrents</p>
                             <article class="row">
-                                <span class="row__when" data-i18n="t157">depuis 2024</span>
+                                <span class="row__when" data-en="since 2024">depuis 2024</span>
                                 <div class="row__body">
-                                    <h4 class="row__title" data-i18n="t62">IA générative pour les IADE</h4>
-                                    <p class="row__meta" data-i18n="t63">École d'IADE de Lyon</p>
+                                    <h4 class="row__title" data-en="Generative AI for nurse anaesthetists">IA générative pour les IADE</h4>
+                                    <p class="row__meta" data-en="Nurse Anaesthetist School, Lyon">École d'IADE de Lyon</p>
                                 </div>
                             </article>
                             <article class="row">
-                                <span class="row__when" data-i18n="t157">depuis 2024</span>
+                                <span class="row__when" data-en="since 2024">depuis 2024</span>
                                 <div class="row__body">
-                                    <h4 class="row__title" data-i18n="t64">LCA d'un article d'intelligence artificielle</h4>
-                                    <p class="row__meta" data-i18n="t65">DESAR · Paris</p>
+                                    <h4 class="row__title" data-en="Critical appraisal of an AI paper">LCA d'un article d'intelligence artificielle</h4>
+                                    <p class="row__meta" data-en="Anaesthesia &amp; Critical Care residency (DESAR) · Paris">DESAR · Paris</p>
                                 </div>
                             </article>
+                            <!-- CONFERENCES:END -->
                         </div>
                     </div>
                 </div>
@@ -1226,8 +1236,8 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="i18n.js?v=20261119b"></script>
-    <script src="script.js?v=20261119"></script>
+    <script src="i18n.js?v=20261119c"></script>
+    <script src="script.js?v=20261119b"></script>
     <script src="particles.js?v=20261119b"></script>
     <script src="motion.js?v=20261119"></script>
 </body>
