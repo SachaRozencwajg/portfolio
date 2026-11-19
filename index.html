@@ -89,7 +89,7 @@
     </script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css?v=20261119">
+    <link rel="stylesheet" href="style.css?v=20261119b">
 </head>
 
 <body>
@@ -329,23 +329,23 @@
                 </header>
 
                 <div class="section__body">
-                    <div class="duo">
-                        <article class="block">
-                            <img src="dessin-ia.webp" alt="" class="sketch block__sketch" width="600" height="348" loading="lazy">
+                    <!-- Un thème par ligne : le texte à gauche, son croquis à droite -->
+                    <div class="themes">
+                        <article class="theme">
                             <h3 class="block-title" data-i18n="t38">Intelligence artificielle en médecine</h3>
                             <p class="block-text" data-i18n="t39">
-                                Développement et évaluation d'outils d'IA pour l'aide à la décision clinique,
-                                les soins périopératoires et l'analyse de données médicales. En particulier
-                                les grands modèles de langage (LLM) et leurs applications en santé.
+                                Outils d'IA pour l'aide à la décision clinique et les soins périopératoires,
+                                en particulier les grands modèles de langage (LLM).
                             </p>
+                            <img src="dessin-ia.webp" alt="" class="sketch theme__sketch" width="600" height="348" loading="lazy">
                         </article>
-                        <article class="block">
-                            <img src="dessin-cec.webp" alt="" class="sketch block__sketch" width="600" height="474" loading="lazy">
+                        <article class="theme">
                             <h3 class="block-title" data-i18n="t42">Circulation extracorporelle</h3>
                             <p class="block-text" data-i18n="t43">
-                                Recherche sur l'ECMO (oxygénation par membrane extracorporelle) et les techniques
-                                de circulation extracorporelle en réanimation.
+                                Recherche sur l'ECMO (oxygénation par membrane extracorporelle)
+                                et la circulation extracorporelle.
                             </p>
+                            <img src="dessin-cec.webp" alt="" class="sketch theme__sketch" width="600" height="474" loading="lazy">
                         </article>
                     </div>
 
@@ -942,6 +942,13 @@
                         <h3 class="block-title" data-i18n="t57">Conférences et interventions</h3>
                         <div class="rows">
                             <p class="rows__group rows__group--next" id="talksUpcomingLabel" data-i18n="t154">À venir</p>
+                            <article class="row row--next" data-date="2026-12-03">
+                                <time class="row__when" datetime="2026-12-03">3 déc. 2026</time>
+                                <div class="row__body">
+                                    <h4 class="row__title" lang="en">Spinal cord protection</h4>
+                                    <p class="row__meta">PVI Aortic course · Carrousel du Louvre, Paris</p>
+                                </div>
+                            </article>
                             <article class="row row--next" data-date="2026-12-10">
                                 <time class="row__when" datetime="2026-12-10">10 déc. 2026</time>
                                 <div class="row__body">
@@ -1217,7 +1224,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="i18n.js?v=20261119"></script>
+    <script src="i18n.js?v=20261119b"></script>
     <script src="script.js?v=20261119"></script>
     <script src="particles.js?v=20261119"></script>
     <script src="motion.js?v=20261119"></script>

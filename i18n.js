@@ -53,9 +53,9 @@ const I18N_EN = {
     // Recherche et publications
     "t67": "Peer-reviewed publications in anaesthesia, critical care and artificial intelligence.",
     "t38": "Artificial intelligence in medicine",
-    "t39": "Development and evaluation of AI tools for clinical decision support, perioperative care and medical data analysis, in particular large language models (LLMs) and their applications in healthcare.",
+    "t39": "AI tools for clinical decision support and perioperative care, in particular large language models (LLMs).",
     "t42": "Extracorporeal circulation",
-    "t43": "Research on ECMO (extracorporeal membrane oxygenation) and extracorporeal circulation techniques in critical care.",
+    "t43": "Research on ECMO (extracorporeal membrane oxygenation) and extracorporeal circulation.",
     "t68": "All",
     "t152": "AI",
     "t153": "ECMO / CPB",
