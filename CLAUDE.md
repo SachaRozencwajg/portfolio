@@ -35,6 +35,8 @@ priment sur le texte d'origine des skills.
   deuxième couleur d'accent ; seul le rouge d'erreur (`--color-error`) est permis pour signaler une erreur.
   Exception : les aperçus des apps dans la mosaïque Applications IA gardent les couleurs de chaque
   app (EDN-IA bordeaux, CareLogbook vert), pour qu'on les distingue du texte de la page.
+  Un aperçu en image suit le thème du site : une version claire et une sombre (classes `only-light`
+  et `only-dark`), pour ne pas poser un bloc sombre au milieu d'une page claire.
 - **Thème** : suit le réglage du système par défaut ; le menu Système / Clair / Sombre l'enregistre.
 - **Polices** : Geist et Geist Mono hébergées dans `fonts/` (pas de Google Fonts : la page de
   confidentialité affirme qu'aucune donnée ne part vers un tiers). Geist Mono est réservée aux

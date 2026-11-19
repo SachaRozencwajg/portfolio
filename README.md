@@ -67,8 +67,10 @@ Le script effectue automatiquement :
 | `/ventiprotect/` | Dossier `ventiprotect/` : un seul fichier HTML, copie de `web/index.html` du dépôt [VentiProtect_ARDS](https://github.com/SachaRozencwajg/VentiProtect_ARDS) | Recopier le fichier depuis ce dépôt, puis déployer |
 
 Le calculateur VentiProtect se modifie dans son propre dépôt, où se trouvent ses tests. Ici, on ne fait que
-recopier le fichier. `ventiprotect/og.png` est l'image affichée quand le lien est partagé, et
-`ventiprotect.webp` le visuel de la carte de la page d'accueil.
+recopier le fichier. `ventiprotect/og.png` est l'image affichée quand le lien est partagé. Le visuel de la
+carte de la page d'accueil a une version par thème du site : `ventiprotect-clair.webp` et `ventiprotect.webp`
+(sombre). Ce sont des captures de l'application, dans son thème clair ou sombre, avec les valeurs de son
+bouton « Exemple » : quatre indicateurs agrandis sur une grille 2 × 2, en 1200 × 654 px.
 
 ## Dernière mise à jour
 
