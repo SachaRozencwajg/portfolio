@@ -2,66 +2,87 @@
  * Version anglaise du site (FR par défaut).
  * - data-i18n="clé"      : remplace le premier nœud texte de l'élément (icônes SVG conservées)
  * - data-i18n-html="clé" : remplace tout le contenu HTML de l'élément
+ * - <time datetime>      : la date anglaise est calculée, pas besoin de clé
  * Le texte français d'origine est mémorisé au premier changement de langue.
  * Ajouter une traduction : ajouter l'attribut dans index.html et la clé dans I18N_EN.
  */
 const I18N_EN = {
-    "t0": "CV",
-    "t1": "Projects",
+    // Navigation et réglages
+    "t100": "Skip to content",
+    "t140": "Applications",
     "t2": "Research",
     "t3": "Teaching",
-    "t4": "Talks",
-    "t7": "<span class=\"hero__line\">Anesthesiologist &amp; Intensivist,</span>\n                        <span class=\"hero__line hero__title-accent\">AI Educator</span>",
-    "t8": "I bridge clinical medicine and artificial intelligence, building practical AI solutions that improve patient care and medical practice.",
-    "t6": "See my projects",
-    "t5": "Get in touch",
     "t9": "Background",
-    "t10": "Clinical Career",
+    "t101": "System",
+    "t102": "Light",
+    "t103": "Dark",
+
+    // Accroche
+    "t7": "Anesthesiologist, intensivist and AI educator",
+    "t8": "I build AI tools for those who care for patients and those who learn.",
+    "t6": "See the applications",
+    "t5": "Get in touch",
+    "t141": "heart",
+    "t142": "lungs",
+    "t143": "model",
+    "t144": "Clinical work",
     "t11": "Anesthesiologist",
-    "t13": "Bichat–Claude Bernard University Hospital",
-    "t12": "Clinical Fellow &amp; Consultant",
-    "t14": "Academic Career",
-    "t15": "Research supervision accreditation (ADR, ongoing)",
-    "t16": "AI-driven digital twin for the active rehabilitation of thoracic grafts under ex vivo perfusion",
-    "t17": "PhD – Doctoral School ED394",
-    "t18": "Interaction between veno-arterial ECMO and the brain: the case of differential hypoxaemia",
-    "t19": "MSc – B2PRS",
-    "t20": "Impact of ventilator settings on alveolar inflammation under VV-ECMO in severe ARDS",
-    "t21": "Entrepreneurship",
-    "t22": "Co-founder",
-    "t23": "AI Applications",
+    "t145": "IA2M course, AI applied to medicine",
+    "t146": "AI in medicine, extracorporeal circulation",
+    "t147": "PhD, Sorbonne Université",
+
+    // Applications IA
+    "t23": "AI applications",
     "t24": "Practical tools at the intersection of medicine and AI, built to solve real healthcare problems.",
-    "t25": "Medical education",
+    "t30": "Educational AI platform for the French national medical exams (EDN), grounded exclusively in the official curricula of the specialty colleges. 100% French hosting, deployed at Université Paris-Saclay and UVSQ.",
+    "t148": "RAG · Sovereign AI · EDN",
+    "t31": "Discover EDN-IA",
+    "t34": "Digital logbook for medical training: procedures and autonomy levels, on-call shifts, senior sign-off and coordination dashboards.",
+    "t149": "Residency training · Multi-specialty",
+    "t35": "Discover CareLogbook",
+    "t105": "Online game",
     "t26": "Serious Game: think like an LLM",
     "t27": "Interactive simulation to understand LLM hallucinations and biases in medicine.",
+    "t150": "AI / LLM · Medical education",
     "t28": "Try it online",
-    "t29": "Sovereign AI",
-    "t30": "Educational AI platform for the French national medical exams (EDN), grounded exclusively in the official curricula of the specialty colleges (sourced answers, generation of MCQs, clinical cases and KFPs). 100% French hosting (Scaleway, Mistral AI), deployed at Université Paris-Saclay and UVSQ.",
-    "t31": "Discover EDN-IA",
-    "t32": "Residency training",
-    "t33": "Multi-specialty",
-    "t34": "Digital logbook for medical training: procedures and autonomy levels, on-call shifts, senior sign-off and coordination dashboards. Multi-specialty and multilingual (DESAR, SFCTCV…).",
-    "t35": "Discover CareLogbook",
-    "t98": "Research",
-    "t36": "Research topics",
-    "t37": "Main topic",
-    "t38": "Artificial Intelligence in Medicine",
-    "t39": "Development and evaluation of AI tools for clinical decision support, perioperative care optimisation and medical data analysis, with a focus on Large Language Models (LLMs) in healthcare.",
-    "t40": "Decision support",
-    "t41": "Clinical topic",
-    "t42": "Extracorporeal Circulation",
-    "t43": "Research on ECMO (extracorporeal membrane oxygenation) and extracorporeal circulation in critical care: optimising protocols and improving patient outcomes.",
-    "t44": "Critical care",
-    "t45": "Cardiac surgery",
-    "t97": "Teaching",
-    "t46": "Teaching &amp; Education",
+    "t110": "Online calculator",
+    "t111": "Lung-protective ventilation calculator for ARDS: tidal volume, driving pressure, mechanical power and oxygenation. An open-source educational tool, described in a published article (ACCPM, 2026). No data leaves the browser.",
+    "t151": "ARDS · Ventilation · Open source",
+    "t113": "Open the calculator",
+
+    // Recherche et publications
+    "t67": "Peer-reviewed publications in anaesthesia, critical care and artificial intelligence.",
+    "t38": "Artificial intelligence in medicine",
+    "t39": "Development and evaluation of AI tools for clinical decision support, perioperative care and medical data analysis, in particular large language models (LLMs) and their applications in healthcare.",
+    "t42": "Extracorporeal circulation",
+    "t43": "Research on ECMO (extracorporeal membrane oxygenation) and extracorporeal circulation techniques in critical care.",
+    "t68": "All",
+    "t152": "AI",
+    "t153": "ECMO / CPB",
+    "t69": "Medical education",
+    "t70": "All positions",
+    "t71": "First author",
+    "t72": "Last author",
+    "t74": "No publication matches these filters.",
+    "t75": "See on PubMed",
+
+    // Enseignement et conférences
     "t47": "Sharing knowledge about AI in medicine with healthcare professionals and students.",
-    "t48": "IA2M course – Paris-Saclay",
+    "t48": "IA2M course, Université Paris-Saclay",
+    "t49": "“Artificial Intelligence Applied to Medicine” course. First edition: <strong>8.2/10</strong> satisfaction, unanimously recommended by students.",
     "t50": "See the course syllabus",
     "t54": "Thesis supervision",
     "t55": "Supervision of MD and master's theses on AI applications in anaesthesia and critical care.",
     "t56": "Suggest a topic",
-    "t57": "Talks &amp; lectures",
+    "t57": "Talks and lectures",
+    "t154": "Upcoming",
+    "t155": "Past",
+    "t156": "Recurring courses",
+    "t157": "since 2024",
+    "t108": "Research in medical education in the age of artificial intelligence",
+    "t109": "French national conference on medical education and research · Lille",
+    "t106": "AI for beginners",
+    "t107": "Necker Hospital · AP-HP",
     "t58": "AI in healthcare simulation",
     "t59": "Medical ethics and AI",
     "t60": "Medical Ethics Symposium · Université Paris Cité",
@@ -70,82 +91,86 @@ const I18N_EN = {
     "t63": "Nurse Anaesthetist School, Lyon",
     "t64": "Critical appraisal of an AI paper",
     "t65": "Anaesthesia &amp; Critical Care residency (DESAR) · Paris",
-    "t66": "Scientific articles",
-    "t67": "Peer-reviewed publications in anaesthesia, critical care and artificial intelligence.",
-    "t68": "All",
-    "t69": "Medical education",
-    "t70": "All positions",
-    "t71": "First author",
-    "t72": "Last author",
-    "t73": "Selected publications",
-    "t74": "No publication matches these filters.",
-    "t75": "See all my publications on PubMed",
-    "t76": "Perspectives",
-    "t77": "Views on AI in medicine",
+
+    // Opinions
+    "t158": "Opinions",
     "t78": "Perspectives on the growing role of artificial intelligence in patient care and clinical practice.",
-    "t79": "Mar 2026",
     "t81": "Declaring the use (or non-use) of AI in peer review: a relic of the past?",
-    "t83": "Read the editorial →",
-    "t80": "Feb 2026",
+    "t82": "Editorial (with D. Benhamou) on transparency in the use of generative AI in peer review. <em>Anaesth Crit Care Pain Med</em>.",
+    "t83": "Read the editorial",
     "t84": "AI in my academic medical practice",
     "t85": "A practical (and subjective) guide to generative AI in clinical care, teaching and research: regulatory framework, local LLMs and the tools I use every day (in French).",
-    "t86": "Read the guide →",
+    "t86": "Read the guide",
     "t87": "Generative AI and peer review: preserve judgment, restore trust",
-    "t89": "Get in touch",
-    "t90": "Interested in consulting, a collaboration, or simply discussing AI in medicine? Feel free to reach out.",
-    "t91": "Send me an email",
-    "t92": "Anesthesiologist, intensivist and AI educator at the Faculty of Medicine, based in Paris.",
-    "t93": "About",
-    "t99": "Resources",
-    "t94": "IA2M course – Syllabus",
-    "t95": "Guide: AI in my academic practice",
-    "t96": "© <span id=\"year\">2026</span> Sacha Rozencwajg. All rights reserved.",
-    "t49": "“Artificial Intelligence Applied to Medicine” course. First edition: <strong>8.2/10</strong> satisfaction, unanimously recommended by students.",
-    "t82": "Editorial (with D. Benhamou) on transparency in the use of generative AI in peer review. <em>Anaesth Crit Care Pain Med</em>.",
     "t88": "Editorial (with D. Benhamou) on the role of generative AI in the evaluation of scientific manuscripts. <em>Anaesth Crit Care Pain Med</em>.",
-    "t100": "Skip to content",
-    "t101": "System",
-    "t102": "Light",
-    "t103": "Dark",
-    "t104": "Legal notice and privacy",
-    "t105": "Online game",
-    "t106": "AI for beginners",
-    "t107": "Necker Hospital · AP-HP",
-    "t108": "Research in medical education in the age of artificial intelligence",
-    "t109": "French national conference on medical education and research · Lille",
-    "t110": "Online calculator",
-    "t111": "Lung-protective ventilation calculator for ARDS: tidal volume, driving pressure, mechanical power and oxygenation, with computed corrections. An open-source educational tool, described in a published article (ACCPM, 2026). No data leaves the browser.",
-    "t112": "ARDS",
-    "t113": "Open the calculator"
+
+    // Parcours
+    "t12": "Clinical fellow and consultant",
+    "t13": "Bichat–Claude Bernard University Hospital, <span class=\"nowrap\">AP-HP</span>",
+    "t159": "Academic",
+    "t15": "Research supervision accreditation (ADR, ongoing)",
+    "t16": "AI-driven digital twin for the active rehabilitation of thoracic grafts under ex vivo perfusion",
+    "t17": "PhD, Doctoral School ED394",
+    "t18": "Interaction between veno-arterial ECMO and the brain: the case of differential hypoxaemia",
+    "t19": "MSc, B2PRS",
+    "t20": "Impact of ventilator settings on alveolar inflammation under VV-ECMO in severe ARDS",
+    "t21": "Entrepreneurship",
+    "t22": "Co-founder",
+
+    // Contact et pied de page
+    "t90": "Consulting, a collaboration, or simply a conversation about AI in medicine: write to me.",
+    "t160": "Consulting and training",
+    "t161": "AI applied to medicine, for a team, a department or a faculty.",
+    "t163": "Collaborations in medical AI and extracorporeal circulation.",
+    "t164": "Thesis or dissertation",
+    "t165": "Suggest a topic on AI in anaesthesia and critical care.",
+    "t96": "© <span id=\"year\">2026</span> Sacha Rozencwajg",
+    "t104": "Legal notice and privacy"
 };
 
 // Chaînes générées par le JavaScript
 const I18N_UI = {
     fr: {
-        'pub.showAll': 'Voir les {n} publications',
+        'pub.selected': 'Publications choisies',
+        'pub.all': 'Toutes les publications',
+        'pub.showAll': 'Afficher les {n} publications',
         'pub.showSelection': 'Revenir à la sélection',
+        'copy.idle': 'Copier',
+        'copy.done': 'Copié',
         'lang.toggle': 'EN',
         'lang.label': 'Switch to English',
         'nav.open': 'Ouvrir le menu',
         'nav.close': 'Fermer le menu',
         'theme.label': 'Thème',
-        'tagline': "Médecin au bloc et en réanimation, enseignant à la faculté. Je construis des outils d'IA pour ceux qui soignent et ceux qui apprennent.",
         'meta.title': 'Sacha Rozencwajg | Médecin & Enseignant en IA',
         'meta.description': "Anesthésiste-réanimateur et enseignant en IA à l'Université Paris-Saclay : recherche sur l'ECMO, publications, cours et applications d'IA pour la formation médicale."
     },
     en: {
-        'pub.showAll': 'See all {n} publications',
+        'pub.selected': 'Selected publications',
+        'pub.all': 'All publications',
+        'pub.showAll': 'Show all {n} publications',
         'pub.showSelection': 'Back to selection',
+        'copy.idle': 'Copy',
+        'copy.done': 'Copied',
         'lang.toggle': 'FR',
         'lang.label': 'Passer en français',
         'nav.open': 'Open menu',
         'nav.close': 'Close menu',
         'theme.label': 'Theme',
-        'tagline': 'A physician in the operating room and the ICU, a teacher at medical school. I build AI tools for those who care for patients and those who learn.',
         'meta.title': 'Sacha Rozencwajg | Physician & AI Educator',
         'meta.description': 'Anaesthesiologist, intensivist and AI educator at Université Paris-Saclay: ECMO research, publications, teaching and AI tools for medical training.'
     }
 };
+
+const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Date d'un élément <time> : « 2026-12-10 » → « 10 Dec 2026 », « 2026-09 » → « Sep 2026 », « 2026 » tel quel
+function formatDateEn(iso) {
+    const [year, month, day] = iso.split('-');
+    if (!month) return year;
+    const label = `${MONTHS_EN[Number(month) - 1]} ${year}`;
+    return day ? `${Number(day)} ${label}` : label;
+}
 
 let currentLang = 'fr';
 
@@ -181,6 +206,12 @@ function applyLanguage(lang) {
         if (el.dataset.i18nFrHtml === undefined) el.dataset.i18nFrHtml = el.innerHTML;
         const value = currentLang === 'en' ? I18N_EN[el.dataset.i18nHtml] : el.dataset.i18nFrHtml;
         if (value !== undefined) el.innerHTML = value;
+    });
+
+    // Dates : le français est écrit dans la page, l'anglais se déduit de l'attribut datetime
+    document.querySelectorAll('time[datetime]').forEach(el => {
+        if (el.dataset.i18nFr === undefined) el.dataset.i18nFr = el.textContent;
+        el.textContent = currentLang === 'en' ? formatDateEn(el.getAttribute('datetime')) : el.dataset.i18nFr;
     });
 
     document.title = t('meta.title');

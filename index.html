@@ -39,7 +39,7 @@
       "mainEntity": {
         "@type": "Person",
         "name": "Sacha Rozencwajg",
-        "jobTitle": "Anesthésiste-Réanimateur & Enseignant en IA",
+        "jobTitle": "Anesthésiste-réanimateur et enseignant en IA",
         "url": "https://www.sacha-rozencwajg.fr",
         "image": "https://www.sacha-rozencwajg.fr/photo-sacha.webp",
         "sameAs": [
@@ -57,7 +57,7 @@
             "name": "Université Paris-Saclay"
           }
         ],
-        "description": "Anesthésiste-Réanimateur spécialisé en ECMO et Intelligence Artificielle appliquée à la santé."
+        "description": "Anesthésiste-réanimateur spécialisé en ECMO et en intelligence artificielle appliquée à la santé."
       }
     }
     </script>
@@ -65,7 +65,7 @@
     <!-- Performance Optimizations -->
     <!-- Polices hébergées sur le site (aucune requête vers un service tiers) -->
     <link rel="preload" href="fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" as="image" href="photo-sacha.webp">
+    <link rel="preload" as="image" href="photo-sacha-264.webp">
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -89,11 +89,18 @@
     </script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css?v=20261113">
+    <link rel="stylesheet" href="style.css?v=20261119">
 </head>
 
 <body>
     <a href="#contenu" class="skip-link" data-i18n="t100">Aller au contenu</a>
+
+    <!-- Icônes Phosphor (regular) réutilisées dans la page -->
+    <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+        <symbol id="i-arrow" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol>
+        <symbol id="i-out" viewBox="0 0 256 256"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></symbol>
+        <symbol id="i-copy" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></symbol>
+    </svg>
 
     <!-- ===========================
          Header & Navigation
@@ -101,17 +108,14 @@
     <header class="header" id="header">
         <div class="header__bar">
             <a href="#" class="header__logo">
-                <img src="photo-sacha.webp" alt="" class="header__logo-photo">
-                <span>Sacha Rozencwajg</span>
+                Sacha Rozencwajg
             </a>
 
             <nav class="nav" id="nav" aria-label="Navigation principale">
-                <a href="#parcours" class="nav__link" data-i18n="t0">CV</a>
-                <a href="#projects" class="nav__link" data-i18n="t1">Projets</a>
+                <a href="#projects" class="nav__link" data-i18n="t140">Applications</a>
                 <a href="#research" class="nav__link" data-i18n="t2">Recherche</a>
                 <a href="#teaching" class="nav__link" data-i18n="t3">Enseignement</a>
-                <a href="#talks" class="nav__link" data-i18n="t4">Conférences</a>
-                <a href="#publications" class="nav__link">Publications</a>
+                <a href="#parcours" class="nav__link" data-i18n="t9">Parcours</a>
                 <a href="#contact" class="nav__link">Contact</a>
             </nav>
 
@@ -155,27 +159,21 @@
     <main id="contenu" tabindex="-1">
 
     <!-- ===========================
-         Hero Section
+         Accroche : le nom, le métier, une phrase, trois repères.
+         À droite, un objet en particules qui se recompose (particles.js) : cœur, poumons, modèle.
          =========================== -->
     <section class="hero" id="about">
         <div class="container">
             <div class="hero__grid">
                 <div class="hero__content">
-                    <h1 class="hero__title" data-i18n-html="t7">
-                        <span class="hero__line">Anesthésiste-Réanimateur &amp;</span>
-                        <span class="hero__line hero__title-accent">Enseignant en IA</span>
-                    </h1>
-
-                    <p class="hero__subtitle" data-i18n="t8">
-                        Je fais le lien entre la médecine clinique et l'intelligence artificielle,
-                        en développant des solutions IA pratiques qui améliorent la prise en charge
-                        des patients et la pratique médicale.
-                    </p>
-
+                    <img src="photo-sacha-264.webp" alt="Portrait de Sacha Rozencwajg" class="hero__photo" width="88" height="88">
+                    <h1 class="hero__title">Sacha Rozencwajg</h1>
+                    <p class="hero__role" data-i18n="t7">Anesthésiste-réanimateur et enseignant en IA</p>
+                    <p class="hero__subtitle" data-i18n="t8">Je construis des outils d'IA pour ceux qui soignent et ceux qui apprennent.</p>
                     <div class="hero__actions">
                         <a href="#projects" class="btn btn--primary" data-i18n="t6">
-                            Voir mes projets
-                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+                            Voir les applications
+                            <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-arrow"/></svg>
                         </a>
                         <a href="#contact" class="btn btn--secondary" data-i18n="t5">
                             Me contacter
@@ -183,1279 +181,1016 @@
                     </div>
                 </div>
 
-                <div class="hero__image">
-                    <div class="hero__image-wrapper">
-                        <img src="photo-sacha.webp" alt="Sacha Rozencwajg" class="hero__photo">
-                    </div>
+                <!-- Décoratif : la légende nomme la forme en cours -->
+                <div class="hero__figure" aria-hidden="true">
+                    <canvas class="hero__particles" id="heroParticles"></canvas>
+                    <p class="hero__legend" id="heroLegend">
+                        <span data-i18n="t141">cœur</span>
+                        <span data-i18n="t142">poumons</span>
+                        <span data-i18n="t143">modèle</span>
+                    </p>
                 </div>
             </div>
-        </div>
 
-        <!-- Onde de pouls façon scope (pulse.js) -->
-        <canvas class="pulse-wave" id="pulseWave" aria-hidden="true"></canvas>
-    </section>
-
-    <!-- ===========================
-         CV Timeline Section
-         =========================== -->
-    <section class="section" id="parcours">
-        <div class="container">
-            <header class="section__header">
-                <p class="section__overline" data-i18n="t9">Parcours</p>
-                <h2 class="section__title">Curriculum Vitae</h2>
-            </header>
-
-            <div class="timeline">
-                <!-- Medical Track -->
-                <div class="timeline__track timeline__track--medical">
-                    <div class="timeline__header">
-                        <div class="timeline__icon timeline__icon--medical">
-                            <svg width="24" height="24" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M220,160a12,12,0,1,1-12-12A12,12,0,0,1,220,160Zm-4.55,39.29A48.08,48.08,0,0,1,168,240H144a48.05,48.05,0,0,1-48-48V151.49A64,64,0,0,1,40,88V40a8,8,0,0,1,8-8H72a8,8,0,0,1,0,16H56V88a48,48,0,0,0,48.64,48c26.11-.34,47.36-22.25,47.36-48.83V48H136a8,8,0,0,1,0-16h24a8,8,0,0,1,8,8V87.17c0,32.84-24.53,60.29-56,64.31V192a32,32,0,0,0,32,32h24a32.06,32.06,0,0,0,31.22-25,40,40,0,1,1,16.23.27ZM232,160a24,24,0,1,0-24,24A24,24,0,0,0,232,160Z"/></svg>
-                        </div>
-                        <h3 class="timeline__title" data-i18n="t10">Parcours Médical</h3>
-                    </div>
-                    <div class="timeline__items">
-                        <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-hml.webp" alt="GHPSJ" class="timeline__logo" loading="lazy">
-                            <div class="timeline__content">
-                                <span class="timeline__year">2024</span>
-                                <span class="timeline__label">Hôpital Marie Lannelongue</span>
-                                <span class="timeline__role" data-i18n="t11">Anesthésiste</span>
-                            </div>
-                        </div>
-                        <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-aphp.webp" alt="AP-HP" class="timeline__logo" loading="lazy">
-                            <div class="timeline__content">
-                                <span class="timeline__year">2020-2024</span>
-                                <span class="timeline__label" data-i18n="t13">CHU Bichat Claude Bernard</span>
-                                <span class="timeline__role" data-i18n="t12">Chef de clinique & Praticien Hospitalier</span>
-                            </div>
-                        </div>
-                    </div>
+            <dl class="facts">
+                <div class="facts__item">
+                    <dt data-i18n="t144">Clinique</dt>
+                    <dd>
+                        <span class="facts__main" data-i18n="t11">Anesthésiste</span>
+                        <span class="facts__sub">Hôpital Marie Lannelongue</span>
+                    </dd>
                 </div>
-
-                <!-- Academic Track (moved to middle) -->
-                <div class="timeline__track timeline__track--academic">
-                    <div class="timeline__header">
-                        <div class="timeline__icon timeline__icon--academic">
-                            <svg width="24" height="24" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M232,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H24a8,8,0,0,0-8,8V200a8,8,0,0,0,8,8H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h72a8,8,0,0,0,8-8V56A8,8,0,0,0,232,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64Z"/></svg>
-                        </div>
-                        <h3 class="timeline__title" data-i18n="t14">Parcours Académique</h3>
-                    </div>
-                    <div class="timeline__items">
-                        <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-paris-saclay.webp" alt="Paris-Saclay" class="timeline__logo" loading="lazy">
-                            <div class="timeline__content">
-                                <span class="timeline__year">2025</span>
-                                <span class="timeline__label" data-i18n="t15">ADR (en cours)</span>
-                                <span class="timeline__role" data-i18n="t16">Création d'un jumeau numérique par IA pour la
-                                    réhabilitation active des greffons thoraciques sous perfusion ex vivo</span>
-                            </div>
-                        </div>
-                        <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-sorbonne.webp" alt="Sorbonne" class="timeline__logo" loading="lazy">
-                            <div class="timeline__content">
-                                <span class="timeline__year">2022</span>
-                                <span class="timeline__label" data-i18n="t17">Thèse de Science – ED394</span>
-                                <span class="timeline__role" data-i18n="t18">Interaction entre ECMO veino-artérielle et cerveau :
-                                    exemple de l'hypoxémie différentielle</span>
-                            </div>
-                        </div>
-                        <div class="timeline__item timeline__item--with-logo">
-                            <img src="logo-paris-cite.webp" alt="Paris Cité" class="timeline__logo" loading="lazy">
-                            <div class="timeline__content">
-                                <span class="timeline__year">2016</span>
-                                <span class="timeline__label" data-i18n="t19">Master 2 – B2PRS</span>
-                                <span class="timeline__role" data-i18n="t20">Impact des réglages de la ventilation mécanique sur
-                                    l'inflammation alvéolaire sous ECMO VV au cours du SDRA sévère</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="facts__item">
+                    <dt data-i18n="t3">Enseignement</dt>
+                    <dd>
+                        <span class="facts__main" data-i18n="t145">UE IA2M, IA appliquée à la médecine</span>
+                        <span class="facts__sub">Université Paris-Saclay</span>
+                    </dd>
                 </div>
-
-                <!-- Entrepreneurship Track (moved to right) -->
-                <div class="timeline__track timeline__track--entrepreneur">
-                    <div class="timeline__header">
-                        <div class="timeline__icon timeline__icon--entrepreneur">
-                            <svg width="24" height="24" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.65,71.65,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h64v-6a32.15,32.15,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Zm-16.11-9.34a57.6,57.6,0,0,0-46.56-46.55,8,8,0,0,0-2.66,15.78c16.57,2.79,30.63,16.85,33.44,33.45A8,8,0,0,0,176,104a9,9,0,0,0,1.35-.11A8,8,0,0,0,183.89,94.66Z"/></svg>
-                        </div>
-                        <h3 class="timeline__title" data-i18n="t21">Parcours Entrepreneurial</h3>
-                    </div>
-                    <div class="timeline__items">
-                        <a href="https://pulsecare-ai.fr/" target="_blank" rel="noopener"
-                            class="timeline__item timeline__item--with-logo timeline__item--clickable">
-                            <img src="logo-pulsecare.webp" alt="PulseCare.AI" class="timeline__logo" loading="lazy">
-                            <div class="timeline__content">
-                                <span class="timeline__year">2023</span>
-                                <span class="timeline__label">PulseCare.AI</span>
-                                <span class="timeline__role" data-i18n="t22">Co-fondateur</span>
-                            </div>
-                        </a>
-                        <a href="https://teamdoc.eu/" target="_blank" rel="noopener"
-                            class="timeline__item timeline__item--with-logo timeline__item--clickable">
-                            <img src="logo-teamdoc.webp" alt="Team'Doc" class="timeline__logo" loading="lazy">
-                            <div class="timeline__content">
-                                <span class="timeline__year">2017</span>
-                                <span class="timeline__label">Team'Doc</span>
-                                <span class="timeline__role" data-i18n="t22">Co-fondateur</span>
-                            </div>
-                        </a>
-                    </div>
+                <div class="facts__item">
+                    <dt data-i18n="t2">Recherche</dt>
+                    <dd>
+                        <span class="facts__main" data-i18n="t146">IA en médecine, circulation extracorporelle</span>
+                        <span class="facts__sub" data-i18n="t147">Thèse de science, Sorbonne Université</span>
+                    </dd>
                 </div>
-            </div>
+            </dl>
         </div>
     </section>
 
     <!-- ===========================
-         Phrase révélée mot à mot au défilement (motion.js)
+         Applications IA
          =========================== -->
-    <section class="tagline" aria-labelledby="taglineText">
+    <section class="section" id="projects">
         <div class="container">
-            <p class="tagline__text" id="taglineText">Médecin au bloc et en réanimation, enseignant à la faculté.
-                Je construis des outils d'IA pour ceux qui soignent et ceux qui apprennent.</p>
-        </div>
-    </section>
+            <div class="section__grid section__grid--wide">
+                <header class="section__head">
+                    <h2 class="section__title" data-i18n="t23">Applications IA</h2>
+                    <p class="section__note" data-i18n="t24">
+                        Des outils pratiques à l'intersection de la médecine et de l'IA,
+                        conçus pour résoudre des problèmes concrets en santé.
+                    </p>
+                </header>
 
-    <!-- ===========================
-         Projects / Vibecode Section
-         =========================== -->
-    <section class="section section--alt" id="projects">
-        <div class="container">
-            <header class="section__header">
-                <p class="section__overline">Vibecode</p>
-                <h2 class="section__title" data-i18n="t23">Applications IA</h2>
-                <p class="section__description" data-i18n="t24">
-                    Des outils pratiques à l'intersection de la médecine et de l'IA,
-                    conçus pour résoudre des problèmes concrets en santé.
-                </p>
-            </header>
+                <!-- Mosaïque : EDN-IA en bandeau, puis CareLogbook et le Serious Game, puis VentiProtect en bandeau inversé.
+                     Les visuels sont décoratifs (aria-hidden) ; ceux qui portent data-story sont animés par motion.js. -->
+                <div class="section__body">
+                    <div class="bento" id="projectsBento">
+                        <article class="bento-card bento-card--large">
+                            <div class="bento-card__visual" data-story="edn" aria-hidden="true"></div>
+                            <div class="project-card__content">
+                                <p class="bento-card__domain">edn-ia.fr</p>
+                                <h3 class="project-card__title">EDN-IA</h3>
+                                <p class="project-card__description" data-i18n="t30">
+                                    Plateforme d'IA pédagogique pour la préparation aux EDN, ancrée exclusivement
+                                    dans les référentiels officiels des collèges de spécialité. Hébergement 100&nbsp;% français,
+                                    déployée à l'Université Paris-Saclay et à l'UVSQ.
+                                </p>
+                                <p class="bento-card__keywords" data-i18n="t148">RAG · IA souveraine · EDN</p>
+                                <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="card__link" data-i18n="t31">
+                                    Découvrir EDN-IA
+                                    <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                                </a>
+                            </div>
+                        </article>
 
-            <!-- Mosaïque : EDN-IA en bandeau, puis CareLogbook et le Serious Game, puis VentiProtect en bandeau inversé.
-                 Les visuels sont décoratifs (aria-hidden) ; ceux qui portent data-story sont animés par motion.js. -->
-            <div class="bento" id="projectsBento">
-                <article class="bento-card bento-card--large">
-                    <div class="bento-card__visual" data-story="edn" aria-hidden="true"></div>
-                    <div class="project-card__content">
-                        <div class="bento-card__brand">
-                            <img src="logo-edn-ia.webp" alt="" class="bento-card__logo bento-card__logo--wordmark" width="112" height="32" loading="lazy">
-                            <span class="bento-card__domain">edn-ia.fr</span>
-                        </div>
-                        <h3 class="project-card__title">EDN-IA</h3>
-                        <p class="project-card__description" data-i18n="t30">
-                            Plateforme d'IA pédagogique pour la préparation aux EDN, ancrée exclusivement
-                            dans les référentiels officiels des collèges de spécialité (réponses sourcées,
-                            génération de QI, mini-DP et KFP). Hébergement 100&nbsp;% français
-                            (Scaleway, Mistral AI), déployée à l'Université Paris-Saclay et à l'UVSQ.
-                        </p>
-                        <div class="project-card__tags">
-                            <span class="tag">RAG</span>
-                            <span class="tag" data-i18n="t29">IA souveraine</span>
-                            <span class="tag">EDN</span>
-                        </div>
-                        <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="card__link" data-i18n="t31">
-                            Découvrir EDN-IA
-                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></svg>
-                        </a>
-                    </div>
-                </article>
+                        <article class="bento-card">
+                            <div class="bento-card__visual" data-story="logbook" aria-hidden="true"></div>
+                            <div class="project-card__content">
+                                <p class="bento-card__domain">carelogbook.com</p>
+                                <h3 class="project-card__title">CareLogbook</h3>
+                                <p class="project-card__description" data-i18n="t34">
+                                    Logbook numérique de suivi de formation médicale : actes et niveaux d'autonomie,
+                                    gardes, validation par les seniors et tableaux de bord de coordination.
+                                </p>
+                                <p class="bento-card__keywords" data-i18n="t149">Formation des internes · Multi-spécialités</p>
+                                <a href="https://carelogbook.com" target="_blank" rel="noopener" class="card__link" data-i18n="t35">
+                                    Découvrir CareLogbook
+                                    <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                                </a>
+                            </div>
+                        </article>
 
-                <article class="bento-card">
-                    <div class="bento-card__visual" data-story="logbook" aria-hidden="true"></div>
-                    <div class="project-card__content">
-                        <div class="bento-card__brand">
-                            <img src="logo-carelogbook.webp" alt="" class="bento-card__logo" width="40" height="40" loading="lazy">
-                            <span class="bento-card__domain">carelogbook.com</span>
-                        </div>
-                        <h3 class="project-card__title">CareLogbook</h3>
-                        <p class="project-card__description" data-i18n="t34">
-                            Logbook numérique de suivi de formation médicale : actes et niveaux d'autonomie,
-                            gardes, validation par les seniors et tableaux de bord de coordination.
-                            Multi-spécialités et multilingue (DESAR, SFCTCV…).
-                        </p>
-                        <div class="project-card__tags">
-                            <span class="tag">Logbook</span>
-                            <span class="tag" data-i18n="t32">Formation des internes</span>
-                            <span class="tag" data-i18n="t33">Multi-spécialités</span>
-                        </div>
-                        <a href="https://carelogbook.com" target="_blank" rel="noopener" class="card__link" data-i18n="t35">
-                            Découvrir CareLogbook
-                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></svg>
-                        </a>
-                    </div>
-                </article>
+                        <article class="bento-card">
+                            <div class="bento-card__visual bento-card__visual--photo" data-story="llm" aria-hidden="true">
+                                <img src="serious-game.webp" alt="" class="bento-card__photo" loading="lazy">
+                            </div>
+                            <div class="project-card__content">
+                                <p class="bento-card__domain" data-i18n="t105">Jeu en ligne</p>
+                                <h3 class="project-card__title" data-i18n="t26">Serious Game : dans la peau d'un LLM</h3>
+                                <p class="project-card__description" data-i18n="t27">
+                                    Simulation interactive pour comprendre les hallucinations et biais des LLM en médecine.
+                                </p>
+                                <p class="bento-card__keywords" data-i18n="t150">IA / LLM · Pédagogie</p>
+                                <a href="/serious-game/" class="card__link" data-i18n="t28">
+                                    Essayer en ligne
+                                    <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-arrow"/></svg>
+                                </a>
+                            </div>
+                        </article>
 
-                <article class="bento-card">
-                    <div class="bento-card__visual bento-card__visual--photo" data-story="llm" aria-hidden="true">
-                        <img src="serious-game.webp" alt="" class="bento-card__photo" loading="lazy">
+                        <article class="bento-card bento-card--large bento-card--reverse">
+                            <div class="bento-card__visual bento-card__visual--photo" aria-hidden="true">
+                                <img src="ventiprotect.webp" alt="" class="bento-card__photo" width="1200" height="654" loading="lazy">
+                            </div>
+                            <div class="project-card__content">
+                                <p class="bento-card__domain" data-i18n="t110">Calculateur en ligne</p>
+                                <h3 class="project-card__title">VentiProtect ARDS</h3>
+                                <p class="project-card__description" data-i18n="t111">
+                                    Calculateur de ventilation protectrice pour le SDRA : volume courant, pression motrice,
+                                    puissance mécanique et oxygénation. Outil pédagogique à code ouvert, décrit dans un
+                                    article publié (ACCPM, 2026). Aucune donnée ne quitte le navigateur.
+                                </p>
+                                <p class="bento-card__keywords" data-i18n="t151">SDRA · Ventilation · Open source</p>
+                                <a href="/ventiprotect/" class="card__link" data-i18n="t113">
+                                    Ouvrir le calculateur
+                                    <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-arrow"/></svg>
+                                </a>
+                            </div>
+                        </article>
                     </div>
-                    <div class="project-card__content">
-                        <div class="bento-card__brand">
-                            <span class="bento-card__logo bento-card__logo--icon"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M176,112H152a8,8,0,0,1,0-16h24a8,8,0,0,1,0,16ZM104,96H96V88a8,8,0,0,0-16,0v8H72a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0v-8h8a8,8,0,0,0,0-16ZM241.48,200.65a36,36,0,0,1-54.94,4.81c-.12-.12-.24-.24-.35-.37L146.48,160h-37L69.81,205.09l-.35.37A36.08,36.08,0,0,1,44,216,36,36,0,0,1,8.56,173.75a.68.68,0,0,1,0-.14L24.93,89.52A59.88,59.88,0,0,1,83.89,40H172a60.08,60.08,0,0,1,59,49.25c0,.06,0,.12,0,.18l16.37,84.17a.68.68,0,0,1,0,.14A35.74,35.74,0,0,1,241.48,200.65ZM172,144a44,44,0,0,0,0-88H83.89A43.9,43.9,0,0,0,40.68,92.37l0,.13L24.3,176.59A20,20,0,0,0,58,194.3l41.92-47.59a8,8,0,0,1,6-2.71Zm59.7,32.59-8.74-45A60,60,0,0,1,172,160h-4.2L198,194.31a20.09,20.09,0,0,0,17.46,5.39,20,20,0,0,0,16.23-23.11Z"/></svg></span>
-                            <span class="bento-card__domain" data-i18n="t105">Jeu en ligne</span>
-                        </div>
-                        <h3 class="project-card__title" data-i18n="t26">Serious Game : dans la peau d'un LLM</h3>
-                        <p class="project-card__description" data-i18n="t27">
-                            Simulation interactive pour comprendre les hallucinations et biais des LLM en médecine.
-                        </p>
-                        <div class="project-card__tags">
-                            <span class="tag">IA / LLM</span>
-                            <span class="tag">React</span>
-                            <span class="tag" data-i18n="t25">Pédagogie</span>
-                        </div>
-                        <a href="/serious-game/" class="card__link" data-i18n="t28">
-                            Essayer en ligne
-                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="bento-card bento-card--large bento-card--reverse">
-                    <div class="bento-card__visual bento-card__visual--photo" aria-hidden="true">
-                        <img src="ventiprotect.webp" alt="" class="bento-card__photo" width="1200" height="654" loading="lazy">
-                    </div>
-                    <div class="project-card__content">
-                        <div class="bento-card__brand">
-                            <span class="bento-card__logo bento-card__logo--icon"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M184,184a32,32,0,0,1-32,32c-13.7,0-26.95-8.93-31.5-21.22a8,8,0,0,1,15-5.56C137.74,195.27,145,200,152,200a16,16,0,0,0,0-32H40a8,8,0,0,1,0-16H152A32,32,0,0,1,184,184Zm-64-80a32,32,0,0,0,0-64c-13.7,0-26.95,8.93-31.5,21.22a8,8,0,0,0,15,5.56C105.74,60.73,113,56,120,56a16,16,0,0,1,0,32H24a8,8,0,0,0,0,16Zm88-32c-13.7,0-26.95,8.93-31.5,21.22a8,8,0,0,0,15,5.56C193.74,92.73,201,88,208,88a16,16,0,0,1,0,32H32a8,8,0,0,0,0,16H208a32,32,0,0,0,0-64Z"/></svg></span>
-                            <span class="bento-card__domain" data-i18n="t110">Calculateur en ligne</span>
-                        </div>
-                        <h3 class="project-card__title">VentiProtect ARDS</h3>
-                        <p class="project-card__description" data-i18n="t111">
-                            Calculateur de ventilation protectrice pour le SDRA : volume courant, pression motrice,
-                            puissance mécanique et oxygénation, avec des corrections chiffrées. Outil pédagogique
-                            à code ouvert, décrit dans un article publié (ACCPM, 2026). Aucune donnée ne quitte le navigateur.
-                        </p>
-                        <div class="project-card__tags">
-                            <span class="tag" data-i18n="t112">SDRA</span>
-                            <span class="tag">Ventilation</span>
-                            <span class="tag">Open source</span>
-                        </div>
-                        <a href="/ventiprotect/" class="card__link" data-i18n="t113">
-                            Ouvrir le calculateur
-                            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
-                        </a>
-                    </div>
-                </article>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ===========================
-         Research Section
+         Recherche : deux thèmes, puis les publications
          =========================== -->
     <section class="section" id="research">
         <div class="container">
-            <header class="section__header">
-                <p class="section__overline" data-i18n="t98">Recherche</p>
-                <h2 class="section__title" data-i18n="t36">Thématiques de recherche</h2>
-            </header>
-
-            <div class="card-grid">
-                <!-- Research Theme 1: AI -->
-                <article class="card card--featured">
-                    <div class="card__icon card__icon--ai">
-                        <svg width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg>
-                    </div>
-                    <span class="card__badge" data-i18n="t37">Thématique principale</span>
-                    <h3 class="card__title" data-i18n="t38">Intelligence Artificielle en Médecine</h3>
-                    <p class="card__description" data-i18n="t39">
-                        Développement et évaluation d'outils IA pour l'aide à la décision clinique,
-                        l'optimisation des soins périopératoires et l'analyse de données médicales.
-                        Focus sur les Large Language Models (LLM) et leur application en santé.
+            <div class="section__grid">
+                <header class="section__head">
+                    <h2 class="section__title" data-i18n="t2">Recherche</h2>
+                    <p class="section__note" data-i18n="t67">
+                        Publications dans des revues à comité de lecture en anesthésie,
+                        réanimation et intelligence artificielle.
                     </p>
-                    <div class="card__tags">
-                        <span class="tag">LLM</span>
-                        <span class="tag" data-i18n="t40">Aide à la décision</span>
-                        <span class="tag">Machine Learning</span>
-                    </div>
-                </article>
+                </header>
 
-                <!-- Research Theme 2: ECMO/CEC -->
-                <article class="card card--featured">
-                    <div class="card__icon card__icon--cec">
-                        <svg width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M72,144H32a8,8,0,0,1,0-16H67.72l13.62-20.44a8,8,0,0,1,13.32,0l25.34,38,9.34-14A8,8,0,0,1,136,128h24a8,8,0,0,1,0,16H140.28l-13.62,20.44a8,8,0,0,1-13.32,0L88,126.42l-9.34,14A8,8,0,0,1,72,144ZM178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,.75,0,1.5,0,2.25a8,8,0,1,0,16-.5c0-.58,0-1.17,0-1.75A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46c0,53.61-77.76,102.15-96,112.8-10.83-6.31-42.63-26-66.68-52.21a8,8,0,1,0-11.8,10.82c31.17,34,72.93,56.68,74.69,57.63a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></svg>
+                <div class="section__body">
+                    <div class="duo">
+                        <article class="block">
+                            <img src="dessin-ia.webp" alt="" class="sketch block__sketch" width="600" height="348" loading="lazy">
+                            <h3 class="block-title" data-i18n="t38">Intelligence artificielle en médecine</h3>
+                            <p class="block-text" data-i18n="t39">
+                                Développement et évaluation d'outils d'IA pour l'aide à la décision clinique,
+                                les soins périopératoires et l'analyse de données médicales. En particulier
+                                les grands modèles de langage (LLM) et leurs applications en santé.
+                            </p>
+                        </article>
+                        <article class="block">
+                            <img src="dessin-cec.webp" alt="" class="sketch block__sketch" width="600" height="474" loading="lazy">
+                            <h3 class="block-title" data-i18n="t42">Circulation extracorporelle</h3>
+                            <p class="block-text" data-i18n="t43">
+                                Recherche sur l'ECMO (oxygénation par membrane extracorporelle) et les techniques
+                                de circulation extracorporelle en réanimation.
+                            </p>
+                        </article>
                     </div>
-                    <span class="card__badge" data-i18n="t41">Thématique clinique</span>
-                    <h3 class="card__title" data-i18n="t42">Circulation Extracorporelle</h3>
-                    <p class="card__description" data-i18n="t43">
-                        Recherche sur l'ECMO (Oxygénation par Membrane Extracorporelle) et les techniques
-                        de circulation extracorporelle en réanimation. Optimisation des protocoles
-                        et amélioration des outcomes patients.
-                    </p>
-                    <div class="card__tags">
-                        <span class="tag">ECMO</span>
-                        <span class="tag" data-i18n="t44">Réanimation</span>
-                        <span class="tag" data-i18n="t45">Chirurgie cardiaque</span>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
 
-    <!-- ===========================
-         Teaching Section
-         =========================== -->
-    <section class="section section--alt" id="teaching">
-        <div class="container">
-            <header class="section__header">
-                <p class="section__overline" data-i18n="t97">Enseignement</p>
-                <h2 class="section__title" data-i18n="t46">Formation & Pédagogie</h2>
-                <p class="section__description" data-i18n="t47">
-                    Transmettre les connaissances sur l'IA appliquée à la médecine
-                    aux professionnels de santé et aux étudiants.
-                </p>
-            </header>
-
-            <div class="card-grid">
-                <!-- UE Paris Saclay -->
-                <article class="card">
-                    <div class="card__header-with-logo">
-                        <div class="card__icon">
-                            <svg width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M251.76,88.94l-120-64a8,8,0,0,0-7.52,0l-120,64a8,8,0,0,0,0,14.12L32,117.87v48.42a15.91,15.91,0,0,0,4.06,10.65C49.16,191.53,78.51,216,128,216a130,130,0,0,0,48-8.76V240a8,8,0,0,0,16,0V199.51a115.63,115.63,0,0,0,27.94-22.57A15.91,15.91,0,0,0,224,166.29V117.87l27.76-14.81a8,8,0,0,0,0-14.12ZM128,200c-43.27,0-68.72-21.14-80-33.71V126.4l76.24,40.66a8,8,0,0,0,7.52,0L176,143.47v46.34C163.4,195.69,147.52,200,128,200Zm80-33.75a97.83,97.83,0,0,1-16,14.25V134.93l16-8.53ZM188,118.94l-.22-.13-56-29.87a8,8,0,0,0-7.52,14.12L171,128l-43,22.93L25,96,128,41.07,231,96Z"/></svg>
+                    <div class="pubs" id="publications">
+                        <div class="pubs__head">
+                            <h3 class="block-title" id="pubHeading">Publications choisies</h3>
+                            <div class="pub-filters" id="pubFilters" hidden>
+                                <div class="pub-filters__group" data-filter="theme" role="group" aria-label="Thème">
+                                    <button type="button" class="pub-chip is-active" aria-pressed="true" data-value="all" data-i18n="t68">Toutes</button>
+                                    <button type="button" class="pub-chip" data-value="ia" data-i18n="t152">IA</button>
+                                    <button type="button" class="pub-chip" data-value="ecmo" data-i18n="t153">ECMO / CEC</button>
+                                    <button type="button" class="pub-chip" data-value="pedagogie" data-i18n="t69">Pédagogie</button>
+                                    <button type="button" class="pub-chip" data-value="covid">COVID</button>
+                                </div>
+                                <div class="pub-filters__group" data-filter="position" role="group" aria-label="Position d'auteur">
+                                    <button type="button" class="pub-chip is-active" aria-pressed="true" data-value="all" data-i18n="t70">Toutes positions</button>
+                                    <button type="button" class="pub-chip" data-value="first" data-i18n="t71">1er auteur</button>
+                                    <button type="button" class="pub-chip" data-value="last" data-i18n="t72">Dernier auteur</button>
+                                </div>
+                            </div>
                         </div>
-                        <img src="logo-paris-saclay.webp" alt="Paris-Saclay" class="card__logo">
-                    </div>
-                    <h3 class="card__title" data-i18n="t48">UE IA2M - Paris-Saclay</h3>
-                    <p class="card__description" data-i18n-html="t49">
-                        Unité d'enseignement « Intelligence Artificielle Appliquée à la Médecine ».
-                        Première édition : satisfaction de <strong>8,2/10</strong>, recommandée
-                        unanimement par les étudiants.
-                    </p>
-                    <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
-                        target="_blank" rel="noopener" class="card__link" data-i18n="t50">
-                        Voir le programme de l'UE
-                        <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></svg>
-                    </a>
-                </article>
 
-                <!-- Thesis supervision -->
-                <article class="card">
-                    <div class="card__icon">
-                        <svg width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M226.53,56.41l-96-32a8,8,0,0,0-5.06,0l-96,32A8,8,0,0,0,24,64v80a8,8,0,0,0,16,0V75.1L73.59,86.29a64,64,0,0,0,20.65,88.05c-18,7.06-33.56,19.83-44.94,37.29a8,8,0,1,0,13.4,8.74C77.77,197.25,101.57,184,128,184s50.23,13.25,65.3,36.37a8,8,0,0,0,13.4-8.74c-11.38-17.46-27-30.23-44.94-37.29a64,64,0,0,0,20.65-88l44.12-14.7a8,8,0,0,0,0-15.18ZM176,120A48,48,0,1,1,89.35,91.55l36.12,12a8,8,0,0,0,5.06,0l36.12-12A47.89,47.89,0,0,1,176,120ZM128,87.57,57.3,64,128,40.43,198.7,64Z"/></svg>
-                    </div>
-                    <h3 class="card__title" data-i18n="t54">Encadrement de thèses</h3>
-                    <p class="card__description" data-i18n="t55">
-                        Direction et co-direction de thèses de médecine et de master
-                        sur les applications de l'IA en anesthésie-réanimation.
-                    </p>
-                    <a href="#contact" class="card__link" data-i18n="t56">
-                        Proposer un sujet
-                        <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
-                    </a>
-                </article>
-            </div>
-
-            <div class="talks" id="talks">
-                <h3 class="talks__title" data-i18n="t57">Conférences & interventions</h3>
-                <div class="talks__list">
-                <article class="talk-card">
-                    <div class="talk-card__date">10 déc. 2026</div>
-                    <div class="talk-card__content">
-                        <h4 class="talk-card__title" data-i18n="t108">La recherche en pédagogie à l'heure de l'intelligence artificielle</h4>
-                        <p class="talk-card__venue" data-i18n="t109">États généraux de la formation et de la recherche médicales · Lille</p>
-                    </div>
-                </article>
-                <article class="talk-card">
-                    <div class="talk-card__date">17 nov. 2026</div>
-                    <div class="talk-card__content">
-                        <h4 class="talk-card__title" data-i18n="t106">IA pour les débutants</h4>
-                        <p class="talk-card__venue" data-i18n="t107">Hôpital Necker · AP-HP</p>
-                    </div>
-                    <img src="logo-aphp.webp" alt="AP-HP" class="talk-card__logo" loading="lazy">
-                </article>
-                <article class="talk-card">
-                    <div class="talk-card__date">Sept. 2026</div>
-                    <div class="talk-card__content">
-                        <h4 class="talk-card__title" data-i18n="t58">Place de l'IA dans la simulation en santé</h4>
-                        <p class="talk-card__venue">NumIACare · Université Paris-Saclay</p>
-                    </div>
-                    <img src="talk-logo-paris-saclay.webp" alt="Université Paris-Saclay" class="talk-card__logo" loading="lazy">
-                </article>
-                <article class="talk-card">
-                    <div class="talk-card__date">Juil. 2026</div>
-                    <div class="talk-card__content">
-                        <h4 class="talk-card__title" data-i18n="t59">Déontologie et IA en médecine</h4>
-                        <p class="talk-card__venue" data-i18n="t60">Colloque Déontologie · Université Paris Cité</p>
-                    </div>
-                    <img src="talk-logo-paris-cite.webp" alt="Université Paris Cité" class="talk-card__logo" loading="lazy">
-                </article>
-                <article class="talk-card">
-                    <div class="talk-card__date">2026</div>
-                    <div class="talk-card__content">
-                        <h4 class="talk-card__title" data-i18n="t61">Impacts de l'IA sur la médecine périopératoire</h4>
-                        <p class="talk-card__venue">MAPAR 2026</p>
-                    </div>
-                </article>
-                <article class="talk-card">
-                    <div class="talk-card__date">Depuis 2024</div>
-                    <div class="talk-card__content">
-                        <h4 class="talk-card__title" data-i18n="t62">IA générative pour les IADE</h4>
-                        <p class="talk-card__venue" data-i18n="t63">École d'IADE de Lyon</p>
-                    </div>
-                </article>
-                <article class="talk-card">
-                    <div class="talk-card__date">Depuis 2024</div>
-                    <div class="talk-card__content">
-                        <h4 class="talk-card__title" data-i18n="t64">LCA d'un article d'intelligence artificielle</h4>
-                        <p class="talk-card__venue" data-i18n="t65">DESAR · Paris</p>
-                    </div>
-                </article>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===========================
-         Publications Section
-         =========================== -->
-    <section class="section" id="publications">
-        <div class="container">
-            <header class="section__header">
-                <p class="section__overline">Publications</p>
-                <h2 class="section__title" data-i18n="t66">Articles scientifiques</h2>
-                <p class="section__description" data-i18n="t67">
-                    Publications dans des revues à comité de lecture en anesthésie,
-                    réanimation et intelligence artificielle.
-                </p>
-            </header>
-
-            <div class="pub-filters" id="pubFilters" hidden>
-                <div class="pub-filters__group" data-filter="theme" role="group" aria-label="Thème">
-                    <button type="button" class="pub-chip is-active" data-value="all" data-i18n="t68">Toutes</button>
-                    <button type="button" class="pub-chip" data-value="ia">IA</button>
-                    <button type="button" class="pub-chip" data-value="ecmo">ECMO / CEC</button>
-                    <button type="button" class="pub-chip" data-value="pedagogie" data-i18n="t69">Pédagogie</button>
-                    <button type="button" class="pub-chip" data-value="covid">COVID</button>
-                </div>
-                <div class="pub-filters__group" data-filter="position" role="group" aria-label="Position d'auteur">
-                    <button type="button" class="pub-chip is-active" data-value="all" data-i18n="t70">Toutes positions</button>
-                    <button type="button" class="pub-chip" data-value="first" data-i18n="t71">1er auteur</button>
-                    <button type="button" class="pub-chip" data-value="last" data-i18n="t72">Dernier auteur</button>
-                </div>
-            </div>
-
-            <p class="pub-selection-label" id="pubSelectionLabel" hidden data-i18n="t73">Publications choisies</p>
-
-            <div class="publications-list" id="publicationsList">
+                        <!-- Liste générée par cloud-function/publications_html.py : ne pas modifier à la main -->
+                        <div class="publications-list is-featured-only" id="publicationsList">
                 <!-- PUBLICATIONS:START -->
-                <article class="publication-card" data-themes="ia" data-position="first" data-featured="true">
-                    <div class="publication-card__year">2026</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/42887688/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                VentiProtect ARDS, vibe coding lung protection: a five-minute clinician-built ventilator tool as proof-of-concept for physician prompt engineering.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2026.101934" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ia" data-position="first" data-featured="true">
+                    <span class="pub__year">2026</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/42887688/" target="_blank" rel="noopener">VentiProtect ARDS, vibe coding lung protection: a five-minute clinician-built ventilator tool as proof-of-concept for physician prompt engineering</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong> · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2026.101934" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="first">
-                    <div class="publication-card__year">2026</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/42031111/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Probe insertion is not an airway strategy endpoint.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Aparicio MT
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2026.101856" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="first">
+                    <span class="pub__year">2026</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/42031111/" target="_blank" rel="noopener">Probe insertion is not an airway strategy endpoint</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Aparicio MT · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2026.101856" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ia" data-position="first" data-featured="true">
-                    <div class="publication-card__year">2026</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/41833732/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Declare the use or non-use of artificial intelligence in peer-review: a relic of the past?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Benhamou D
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ia" data-position="first" data-featured="true">
+                    <span class="pub__year">2026</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/41833732/" target="_blank" rel="noopener">Declare the use or non-use of artificial intelligence in peer-review: a relic of the past?</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Benhamou D · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="co">
-                    <div class="publication-card__year">2026</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/41791457/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Implementation of a personalized blood management program in cardiac surgery: a before-and-after study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Bougnoux C, <strong>Rozencwajg S</strong>, Thes J, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2026.101789" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="co">
+                    <span class="pub__year">2026</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/41791457/" target="_blank" rel="noopener">Implementation of a personalized blood management program in cardiac surgery: a before-and-after study</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Bougnoux C, <strong>Rozencwajg S</strong>, Thes J, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2026.101789" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="pedagogie" data-position="co">
-                    <div class="publication-card__year">2025</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/41367735/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Assessment of a brief point-of-care ultrasound training workshop among a large cohort of medical students
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Peyrony O, Goudot G, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Quantitative Imaging in Medicine and Surgery</em> · <a href="https://doi.org/10.21037/qims-2025-934" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="pedagogie" data-position="co">
+                    <span class="pub__year">2025</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/41367735/" target="_blank" rel="noopener">Assessment of a brief point-of-care ultrasound training workshop among a large cohort of medical students</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Peyrony O, Goudot G, …, <strong>Rozencwajg S</strong>, et al. · Quantitative Imaging in Medicine and Surgery · <a href="https://doi.org/10.21037/qims-2025-934" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ia" data-position="first" data-featured="true">
-                    <div class="publication-card__year">2025</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/41318097/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Generative artificial intelligence and peer reviewing: Preserve judgment, restore trust
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Benhamou D
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ia" data-position="first" data-featured="true">
+                    <span class="pub__year">2025</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/41318097/" target="_blank" rel="noopener">Generative artificial intelligence and peer reviewing: Preserve judgment, restore trust</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Benhamou D · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first">
-                    <div class="publication-card__year">2024</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35038287/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                A mock circulation loop to evaluate differential hypoxemia during peripheral venoarterial extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Wu EL, Heinsar S, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Perfusion</em> · <a href="https://doi.org/10.1177/02676591211056567" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="first">
+                    <span class="pub__year">2024</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/35038287/" target="_blank" rel="noopener">A mock circulation loop to evaluate differential hypoxemia during peripheral venoarterial extracorporeal membrane oxygenation</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Wu EL, Heinsar S, et al. · Perfusion · <a href="https://doi.org/10.1177/02676591211056567" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/37673644/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Ultrasonography in thoracic and abdominal stab wound injury: results from the FETTHA study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Bouzid D, Tran-Dinh A, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Emergency medicine journal : EMJ</em> · <a href="https://doi.org/10.1136/emermed-2023-213078" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2023</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/37673644/" target="_blank" rel="noopener">Ultrasonography in thoracic and abdominal stab wound injury: results from the FETTHA study</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Bouzid D, Tran-Dinh A, …, <strong>Rozencwajg S</strong>, et al. · Emergency Medicine Journal · <a href="https://doi.org/10.1136/emermed-2023-213078" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/37573946/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Graphical Editorial on the guidelines: Human factors in critical situations.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            James A, Clavier T, <strong>Rozencwajg S</strong>, Blet A
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2023.101295" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2023</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/37573946/" target="_blank" rel="noopener">Graphical Editorial on the guidelines: Human factors in critical situations</a>
+                        </h4>
+                        <p class="pub__meta">
+                            James A, Clavier T, <strong>Rozencwajg S</strong>, Blet A · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2023.101295" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="pedagogie" data-position="co">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/37023786/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Prior participation as a standardized patient improves OSCE scores of third-year medical students: A pilot comparative study at Université Paris Cité Medical School.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Nguyen Y, Nuzzo A, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Medical teacher</em> · <a href="https://doi.org/10.1080/0142159X.2023.2198665" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="pedagogie" data-position="co">
+                    <span class="pub__year">2023</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/37023786/" target="_blank" rel="noopener">Prior participation as a standardized patient improves OSCE scores of third-year medical students: A pilot comparative study at Université Paris Cité Medical School</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Nguyen Y, Nuzzo A, …, <strong>Rozencwajg S</strong>, et al. · Medical Teacher · <a href="https://doi.org/10.1080/0142159X.2023.2198665" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first" data-featured="true">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/36899029/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Effect of flow change on brain injury during an experimental model of differential hypoxaemia in cardiogenic shock supported by ECMO
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Heinsar S, Wildi K, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Scientific Reports</em> · <a href="https://doi.org/10.1038/s41598-023-30226-6" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="first" data-featured="true">
+                    <span class="pub__year">2023</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/36899029/" target="_blank" rel="noopener">Effect of flow change on brain injury during an experimental model of differential hypoxaemia in cardiogenic shock supported by ECMO</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Heinsar S, Wildi K, et al. · Scientific Reports · <a href="https://doi.org/10.1038/s41598-023-30226-6" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ia" data-position="first" data-featured="true">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/36871626/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Elevating scientific writing with ChatGPT: A guide for reviewers, editors… and authors
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Kantor E
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2023.101209" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ia" data-position="first" data-featured="true">
+                    <span class="pub__year">2023</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/36871626/" target="_blank" rel="noopener">Elevating scientific writing with ChatGPT: A guide for reviewers, editors… and authors</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Kantor E · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2023.101209" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="covid" data-position="co">
-                    <div class="publication-card__year">2023</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/36494003/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                COVID-19: Brief overview of therapeutic strategies.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Beaumont AL, <strong>Rozencwajg S</strong>, Peiffer-Smadja N, Montravers P
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101181" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="covid" data-position="co">
+                    <span class="pub__year">2023</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/36494003/" target="_blank" rel="noopener">COVID-19: Brief overview of therapeutic strategies</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Beaumont AL, <strong>Rozencwajg S</strong>, Peiffer-Smadja N, Montravers P · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2022.101181" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35803576/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Management of patients with severe acute pancreatitis
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Caillard A, Vardon-Bounes F, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101123" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2022</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/35803576/" target="_blank" rel="noopener">Management of patients with severe acute pancreatitis</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Caillard A, Vardon-Bounes F, <strong>Rozencwajg S</strong>, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2022.101123" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="co">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35609777/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Enhanced recovery after cardiac surgery under CPB or off pump
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Carillion A, <strong>Rozencwajg S</strong>, Abou Arab O, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia Critical Care &amp; Pain Medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101106" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="co">
+                    <span class="pub__year">2022</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/35609777/" target="_blank" rel="noopener">Enhanced recovery after cardiac surgery under CPB or off pump</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Carillion A, <strong>Rozencwajg S</strong>, Abou Arab O, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2022.101106" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35470050/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                In severe necrotising soft-tissue infections, do skin defect surfaces matter?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Tanaka S, Thy M, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101071" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2022</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/35470050/" target="_blank" rel="noopener">In severe necrotising soft-tissue infections, do skin defect surfaces matter?</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Tanaka S, Thy M, <strong>Rozencwajg S</strong>, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2022.101071" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/35460922/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Peace, not war in Ukraine or anywhere else, please.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Lefrant JY, Pirracchio R, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2022.101068" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2022</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/35460922/" target="_blank" rel="noopener">Peace, not war in Ukraine or anywhere else, please</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Lefrant JY, Pirracchio R, …, <strong>Rozencwajg S</strong>, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2022.101068" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="first">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34930887/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Predatory journals in anaesthesiology and critical care: what to know and how to avoid pitfalls!
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Peiffer-Smadja N, James A, Kantor E
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>European journal of anaesthesiology</em> · <a href="https://doi.org/10.1097/EJA.0000000000001651" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="first">
+                    <span class="pub__year">2022</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34930887/" target="_blank" rel="noopener">Predatory journals in anaesthesiology and critical care: what to know and how to avoid pitfalls!</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Peiffer-Smadja N, James A, Kantor E · European Journal of Anaesthesiology · <a href="https://doi.org/10.1097/EJA.0000000000001651" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2022</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34625886/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Impact of prior antibiotic therapy on severe necrotizing soft-tissue infections in ICU patients: results from a French retrospective and observational study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Tanaka S, Thy M, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>European journal of clinical microbiology &amp; infectious diseases : official publication of the European Society of Clinical Microbiology</em> · <a href="https://doi.org/10.1007/s10096-021-04354-8" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2022</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34625886/" target="_blank" rel="noopener">Impact of prior antibiotic therapy on severe necrotizing soft-tissue infections in ICU patients: results from a French retrospective and observational study</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Tanaka S, Thy M, …, <strong>Rozencwajg S</strong>, et al. · European Journal of Clinical Microbiology &amp; Infectious Diseases · <a href="https://doi.org/10.1007/s10096-021-04354-8" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34950993/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                A clinically relevant sheep model of orthotopic heart transplantation 24 h after donor brainstem death.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            See Hoe LE, Wildi K, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Intensive care medicine experimental</em> · <a href="https://doi.org/10.1186/s40635-021-00425-4" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34950993/" target="_blank" rel="noopener">A clinically relevant sheep model of orthotopic heart transplantation 24 h after donor brainstem death</a>
+                        </h4>
+                        <p class="pub__meta">
+                            See Hoe LE, Wildi K, …, <strong>Rozencwajg S</strong>, et al. · Intensive Care Medicine Experimental · <a href="https://doi.org/10.1186/s40635-021-00425-4" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="covid" data-position="last">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34936655/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Tracheostomy in COVID-19 acute respiratory distress syndrome patients and follow-up: A parisian bicentric retrospective cohort.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Evrard D, Jurcisin I, …, <strong>Rozencwajg S</strong>
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>PloS one</em> · <a href="https://doi.org/10.1371/journal.pone.0261024" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="covid" data-position="last">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34936655/" target="_blank" rel="noopener">Tracheostomy in COVID-19 acute respiratory distress syndrome patients and follow-up: A parisian bicentric retrospective cohort</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Evrard D, Jurcisin I, …, <strong>Rozencwajg S</strong> · PLOS ONE · <a href="https://doi.org/10.1371/journal.pone.0261024" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34686306/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                2021 adaptation of the editorial policy of Anaesthesia Critical Care and Pain Medicine (ACCPM).
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Lefrant JY, Pirracchio R, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100957" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34686306/" target="_blank" rel="noopener">2021 adaptation of the editorial policy of Anaesthesia Critical Care and Pain Medicine (ACCPM)</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Lefrant JY, Pirracchio R, …, <strong>Rozencwajg S</strong>, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2021.100957" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34650063/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                An innovative ovine model of severe cardiopulmonary failure supported by veno-arterial extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Heinsar S, Jung JS, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Scientific reports</em> · <a href="https://doi.org/10.1038/s41598-021-00087-y" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34650063/" target="_blank" rel="noopener">An innovative ovine model of severe cardiopulmonary failure supported by veno-arterial extracorporeal membrane oxygenation</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Heinsar S, Jung JS, …, <strong>Rozencwajg S</strong>, et al. · Scientific Reports · <a href="https://doi.org/10.1038/s41598-021-00087-y" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="covid" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34637936/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                COVID-19 vaccine boosters: What do we know so far?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Kherabi Y, Fiolet T, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100959" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="covid" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34637936/" target="_blank" rel="noopener">COVID-19 vaccine boosters: What do we know so far?</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Kherabi Y, Fiolet T, <strong>Rozencwajg S</strong>, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2021.100959" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34617676/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Characterizing preclinical sub-phenotypic models of acute respiratory distress syndrome: An experimental ovine study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Millar JE, Wildi K, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Physiological reports</em> · <a href="https://doi.org/10.14814/phy2.15048" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34617676/" target="_blank" rel="noopener">Characterizing preclinical sub-phenotypic models of acute respiratory distress syndrome: An experimental ovine study</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Millar JE, Wildi K, …, <strong>Rozencwajg S</strong>, et al. · Physiological Reports · <a href="https://doi.org/10.14814/phy2.15048" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34233748/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Tracheostomy management in patients with severe acute respiratory distress syndrome receiving extracorporeal membrane oxygenation: an International Multicenter Retrospective Study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Schmidt M, Fisser C, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care (London, England)</em> · <a href="https://doi.org/10.1186/s13054-021-03649-8" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34233748/" target="_blank" rel="noopener">Tracheostomy management in patients with severe acute respiratory distress syndrome receiving extracorporeal membrane oxygenation: an International Multicenter Retrospective Study</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Schmidt M, Fisser C, …, <strong>Rozencwajg S</strong>, et al. · Critical Care · <a href="https://doi.org/10.1186/s13054-021-03649-8" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/34014886/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                An Ovine Model of Hemorrhagic Shock and Resuscitation, to Assess Recovery of Tissue Oxygen Delivery and Oxygen Debt, and Inform Patient Blood Management.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Dyer WB, Tung JP, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Shock (Augusta, Ga.)</em> · <a href="https://doi.org/10.1097/SHK.0000000000001805" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/34014886/" target="_blank" rel="noopener">An Ovine Model of Hemorrhagic Shock and Resuscitation, to Assess Recovery of Tissue Oxygen Delivery and Oxygen Debt, and Inform Patient Blood Management</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Dyer WB, Tung JP, …, <strong>Rozencwajg S</strong>, et al. · Shock · <a href="https://doi.org/10.1097/SHK.0000000000001805" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="covid" data-position="first">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/33946037/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                SARS-CoV-2 vaccination efficacy on hospitalisation and variants.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Blet A, Lamer A, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100874" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="covid" data-position="first">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/33946037/" target="_blank" rel="noopener">SARS-CoV-2 vaccination efficacy on hospitalisation and variants</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Blet A, Lamer A, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2021.100874" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="covid" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/33774261/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                COVID-19 vaccines: A race against time.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Peiffer-Smadja N, <strong>Rozencwajg S</strong>, Kherabi Y, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2021.100848" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="covid" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/33774261/" target="_blank" rel="noopener">COVID-19 vaccines: A race against time</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Peiffer-Smadja N, <strong>Rozencwajg S</strong>, Kherabi Y, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2021.100848" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2021</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/33725225/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Pain and dyspnea control during awake fiberoptic bronchoscopy in critically ill patients: safety and efficacy of remifentanil target-controlled infusion.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Caron M, Parrot A, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Annals of intensive care</em> · <a href="https://doi.org/10.1186/s13613-021-00832-6" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2021</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/33725225/" target="_blank" rel="noopener">Pain and dyspnea control during awake fiberoptic bronchoscopy in critically ill patients: safety and efficacy of remifentanil target-controlled infusion</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Caron M, Parrot A, …, <strong>Rozencwajg S</strong>, et al. · Annals of Intensive Care · <a href="https://doi.org/10.1186/s13613-021-00832-6" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="co">
-                    <div class="publication-card__year">2020</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/32644199/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                The effect of hyperoxia on inflammation and platelet responses in an ex vivo extracorporeal membrane oxygenation circuit.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Passmore MR, Ki KK, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Artificial organs</em> · <a href="https://doi.org/10.1111/aor.13771" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="co">
+                    <span class="pub__year">2020</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/32644199/" target="_blank" rel="noopener">The effect of hyperoxia on inflammation and platelet responses in an ex vivo extracorporeal membrane oxygenation circuit</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Passmore MR, Ki KK, …, <strong>Rozencwajg S</strong>, et al. · Artificial Organs · <a href="https://doi.org/10.1111/aor.13771" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="co">
-                    <div class="publication-card__year">2020</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/32451698/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Heart failure supported by veno-arterial extracorporeal membrane oxygenation (ECMO): a systematic review of pre-clinical models.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Heinsar S, <strong>Rozencwajg S</strong>, Suen J, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Intensive care medicine experimental</em> · <a href="https://doi.org/10.1186/s40635-020-00303-5" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="co">
+                    <span class="pub__year">2020</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/32451698/" target="_blank" rel="noopener">Heart failure supported by veno-arterial extracorporeal membrane oxygenation (ECMO): a systematic review of pre-clinical models</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Heinsar S, <strong>Rozencwajg S</strong>, Suen J, et al. · Intensive Care Medicine Experimental · <a href="https://doi.org/10.1186/s40635-020-00303-5" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2020</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/32147580/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Stress ulcer prophylaxis in ICU patients: Answers and questions from the PEPTIC trial.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Dargent A, Jacquier M, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2020.03.005" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2020</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/32147580/" target="_blank" rel="noopener">Stress ulcer prophylaxis in ICU patients: Answers and questions from the PEPTIC trial</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Dargent A, Jacquier M, <strong>Rozencwajg S</strong>, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2020.03.005" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first" data-featured="true">
-                    <div class="publication-card__year">2019</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/31385880/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Ultra-Protective Ventilation Reduces Biotrauma in Patients on Venovenous Extracorporeal Membrane Oxygenation for Severe Acute Respiratory Distress Syndrome.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Guihot A, Franchineau G, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care medicine</em> · <a href="https://doi.org/10.1097/CCM.0000000000003894" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="first" data-featured="true">
+                    <span class="pub__year">2019</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/31385880/" target="_blank" rel="noopener">Ultra-Protective Ventilation Reduces Biotrauma in Patients on Venovenous Extracorporeal Membrane Oxygenation for Severe Acute Respiratory Distress Syndrome</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Guihot A, Franchineau G, et al. · Critical Care Medicine · <a href="https://doi.org/10.1097/CCM.0000000000003894" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first">
-                    <div class="publication-card__year">2018</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/29174419/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Co-infection with influenza-associated acute respiratory distress syndrome requiring extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Bréchot N, Schmidt M, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>International journal of antimicrobial agents</em> · <a href="https://doi.org/10.1016/j.ijantimicag.2017.11.005" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="first">
+                    <span class="pub__year">2018</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/29174419/" target="_blank" rel="noopener">Co-infection with influenza-associated acute respiratory distress syndrome requiring extracorporeal membrane oxygenation</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Bréchot N, Schmidt M, et al. · International Journal of Antimicrobial Agents · <a href="https://doi.org/10.1016/j.ijantimicag.2017.11.005" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/29084498/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                To be or not to be on ECMO: can survival prediction models solve the question?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Fraser J, Montero S, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care and resuscitation : journal of the Australasian Academy of Critical Care Medicine</em>
+                <article class="pub" data-themes="ecmo" data-position="first">
+                    <span class="pub__year">2017</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/29084498/" target="_blank" rel="noopener">To be or not to be on ECMO: can survival prediction models solve the question?</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Fraser J, Montero S, et al. · Critical Care and Resuscitation
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/28655352/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Evaluation of early antimicrobial therapy adaptation guided by the BetaLACTA® test: a case-control study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Garnier M, <strong>Rozencwajg S</strong>, Pham T, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care (London, England)</em> · <a href="https://doi.org/10.1186/s13054-017-1746-6" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2017</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/28655352/" target="_blank" rel="noopener">Evaluation of early antimicrobial therapy adaptation guided by the BetaLACTA® test: a case-control study</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Garnier M, <strong>Rozencwajg S</strong>, Pham T, et al. · Critical Care · <a href="https://doi.org/10.1186/s13054-017-1746-6" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/28361084/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Meta-analysis on extracorporeal life support during cardiac arrest: do not compare apples and oranges.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Schmidt M
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Annals of translational medicine</em> · <a href="https://doi.org/10.21037/atm.2017.01.24" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="first">
+                    <span class="pub__year">2017</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/28361084/" target="_blank" rel="noopener">Meta-analysis on extracorporeal life support during cardiac arrest: do not compare apples and oranges</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Schmidt M · Annals of Translational Medicine · <a href="https://doi.org/10.21037/atm.2017.01.24" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="first">
-                    <div class="publication-card__year">2017</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27485804/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                The risk of atrial fibrillation after pneumonectomy is not impaired by preoperative administration of dexamethasone. A cohort study.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Desthieux C, Szymkiewicz O, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Anaesthesia, critical care &amp; pain medicine</em> · <a href="https://doi.org/10.1016/j.accpm.2016.04.005" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="first">
+                    <span class="pub__year">2017</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/27485804/" target="_blank" rel="noopener">The risk of atrial fibrillation after pneumonectomy is not impaired by preoperative administration of dexamethasone. A cohort study</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Desthieux C, Szymkiewicz O, et al. · Anaesthesia Critical Care &amp; Pain Medicine · <a href="https://doi.org/10.1016/j.accpm.2016.04.005" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first">
-                    <div class="publication-card__year">2016</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27919283/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Outcomes and survival prediction models for severe adult acute respiratory distress syndrome treated with extracorporeal membrane oxygenation.
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Pilcher D, Combes A, Schmidt M
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Critical care (London, England)</em> · <a href="https://doi.org/10.1186/s13054-016-1568-y" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="first">
+                    <span class="pub__year">2016</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/27919283/" target="_blank" rel="noopener">Outcomes and survival prediction models for severe adult acute respiratory distress syndrome treated with extracorporeal membrane oxygenation</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Pilcher D, Combes A, Schmidt M · Critical Care · <a href="https://doi.org/10.1186/s13054-016-1568-y" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="" data-position="co">
-                    <div class="publication-card__year">2016</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27771739/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Effect of early postextubation high-flow nasal cannula vs conventional oxygen therapy on hypoxaemia in patients after major abdominal surgery: a French multicentre randomised controlled trial (OPERA).
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            Futier E, Paugam-Burtz C, …, <strong>Rozencwajg S</strong>, et al.
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Intensive care medicine</em> · <a href="https://doi.org/10.1007/s00134-016-4594-y" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="" data-position="co">
+                    <span class="pub__year">2016</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/27771739/" target="_blank" rel="noopener">Effect of early postextubation high-flow nasal cannula vs conventional oxygen therapy on hypoxaemia in patients after major abdominal surgery: a French multicentre randomised controlled trial (OPERA)</a>
+                        </h4>
+                        <p class="pub__meta">
+                            Futier E, Paugam-Burtz C, …, <strong>Rozencwajg S</strong>, et al. · Intensive Care Medicine · <a href="https://doi.org/10.1007/s00134-016-4594-y" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
 
-                <article class="publication-card" data-themes="ecmo" data-position="first">
-                    <div class="publication-card__year">2016</div>
-                    <div class="publication-card__content">
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/27619972/" target="_blank" rel="noopener">
-                            <h3 class="publication-card__title">
-                                Extracorporeal membrane oxygenation for interstitial lung disease: what is on the other side of the bridge?
-                            </h3>
-                        </a>
-                        <p class="publication-card__authors">
-                            <strong>Rozencwajg S</strong>, Schmidt M
-                        </p>
-                        <p class="publication-card__journal">
-                            <em>Journal of thoracic disease</em> · <a href="https://doi.org/10.21037/jtd.2016.07.50" target="_blank" rel="noopener" class="publication-card__doi">DOI</a>
+                <article class="pub" data-themes="ecmo" data-position="first">
+                    <span class="pub__year">2016</span>
+                    <div class="pub__body">
+                        <h4 class="pub__title">
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/27619972/" target="_blank" rel="noopener">Extracorporeal membrane oxygenation for interstitial lung disease: what is on the other side of the bridge?</a>
+                        </h4>
+                        <p class="pub__meta">
+                            <strong>Rozencwajg S</strong>, Schmidt M · Journal of Thoracic Disease · <a href="https://doi.org/10.21037/jtd.2016.07.50" target="_blank" rel="noopener" class="pub__doi">DOI</a>
                         </p>
                     </div>
                 </article>
                 <!-- PUBLICATIONS:END -->
-            </div>
+                        </div>
 
-            <p class="pub-empty" id="pubEmpty" hidden data-i18n="t74">Aucune publication ne correspond à ces filtres.</p>
+                        <p class="pub-empty" id="pubEmpty" hidden data-i18n="t74">Aucune publication ne correspond à ces filtres.</p>
 
-            <div class="pub-actions">
-                <button type="button" class="btn btn--primary" id="pubToggle" hidden></button>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rozencwajg+S&sort=date" target="_blank" rel="noopener"
-                    class="btn btn--secondary" data-i18n="t75">
-                    Voir toutes mes publications sur PubMed
-                    <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></svg>
-                </a>
+                        <div class="pub-actions">
+                            <button type="button" class="btn btn--outline" id="pubToggle" hidden></button>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rozencwajg+S&sort=date" target="_blank" rel="noopener"
+                                class="text-link" data-i18n="t75">
+                                Voir sur PubMed
+                                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ===========================
-         Opinions / Blog Section
+         Enseignement et conférences
          =========================== -->
-    <section class="section section--alt" id="opinions">
+    <section class="section" id="teaching">
         <div class="container">
-            <header class="section__header">
-                <p class="section__overline" data-i18n="t76">Réflexions</p>
-                <h2 class="section__title" data-i18n="t77">Opinions sur l'IA en médecine</h2>
-                <p class="section__description" data-i18n="t78">
-                    Perspectives et réflexions sur le rôle croissant de l'intelligence
-                    artificielle dans les soins et la pratique clinique.
-                </p>
-            </header>
+            <div class="section__grid">
+                <header class="section__head section__head--sketch">
+                    <h2 class="section__title" data-i18n="t3">Enseignement</h2>
+                    <p class="section__note" data-i18n="t47">
+                        Transmettre les connaissances sur l'IA appliquée à la médecine
+                        aux professionnels de santé et aux étudiants.
+                    </p>
+                    <img src="dessin-enseignement.webp" alt="" class="sketch" width="464" height="368" loading="lazy">
+                </header>
 
-            <div class="card-grid card-grid--list">
-                <article class="blog-card">
-                    <div class="blog-card__date">
-                        <span class="blog-card__date-day">13</span>
-                        <span class="blog-card__date-month" data-i18n="t79">Mars 2026</span>
+                <div class="section__body">
+                    <div class="duo">
+                        <article class="block">
+                            <h3 class="block-title" data-i18n="t48">UE IA2M, Université Paris-Saclay</h3>
+                            <p class="block-text" data-i18n-html="t49">
+                                Unité d'enseignement « Intelligence artificielle appliquée à la médecine ».
+                                Première édition : satisfaction de <strong>8,2/10</strong>, recommandée
+                                unanimement par les étudiants.
+                            </p>
+                            <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
+                                target="_blank" rel="noopener" class="text-link" data-i18n="t50">
+                                Voir le programme de l'UE
+                                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                            </a>
+                        </article>
+                        <article class="block">
+                            <h3 class="block-title" data-i18n="t54">Encadrement de thèses</h3>
+                            <p class="block-text" data-i18n="t55">
+                                Direction et co-direction de thèses de médecine et de master
+                                sur les applications de l'IA en anesthésie-réanimation.
+                            </p>
+                            <a href="#contact" class="text-link" data-i18n="t56">
+                                Proposer un sujet
+                                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-arrow"/></svg>
+                            </a>
+                        </article>
                     </div>
-                    <div class="blog-card__content">
-                        <h3 class="blog-card__title" data-i18n="t81">Déclarer l'usage (ou non) de l'IA dans la relecture par les pairs : une relique du passé ?</h3>
-                        <p class="blog-card__excerpt" data-i18n-html="t82">
-                            Éditorial (avec D. Benhamou) sur la transparence de l'usage de l'IA générative dans le peer-review. <em>Anaesth Crit Care Pain Med</em>.
-                        </p>
-                        <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="blog-card__read-more" data-i18n="t83">
-                            Lire l'éditorial →
-                        </a>
-                    </div>
-                </article>
 
-                <article class="blog-card">
-                    <div class="blog-card__date">
-                        <span class="blog-card__date-day">6</span>
-                        <span class="blog-card__date-month" data-i18n="t80">Fév 2026</span>
-                    </div>
-                    <div class="blog-card__content">
-                        <h3 class="blog-card__title" data-i18n="t84">L'IA dans ma pratique hospitalo-universitaire</h3>
-                        <p class="blog-card__excerpt" data-i18n="t85">
-                            Guide pratique (et subjectif) d'usage de l'IA générative en clinique, en pédagogie et en recherche : cadre réglementaire, LLM en local, outils que j'utilise au quotidien.
-                        </p>
-                        <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener" class="blog-card__read-more" data-i18n="t86">
-                            Lire le guide →
-                        </a>
-                    </div>
-                </article>
+                    <!-- Conférences : une ligne par événement. Une ligne « à venir » porte data-date (AAAA-MM-JJ) ;
+                         une fois la date passée, script.js la range en tête des conférences passées. -->
+                    <div class="talks" id="talks">
+                        <h3 class="block-title" data-i18n="t57">Conférences et interventions</h3>
+                        <div class="rows">
+                            <p class="rows__group rows__group--next" id="talksUpcomingLabel" data-i18n="t154">À venir</p>
+                            <article class="row row--next" data-date="2026-12-10">
+                                <time class="row__when" datetime="2026-12-10">10 déc. 2026</time>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-i18n="t108">La recherche en pédagogie à l'heure de l'intelligence artificielle</h4>
+                                    <p class="row__meta" data-i18n="t109">États généraux de la formation et de la recherche médicales · Lille</p>
+                                </div>
+                            </article>
 
-                <article class="blog-card">
-                    <div class="blog-card__date">
-                        <span class="blog-card__date-day">27</span>
-                        <span class="blog-card__date-month">Nov 2025</span>
+                            <p class="rows__group" id="talksPastLabel" data-i18n="t155">Passées</p>
+                            <article class="row">
+                                <time class="row__when" datetime="2026-11-17">17 nov. 2026</time>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-i18n="t106">IA pour les débutants</h4>
+                                    <p class="row__meta" data-i18n="t107">Hôpital Necker · AP-HP</p>
+                                </div>
+                            </article>
+                            <article class="row">
+                                <time class="row__when" datetime="2026-09">sept. 2026</time>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-i18n="t58">Place de l'IA dans la simulation en santé</h4>
+                                    <p class="row__meta">NumIACare · Université Paris-Saclay</p>
+                                </div>
+                            </article>
+                            <article class="row">
+                                <time class="row__when" datetime="2026-07">juil. 2026</time>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-i18n="t59">Déontologie et IA en médecine</h4>
+                                    <p class="row__meta" data-i18n="t60">Colloque Déontologie · Université Paris Cité</p>
+                                </div>
+                            </article>
+                            <article class="row">
+                                <time class="row__when" datetime="2026">2026</time>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-i18n="t61">Impacts de l'IA sur la médecine périopératoire</h4>
+                                    <p class="row__meta">MAPAR 2026</p>
+                                </div>
+                            </article>
+
+                            <p class="rows__group" data-i18n="t156">Cours récurrents</p>
+                            <article class="row">
+                                <span class="row__when" data-i18n="t157">depuis 2024</span>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-i18n="t62">IA générative pour les IADE</h4>
+                                    <p class="row__meta" data-i18n="t63">École d'IADE de Lyon</p>
+                                </div>
+                            </article>
+                            <article class="row">
+                                <span class="row__when" data-i18n="t157">depuis 2024</span>
+                                <div class="row__body">
+                                    <h4 class="row__title" data-i18n="t64">LCA d'un article d'intelligence artificielle</h4>
+                                    <p class="row__meta" data-i18n="t65">DESAR · Paris</p>
+                                </div>
+                            </article>
+                        </div>
                     </div>
-                    <div class="blog-card__content">
-                        <h3 class="blog-card__title" data-i18n="t87">IA générative et relecture par les pairs : préserver le jugement, restaurer la confiance</h3>
-                        <p class="blog-card__excerpt" data-i18n-html="t88">
-                            Éditorial (avec D. Benhamou) sur la place de l'IA générative dans l'évaluation des manuscrits scientifiques. <em>Anaesth Crit Care Pain Med</em>.
-                        </p>
-                        <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="blog-card__read-more" data-i18n="t83">
-                            Lire l'éditorial →
-                        </a>
-                    </div>
-                </article>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ===========================
-         Contact Section
+         Opinions
+         =========================== -->
+    <section class="section" id="opinions">
+        <div class="container">
+            <div class="section__grid">
+                <header class="section__head section__head--sketch">
+                    <h2 class="section__title" data-i18n="t158">Opinions</h2>
+                    <p class="section__note" data-i18n="t78">
+                        Perspectives et réflexions sur le rôle croissant de l'intelligence
+                        artificielle dans les soins et la pratique clinique.
+                    </p>
+                    <img src="dessin-opinions.webp" alt="" class="sketch" width="464" height="353" loading="lazy">
+                </header>
+
+                <div class="section__body">
+                    <div class="rows">
+                        <article class="row">
+                            <time class="row__when" datetime="2026-03-13">13 mars 2026</time>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t81">Déclarer l'usage (ou non) de l'IA dans la relecture par les pairs : une relique du passé ?</h3>
+                                <p class="row__meta" data-i18n-html="t82">
+                                    Éditorial (avec D. Benhamou) sur la transparence de l'usage de l'IA générative dans le peer-review. <em>Anaesth Crit Care Pain Med</em>.
+                                </p>
+                                <a href="https://doi.org/10.1016/j.accpm.2026.101812" target="_blank" rel="noopener" class="text-link text-link--sm" data-i18n="t83">
+                                    Lire l'éditorial
+                                    <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                                </a>
+                            </div>
+                        </article>
+                        <article class="row">
+                            <time class="row__when" datetime="2026-02-06">6 févr. 2026</time>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t84">L'IA dans ma pratique hospitalo-universitaire</h3>
+                                <p class="row__meta" data-i18n="t85">
+                                    Guide pratique (et subjectif) d'usage de l'IA générative en clinique, en pédagogie et en recherche : cadre réglementaire, LLM en local, outils que j'utilise au quotidien.
+                                </p>
+                                <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener" class="text-link text-link--sm" data-i18n="t86">
+                                    Lire le guide
+                                    <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                                </a>
+                            </div>
+                        </article>
+                        <article class="row">
+                            <time class="row__when" datetime="2025-11-27">27 nov. 2025</time>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t87">IA générative et relecture par les pairs : préserver le jugement, restaurer la confiance</h3>
+                                <p class="row__meta" data-i18n-html="t88">
+                                    Éditorial (avec D. Benhamou) sur la place de l'IA générative dans l'évaluation des manuscrits scientifiques. <em>Anaesth Crit Care Pain Med</em>.
+                                </p>
+                                <a href="https://doi.org/10.1016/j.accpm.2025.101714" target="_blank" rel="noopener" class="text-link text-link--sm" data-i18n="t83">
+                                    Lire l'éditorial
+                                    <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Parcours : un registre, trois groupes
+         =========================== -->
+    <section class="section" id="parcours">
+        <div class="container">
+            <div class="section__grid">
+                <header class="section__head section__head--sketch">
+                    <h2 class="section__title" data-i18n="t9">Parcours</h2>
+                    <img src="dessin-parcours.webp" alt="" class="sketch" width="464" height="389" loading="lazy">
+                </header>
+
+                <div class="section__body">
+                    <div class="rows rows--cv">
+                        <p class="rows__group" data-i18n="t144">Clinique</p>
+                        <div class="row">
+                            <span class="row__when" data-i18n="t157">depuis 2024</span>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t11">Anesthésiste</h3>
+                            </div>
+                            <span class="row__side">Hôpital Marie Lannelongue</span>
+                        </div>
+                        <div class="row">
+                            <span class="row__when">2020-2024</span>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t12">Chef de clinique et praticien hospitalier</h3>
+                            </div>
+                            <span class="row__side" data-i18n-html="t13">CHU Bichat–Claude Bernard, <span class="nowrap">AP-HP</span></span>
+                        </div>
+
+                        <p class="rows__group" data-i18n="t159">Université</p>
+                        <div class="row">
+                            <span class="row__when">2025</span>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t15">ADR (en cours)</h3>
+                                <p class="row__meta" data-i18n="t16">Création d'un jumeau numérique par IA pour la réhabilitation active des greffons thoraciques sous perfusion ex vivo</p>
+                            </div>
+                            <span class="row__side">Université Paris-Saclay</span>
+                        </div>
+                        <div class="row">
+                            <span class="row__when">2022</span>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t17">Thèse de science, ED394</h3>
+                                <p class="row__meta" data-i18n="t18">Interaction entre ECMO veino-artérielle et cerveau : exemple de l'hypoxémie différentielle</p>
+                            </div>
+                            <span class="row__side">Sorbonne Université</span>
+                        </div>
+                        <div class="row">
+                            <span class="row__when">2016</span>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t19">Master 2, B2PRS</h3>
+                                <p class="row__meta" data-i18n="t20">Impact des réglages de la ventilation mécanique sur l'inflammation alvéolaire sous ECMO VV au cours du SDRA sévère</p>
+                            </div>
+                            <span class="row__side">Université Paris Cité</span>
+                        </div>
+
+                        <p class="rows__group" data-i18n="t21">Entrepreneuriat</p>
+                        <div class="row">
+                            <span class="row__when">2023</span>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t22">Cofondateur</h3>
+                            </div>
+                            <a href="https://pulsecare-ai.fr/" target="_blank" rel="noopener" class="row__side text-link text-link--sm">
+                                PulseCare.AI
+                                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                            </a>
+                        </div>
+                        <div class="row">
+                            <span class="row__when">2017</span>
+                            <div class="row__body">
+                                <h3 class="row__title" data-i18n="t22">Cofondateur</h3>
+                            </div>
+                            <a href="https://teamdoc.eu/" target="_blank" rel="noopener" class="row__side text-link text-link--sm">
+                                Team'Doc
+                                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Contact
          =========================== -->
     <section class="section" id="contact">
         <div class="container">
-            <header class="section__header">
-                <p class="section__overline">Contact</p>
-                <h2 class="section__title" data-i18n="t89">Me contacter</h2>
-                <p class="section__description" data-i18n="t90">
-                    Intéressé par du conseil, une collaboration, ou simplement discuter
-                    d'IA en médecine ? N'hésitez pas à me contacter.
-                </p>
-            </header>
+            <div class="section__grid">
+                <header class="section__head">
+                    <h2 class="section__title">Contact</h2>
+                </header>
 
-            <div class="card-grid card-grid--contact">
-                <a href="mailto:sacha.rozencwajg@gmail.com" class="card card--centered">
-                    <div class="card__icon">
-                        <svg width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></svg>
+                <div class="section__body">
+                    <p class="contact__lead" data-i18n="t90">Conseil, collaboration, ou simple discussion sur l'IA en médecine : écrivez-moi.</p>
+
+                    <div class="contact__mail">
+                        <a href="mailto:sacha.rozencwajg@gmail.com" class="contact__address" id="contactAddress">sacha.rozencwajg@gmail.com</a>
+                        <!-- Affiché par script.js : sans JavaScript, le bouton ne ferait rien -->
+                        <button type="button" class="btn-copy" id="copyEmail" hidden>
+                            <svg width="14" height="14" fill="currentColor" aria-hidden="true"><use href="#i-copy"/></svg>
+                            <span id="copyEmailLabel" aria-live="polite">Copier</span>
+                        </button>
+                        <a href="https://www.linkedin.com/in/sacha-rozencwajg" target="_blank" rel="noopener" class="text-link">
+                            LinkedIn
+                            <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                        </a>
+                        <a href="https://github.com/SachaRozencwajg" target="_blank" rel="noopener" class="text-link">
+                            GitHub
+                            <svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-out"/></svg>
+                        </a>
                     </div>
-                    <h3 class="card__title" data-i18n="t91">M'envoyer un email</h3>
-                    <p class="card__description">
-                        sacha.rozencwajg@gmail.com
-                    </p>
-                </a>
+
+                    <div class="rows rows--why">
+                        <div class="row">
+                            <h3 class="row__title" data-i18n="t160">Conseil et formation</h3>
+                            <p class="row__meta" data-i18n="t161">L'IA appliquée à la médecine, pour une équipe, un service ou une faculté.</p>
+                        </div>
+                        <div class="row">
+                            <h3 class="row__title" data-i18n="t2">Recherche</h3>
+                            <p class="row__meta" data-i18n="t163">Collaborations en IA médicale et en circulation extracorporelle.</p>
+                        </div>
+                        <div class="row">
+                            <h3 class="row__title" data-i18n="t164">Thèse ou mémoire</h3>
+                            <p class="row__meta" data-i18n="t165">Proposer un sujet sur l'IA en anesthésie-réanimation.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1463,86 +1198,29 @@
     </main>
 
     <!-- ===========================
-         Footer
+         Pied de page : une ligne
          =========================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer__inner">
-                <div class="footer__brand">
-                    <p class="footer__logo">Sacha Rozencwajg</p>
-                    <p class="footer__tagline" data-i18n="t92">
-                        Anesthésiste-Réanimateur et Enseignant en IA à la Faculté de médecine, basé à Paris.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="footer__title">Navigation</h4>
-                    <nav class="footer__links">
-                        <a href="#about" class="footer__link" data-i18n="t93">À propos</a>
-                        <a href="#projects" class="footer__link" data-i18n="t1">Projets</a>
-                        <a href="#research" class="footer__link" data-i18n="t2">Recherche</a>
-                        <a href="#teaching" class="footer__link" data-i18n="t3">Enseignement</a>
-                        <a href="#talks" class="footer__link" data-i18n="t4">Conférences</a>
-                        <a href="#publications" class="footer__link">Publications</a>
-                    </nav>
-                </div>
-
-                <div>
-                    <h4 class="footer__title">Contact</h4>
-                    <nav class="footer__links">
-                        <a href="mailto:sacha.rozencwajg@gmail.com" class="footer__link">Email</a>
-                        <a href="https://www.linkedin.com/in/sacha-rozencwajg" target="_blank" rel="noopener"
-                            class="footer__link">LinkedIn</a>
-                        <a href="https://github.com/SachaRozencwajg" target="_blank" rel="noopener"
-                            class="footer__link">GitHub</a>
-                    </nav>
-                </div>
-
-                <div>
-                    <h4 class="footer__title" data-i18n="t99">Ressources</h4>
-                    <nav class="footer__links">
-                        <a href="/serious-game/"
-                            class="footer__link">Serious Game : dans la peau d'un LLM</a>
-                        <a href="https://docs.google.com/document/d/1a1zDeVg3S1_91W78jNavCnQnvW9c5FjUtEomiSIRa34/edit?tab=t.0"
-                            target="_blank" rel="noopener" class="footer__link" data-i18n="t94">UE IA2M - Programme</a>
-                        <a href="https://edn-ia.fr" target="_blank" rel="noopener" class="footer__link">EDN-IA</a>
-                        <a href="https://carelogbook.com" target="_blank" rel="noopener"
-                            class="footer__link">CareLogbook</a>
-                        <a href="https://bit.ly/ia-medecine-saclay" target="_blank" rel="noopener"
-                            class="footer__link" data-i18n="t95">Guide : l'IA dans ma pratique HU</a>
-                    </nav>
-                </div>
-            </div>
-
-            <div class="footer__bottom">
                 <div class="footer__legal">
-                    <p class="footer__copyright" data-i18n-html="t96">
-                        © <span id="year">2026</span> Sacha Rozencwajg. Tous droits réservés.
-                    </p>
+                    <p data-i18n-html="t96">© <span id="year">2026</span> Sacha Rozencwajg</p>
                     <a href="mentions-legales.html" class="footer__link" data-i18n="t104">Mentions légales et confidentialité</a>
                 </div>
-                <div class="footer__socials">
-                    <a href="mailto:sacha.rozencwajg@gmail.com" class="footer__social" aria-label="Email">
-                        <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/sacha-rozencwajg" target="_blank" rel="noopener"
-                        class="footer__social" aria-label="LinkedIn">
-                        <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"/></svg>
-                    </a>
-                    <a href="https://github.com/SachaRozencwajg" target="_blank" rel="noopener" class="footer__social"
-                        aria-label="GitHub">
-                        <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg>
-                    </a>
-                </div>
+                <nav class="footer__links" aria-label="Liens de contact">
+                    <a href="mailto:sacha.rozencwajg@gmail.com" class="footer__link">Email</a>
+                    <a href="https://www.linkedin.com/in/sacha-rozencwajg" target="_blank" rel="noopener" class="footer__link">LinkedIn</a>
+                    <a href="https://github.com/SachaRozencwajg" target="_blank" rel="noopener" class="footer__link">GitHub</a>
+                </nav>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="i18n.js?v=20261113"></script>
-    <script src="script.js?v=20261027c"></script>
-    <script src="pulse.js?v=20261027c"></script>
-    <script src="motion.js?v=20261113"></script>
+    <script src="i18n.js?v=20261119"></script>
+    <script src="script.js?v=20261119"></script>
+    <script src="particles.js?v=20261119"></script>
+    <script src="motion.js?v=20261119"></script>
 </body>
 
 </html>

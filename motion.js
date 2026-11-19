@@ -1,8 +1,7 @@
 /**
  * Animations (skills design-to-motion et landing-page-design, voir .claude/skills/) :
  * 1. Apparition de l'accueil au chargement (le CSS fait le travail, on pose html.is-ready).
- * 2. Phrase révélée : chaque mot s'allume en franchissant une ligne au milieu de l'écran.
- * 3. Applications IA : entrée des cartes au défilement, puis une histoire en boucle par visuel.
+ * 2. Applications IA : entrée des cartes au défilement, puis une histoire en boucle par visuel.
  *    Chaque histoire part du visuel au repos et y revient ; son horloge s'arrête hors écran.
  * prefers-reduced-motion : tout s'affiche dans l'état final, sans histoire.
  */
@@ -20,53 +19,7 @@
     });
 
     // ===========================
-    // 2. Phrase révélée
-    // ===========================
-    const tagline = document.getElementById('taglineText');
-    let wordObserver = null;
-
-    function renderTagline() {
-        if (!tagline) return;
-        const words = t('tagline').split(' ');
-        tagline.textContent = '';
-        words.forEach((word, i) => {
-            const span = document.createElement('span');
-            span.className = 'tagline__word';
-            span.textContent = word;
-            tagline.appendChild(span);
-            if (i < words.length - 1) tagline.appendChild(document.createTextNode(' '));
-        });
-
-        if (wordObserver) wordObserver.disconnect();
-        const spans = Array.from(tagline.querySelectorAll('.tagline__word'));
-        if (reduceMotion || !('IntersectionObserver' in window)) {
-            spans.forEach(span => span.classList.add('is-lit'));
-            return;
-        }
-
-        // Ligne de déclenchement à 60 % de la hauteur de l'écran
-        wordObserver = new IntersectionObserver((entries) => {
-            let step = 0;
-            entries
-                .sort((a, b) => spans.indexOf(a.target) - spans.indexOf(b.target))
-                .forEach(entry => {
-                    const word = entry.target;
-                    const passedTop = entry.boundingClientRect.top < 0;
-                    if (entry.isIntersecting || passedTop) {
-                        // Les mots d'une même ligne s'allument l'un après l'autre
-                        word.style.transitionDelay = `${step++ * 60}ms`;
-                        word.classList.add('is-lit');
-                    } else {
-                        word.style.transitionDelay = '0ms';
-                        word.classList.remove('is-lit');
-                    }
-                });
-        }, { rootMargin: '0px 0px -40% 0px' });
-        spans.forEach(span => wordObserver.observe(span));
-    }
-
-    // ===========================
-    // 3. Applications IA
+    // 2. Applications IA
     // ===========================
     const ICONS = {
         check: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>',
@@ -380,9 +333,7 @@
         }
     }
 
-    renderTagline();
     document.addEventListener('languagechange-site', () => {
-        renderTagline();
         if (bento) buildVisuals();
     });
 })();
