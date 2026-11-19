@@ -1,0 +1,28 @@
+{
+  "_aide": "Copie automatique depuis MyDashboard (portfolioUP) : ne pas modifier, corriger dans le dashboard.",
+  "conferences": [
+    {
+      "date": "2027-06-17",
+      "titre": "L'impact de l'IA sur la médecine périopératoire",
+      "evenement": "Soirée de conférence de l'Institut Lorrain d’Anesthésie-Réanimation",
+      "lieu": "Nancy"
+    },
+    {
+      "date": "2027-04-01",
+      "titre": "IA et ses applications dans le domaine de l'anesthésie libérale",
+      "evenement": "CALIBSO"
+    },
+    {
+      "date": "2026-12-10",
+      "titre": "La recherche en pédagogie à l'heure de l'intelligence artificielle",
+      "evenement": "États généraux de la formation et de la recherche médicales",
+      "lieu": "Lille"
+    },
+    {
+      "date": "2026-12-03",
+      "titre": "Spinal cord protection",
+      "evenement": "PVI Aortic course",
+      "lieu": "Carroussel du Louvre"
+    }
+  ]
+}
