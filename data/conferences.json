@@ -1,0 +1,90 @@
+{
+  "_aide": "Conférences de la page d'accueil. Après une modification, lancer « python3 scripts/conferences.py » (portfolioUP le fait). date : AAAA-MM-JJ, AAAA-MM ou AAAA. en : traduction anglaise, champ par champ (un champ absent reprend le français). lang : « en » si le titre est déjà en anglais. depuis : année de début d'un cours récurrent.",
+  "conferences": [
+    {
+      "date": "2027-06-17",
+      "titre": "L'impact de l'IA sur la médecine périopératoire",
+      "evenement": "Soirée de conférence de l'Institut Lorrain d'Anesthésie-Réanimation",
+      "lieu": "Nancy",
+      "en": {
+        "titre": "The impact of AI on perioperative medicine",
+        "evenement": "Evening lecture, Institut Lorrain d'Anesthésie-Réanimation"
+      }
+    },
+    {
+      "date": "2026-12-10",
+      "titre": "La recherche en pédagogie à l'heure de l'intelligence artificielle",
+      "evenement": "États généraux de la formation et de la recherche médicales",
+      "lieu": "Lille",
+      "en": {
+        "titre": "Research in medical education in the age of artificial intelligence",
+        "evenement": "French national conference on medical education and research"
+      }
+    },
+    {
+      "date": "2026-12-03",
+      "titre": "Spinal cord protection",
+      "lang": "en",
+      "evenement": "PVI Aortic course",
+      "lieu": "Carrousel du Louvre, Paris"
+    },
+    {
+      "date": "2026-11-17",
+      "titre": "IA pour les débutants",
+      "evenement": "Hôpital Necker",
+      "lieu": "AP-HP",
+      "en": {
+        "titre": "AI for beginners",
+        "evenement": "Necker Hospital"
+      }
+    },
+    {
+      "date": "2026-09",
+      "titre": "Place de l'IA dans la simulation en santé",
+      "evenement": "NumIACare",
+      "lieu": "Université Paris-Saclay",
+      "en": {
+        "titre": "AI in healthcare simulation"
+      }
+    },
+    {
+      "date": "2026-07",
+      "titre": "Déontologie et IA en médecine",
+      "evenement": "Colloque Déontologie",
+      "lieu": "Université Paris Cité",
+      "en": {
+        "titre": "Medical ethics and AI",
+        "evenement": "Medical Ethics Symposium"
+      }
+    },
+    {
+      "date": "2026",
+      "titre": "Impacts de l'IA sur la médecine périopératoire",
+      "evenement": "MAPAR 2026",
+      "en": {
+        "titre": "Impact of AI on perioperative medicine"
+      }
+    }
+  ],
+  "cours_recurrents": [
+    {
+      "depuis": 2024,
+      "titre": "IA générative pour les IADE",
+      "evenement": "École d'IADE de Lyon",
+      "en": {
+        "titre": "Generative AI for nurse anaesthetists",
+        "evenement": "Nurse Anaesthetist School, Lyon"
+      }
+    },
+    {
+      "depuis": 2024,
+      "titre": "LCA d'un article d'intelligence artificielle",
+      "evenement": "DESAR",
+      "lieu": "Paris",
+      "en": {
+        "titre": "Critical appraisal of an AI paper",
+        "evenement": "Anaesthesia & Critical Care residency (DESAR)"
+      }
+    }
+  ]
+}

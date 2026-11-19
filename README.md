@@ -25,7 +25,7 @@ portfolioUP --site-only           # sans redéployer la Cloud Function
 portfolioUP --function-only       # uniquement la Cloud Function
 ```
 
-`portfolioUP` récupère `main`, régénère la liste des publications, lance `./deploy.sh`
+`portfolioUP` récupère `main`, régénère la liste des publications et celle des conférences, lance `./deploy.sh`
 (Cloud Run), redéploie la Cloud Function des publications (configuration conservée)
 puis vérifie que le site répond.
 
@@ -58,6 +58,26 @@ Le script effectue automatiquement :
 | `Dockerfile` | Image Docker basée sur nginx:alpine |
 | `nginx.conf` | Configuration nginx (gzip, cache, sécurité) |
 | `deploy.sh` | Script de déploiement automatisé |
+
+## Ajouter une conférence
+
+Les conférences de la page d'accueil sont dans `data/conferences.json`, et non dans `index.html`.
+Pour en ajouter une, copier un bloc existant et le remplir (le fichier peut se modifier directement
+sur GitHub, depuis un téléphone) :
+
+```json
+{
+  "date": "2027-06-17",
+  "titre": "L'impact de l'IA sur la médecine périopératoire",
+  "evenement": "Soirée de conférence de l'Institut Lorrain d'Anesthésie-Réanimation",
+  "lieu": "Nancy",
+  "en": { "titre": "The impact of AI on perioperative medicine" }
+}
+```
+
+Puis lancer `portfolioUP`, qui régénère la liste et déploie. La date s'écrit `AAAA-MM-JJ`, `AAAA-MM`
+ou `AAAA` ; une conférence datée du jour ou plus tard est rangée dans « À venir ». Le bloc `en`
+est facultatif : un champ absent reprend le français.
 
 ## Applications servies dans un sous-dossier
 

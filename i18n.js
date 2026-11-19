@@ -3,6 +3,8 @@
  * - data-i18n="clé"      : remplace le premier nœud texte de l'élément (icônes SVG conservées)
  * - data-i18n-html="clé" : remplace tout le contenu HTML de l'élément
  * - <time datetime>      : la date anglaise est calculée, pas besoin de clé
+ * - data-en="texte"      : la traduction est portée par l'élément lui-même (contenu généré :
+ *                          conférences, voir scripts/conferences.py)
  * Le texte français d'origine est mémorisé au premier changement de langue.
  * Ajouter une traduction : ajouter l'attribut dans index.html et la clé dans I18N_EN.
  */
@@ -79,18 +81,6 @@ const I18N_EN = {
     "t155": "Past",
     "t156": "Recurring courses",
     "t157": "since 2024",
-    "t108": "Research in medical education in the age of artificial intelligence",
-    "t109": "French national conference on medical education and research · Lille",
-    "t106": "AI for beginners",
-    "t107": "Necker Hospital · AP-HP",
-    "t58": "AI in healthcare simulation",
-    "t59": "Medical ethics and AI",
-    "t60": "Medical Ethics Symposium · Université Paris Cité",
-    "t61": "Impact of AI on perioperative medicine",
-    "t62": "Generative AI for nurse anaesthetists",
-    "t63": "Nurse Anaesthetist School, Lyon",
-    "t64": "Critical appraisal of an AI paper",
-    "t65": "Anaesthesia &amp; Critical Care residency (DESAR) · Paris",
 
     // Opinions
     "t158": "Opinions",
@@ -206,6 +196,12 @@ function applyLanguage(lang) {
         if (el.dataset.i18nFrHtml === undefined) el.dataset.i18nFrHtml = el.innerHTML;
         const value = currentLang === 'en' ? I18N_EN[el.dataset.i18nHtml] : el.dataset.i18nFrHtml;
         if (value !== undefined) el.innerHTML = value;
+    });
+
+    // Contenu généré : la version anglaise est dans l'attribut data-en
+    document.querySelectorAll('[data-en]').forEach(el => {
+        if (el.dataset.i18nFr === undefined) el.dataset.i18nFr = el.textContent;
+        el.textContent = currentLang === 'en' ? el.dataset.en : el.dataset.i18nFr;
     });
 
     // Dates : le français est écrit dans la page, l'anglais se déduit de l'attribut datetime
