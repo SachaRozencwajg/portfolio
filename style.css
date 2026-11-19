@@ -991,6 +991,26 @@ main:focus {
     overflow: hidden;
 }
 
+/* Image qui a une version par thème : une seule est affichée (et, en chargement différé, téléchargée) */
+.only-dark,
+:root[data-theme="dark"] .only-light {
+    display: none;
+}
+
+:root[data-theme="dark"] .only-dark {
+    display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .only-light {
+        display: none;
+    }
+
+    :root:not([data-theme]) .only-dark {
+        display: block;
+    }
+}
+
 /* Sigle à trait d'union qui ne doit pas se couper en fin de ligne */
 .nowrap {
     white-space: nowrap;
