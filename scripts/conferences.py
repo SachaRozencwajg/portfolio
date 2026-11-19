@@ -1,4 +1,4 @@
-"""Rendu HTML des conférences de la page d'accueil, à partir de .agent/conferences.json.
+"""Rendu HTML des conférences de la page d'accueil, à partir de data/conferences.json.
 
 Usage, après avoir modifié le fichier de données :
     python3 scripts/conferences.py
@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / ".agent" / "conferences.json"
+DATA = ROOT / "data" / "conferences.json"
 INDEX = ROOT / "index.html"
 START_MARKER = "<!-- CONFERENCES:START -->"
 END_MARKER = "<!-- CONFERENCES:END -->"

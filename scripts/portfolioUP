@@ -79,7 +79,7 @@ git checkout "$BRANCH"
 git pull --ff-only origin "$BRANCH"
 ok "À jour : $(git log -1 --format='%h %s')"
 
-# --- 3. Régénérer les publications (.agent/publications.json) et les conférences (.agent/conferences.json).
+# --- 3. Régénérer les publications (.agent/publications.json) et les conférences (data/conferences.json).
 #        Les conférences dont la date est passée basculent alors dans « Passées ».
 step "Régénération des publications et des conférences"
 python3 cloud-function/publications_html.py

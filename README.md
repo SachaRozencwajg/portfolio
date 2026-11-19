@@ -61,7 +61,7 @@ Le script effectue automatiquement :
 
 ## Ajouter une conférence
 
-Les conférences de la page d'accueil sont dans `.agent/conferences.json`, et non dans `index.html`.
+Les conférences de la page d'accueil sont dans `data/conferences.json`, et non dans `index.html`.
 Pour en ajouter une, copier un bloc existant et le remplir (le fichier peut se modifier directement
 sur GitHub, depuis un téléphone) :
 
