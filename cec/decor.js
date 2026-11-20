@@ -6,7 +6,7 @@
     'use strict';
 
     window.SALLE_DECOR = function (k) {
-        const { T, scene, M, V, std, glass, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG, TX, brushed, moulded, woven, drapePanel } = k;
+        const { T, scene, M, V, std, glass, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG, TX, brushed, moulded, woven, drapePanel, photo } = k;
         const H = 3, X0 = -5.5, X1 = 5.5, Z0 = -4.5, Z1 = 4.5;
 
         // Hasard reproductible : la salle est la même à chaque chargement
@@ -29,13 +29,59 @@
             return put(p, new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshStandardMaterial({ map: t, roughness: 0.75 })), x, y, z, true);
         }
 
+        /* ---------- lumière précalculée ----------
+           La lumière du sol, des murs et du plafond (ombres douces, lumière renvoyée par les surfaces) est calculée une fois,
+           hors ligne, avec Blender (scripts/cec/), puis rangée dans des images : lumiere/<surface>-<jour|nuit>.webp.
+           Ces surfaces n'utilisent donc ni les lampes ni les ombres de la scène. */
+        const BAKE = { intensity: 2.1, dir: 'lumiere/', version: '1' };
+        const grey = new T.DataTexture(new Uint8Array([150, 150, 150, 255]), 1, 1, T.RGBAFormat); grey.needsUpdate = true;
+        const baked = [];                                   // { name, mat }
+        function lit(name, mat) { mat.lightMap = grey; mat.lightMapIntensity = BAKE.intensity; baked.push({ name, mat }); return mat; }
+        // Matière physique dont toute la lumière diffuse vient de la carte : il ne lui reste, de la scène, que les reflets
+        function bakedStandard(o) {
+            const m = new T.MeshStandardMaterial(o);
+            m.onBeforeCompile = (sh) => {
+                sh.fragmentShader = sh.fragmentShader
+                    .replace('#include <lights_fragment_maps>', [
+                        '#ifdef USE_LIGHTMAP',
+                        '  irradiance = lightMapTexelToLinear( texture2D( lightMap, vUv2 ) ).rgb * lightMapIntensity * PI;',
+                        '#endif',
+                        '#if defined( USE_ENVMAP ) && defined( RE_IndirectSpecular )',
+                        '  radiance += getLightProbeIndirectRadiance( geometry.viewDir, geometry.normal, material.specularRoughness, maxMipLevel );',
+                        '#endif'].join('\n'))
+                    .replace('#include <lights_fragment_end>', '#include <lights_fragment_end>\nreflectedLight.directDiffuse = vec3( 0.0 ); reflectedLight.directSpecular = vec3( 0.0 );');
+            };
+            return m;
+        }
+        const sets = {};
+        function loadLight(night, done) {
+            const key = night ? 'nuit' : 'jour';
+            if (sets[key]) { done(sets[key]); return; }
+            const set = {}; let left = baked.length;
+            baked.forEach((b) => {
+                if (set[b.name]) { left--; return; }
+                const t = new T.TextureLoader().load(BAKE.dir + b.name + '-' + key + '.webp?v=' + BAKE.version, () => { if (--left === 0) { sets[key] = set; done(set); } }, undefined, () => { left = -1; });
+                t.encoding = T.sRGBEncoding; t.flipY = true;
+                set[b.name] = t;
+            });
+        }
+        let nightNow = null;
+        function useLight(night) {
+            nightNow = night;
+            loadLight(night, (set) => {
+                if (nightNow !== night) return;
+                baked.forEach((b) => { b.mat.lightMap = set[b.name]; b.mat.needsUpdate = true; });
+                if (k.onLight) k.onLight();                 // les reflets de la salle se refont avec la vraie lumière
+            });
+        }
+
         /* ---------- matières ---------- */
         const D = {
             wall: null,
-            floor: std('#c3c9cf', { roughness: 0.55, envMapIntensity: 0.4 }),
+            floor: bakedStandard({ color: 0xffffff, roughness: 1, metalness: 0, envMapIntensity: 0.55 }),
             skirt: std('#a5aeb8', { roughness: 0.6 }),
             reveal: std('#eef0ef', { roughness: 0.9 }),
-            ceiling: new T.MeshBasicMaterial({ color: new T.Color('#dde1e6').convertSRGBToLinear() }),   // aucune lampe ne l'éclaire par en dessous : teinte fixe
+            ceiling: new T.MeshBasicMaterial({ color: new T.Color('#f1f2f3').convertSRGBToLinear() }),
             inox: std('#cfd3d8', { metalness: 0.78, roughness: 0.3 }),
             inoxDark: std('#9aa1aa', { metalness: 0.7, roughness: 0.35 }),
             wheel: std('#2f333a', { roughness: 0.7 }),
@@ -62,61 +108,37 @@
         [D.white, D.grey, D.panel, D.rail, D.frame, D.domeShell, D.yellow, D.worktop].forEach((m) => moulded(m));
         D.white.roughness = 0.62; D.panel.roughness = 0.62;
         D.cardboard.bumpMap = TX.cloth; D.cardboard.bumpScale = 0.002;
-        // le sol brille un peu, par endroits : il reflète les plafonniers
-        D.floor.roughness = 0.62; D.floor.roughnessMap = TX.smudge; D.floor.envMapIntensity = 0.5;
-
-        // Sol PVC coulé, moucheté
-        const floorTex = canvasTex(512, 512, (g, w, h) => {
-            g.fillStyle = '#aeb7c1'; g.fillRect(0, 0, w, h);
-            const cols = ['#9ea8b3', '#c0c8d0', '#959fab', '#cbd2d9', '#a6b0bb'];
-            for (let i = 0; i < 9000; i++) { g.fillStyle = cols[i % 5]; const s = 1 + rnd() * 2; g.fillRect(rnd() * w, rnd() * h, s, s); }
-        }, true);
-        floorTex.repeat.set(11, 9);
-        D.floor.map = floorTex;
-        D.floor.color.set(0xffffff);
+        // Sol : un linoléum photographié (2 m de côté), reteinté en gris. Sa couleur, son relief et sa brillance viennent des images.
+        ['sol-couleur', 'sol-relief', 'sol-rugosite'].forEach((n, i) => {
+            const t = photo(n, 1, i === 0); t.repeat.set((X1 - X0) / 2, (Z1 - Z0) / 2);
+            if (i === 0) D.floor.map = t; else if (i === 1) { D.floor.normalMap = t; D.floor.normalScale = new T.Vector2(0.6, 0.6); } else D.floor.roughnessMap = t;
+        });
+        lit('sol', D.floor);
+        lit('plafond', D.ceiling);
 
         // Panneaux muraux blancs de 1,20 m, joint vertical gris
         const wallTex = canvasTex(256, 640, (g, w, h) => {
             g.fillStyle = '#f3f4f2'; g.fillRect(0, 0, w, h);
             g.fillStyle = '#d2d6d9'; g.fillRect(0, 0, 3, h);
             g.fillStyle = 'rgba(0,0,0,0.035)'; g.fillRect(3, 0, 4, h);
-            // l'air ne circule pas dans les angles : un voile plus sombre près du plafond (haut de l'image) et du sol
-            const top = g.createLinearGradient(0, 0, 0, h * 0.14); top.addColorStop(0, 'rgba(60,66,78,0.16)'); top.addColorStop(1, 'rgba(60,66,78,0)');
-            g.fillStyle = top; g.fillRect(0, 0, w, h * 0.14);
-            const bot = g.createLinearGradient(0, h * 0.8, 0, h); bot.addColorStop(0, 'rgba(60,66,78,0)'); bot.addColorStop(1, 'rgba(60,66,78,0.2)');
-            g.fillStyle = bot; g.fillRect(0, h * 0.8, w, h * 0.2);
+            // un blanc jamais tout à fait uni
+            for (let i = 0; i < 1400; i++) { g.fillStyle = i % 2 ? 'rgba(0,0,0,0.012)' : 'rgba(255,255,255,0.05)'; g.fillRect(8 + rnd() * (w - 10), rnd() * h, 2 + rnd() * 5, 1 + rnd() * 3); }
         }, true);
 
         /* =================== Sol et murs =================== */
-        const fl = new T.Mesh(new T.PlaneGeometry(X1 - X0, Z1 - Z0), D.floor);
+        const flGeo = new T.PlaneGeometry(X1 - X0, Z1 - Z0);
+        flGeo.setAttribute('uv2', flGeo.attributes.uv.clone());
+        const fl = new T.Mesh(flGeo, D.floor);
         fl.rotation.x = -Math.PI / 2;
-        fl.receiveShadow = true;
+        fl.name = 'coque-sol';
         scene.add(fl);
-
-        // Ombres de contact : tout ce qui est posé au sol l'assombrit un peu autour de lui. Sans elles, les objets flottent.
-        const blobTex = canvasTex(128, 128, (g, w, h) => {
-            const gr = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
-            gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(0.55, 'rgba(0,0,0,0.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
-            g.fillStyle = gr; g.fillRect(0, 0, w, h);
-        });
-        const edgeTex = canvasTex(8, 64, (g, w, h) => {
-            const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,1)');
-            g.fillStyle = gr; g.fillRect(0, 0, w, h);
-        });
-        const shadeMat = (tex, op) => new T.MeshBasicMaterial({ color: 0x1b2230, map: tex, transparent: true, opacity: op, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
-        const blobMats = {};
-        function contact(x, z, w, d, op, ry) {
-            const key = op || 0.3;
-            const m = new T.Mesh(new T.PlaneGeometry(w, d), blobMats[key] || (blobMats[key] = shadeMat(blobTex, key)));
-            m.rotation.set(-Math.PI / 2, 0, ry || 0); m.position.set(x, 0.004, z); m.renderOrder = 1;
-            scene.add(m);
-            return m;
-        }
 
         // Chaque mur a son repère : x le long du mur, z vers l'intérieur de la salle.
         // Ce qui est accroché au mur disparaît avec lui quand la caméra passe derrière.
         const walls = [];
+        let wallCount = 0;
         function makeWall(a, b, hole) {
+            const lightName = 'mur-' + (wallCount++);
             const dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz);
             const g = grp(scene);
             const f = grp(g, a[0], 0, a[1]);
@@ -127,9 +149,13 @@
                 t.needsUpdate = true;
                 t.repeat.set((u1 - u0) / 1.2, (y1 - y0) / H);
                 t.offset.set(u0 / 1.2, y0 / H);
-                const m = new T.Mesh(new T.PlaneGeometry(u1 - u0, y1 - y0), new T.MeshStandardMaterial({ map: t, roughness: 0.86, bumpMap: TX.grain, bumpScale: 0.0005 }));
+                const geo = new T.PlaneGeometry(u1 - u0, y1 - y0), uv = geo.attributes.uv, uv2 = new Float32Array(uv.count * 2);
+                // la carte de lumière couvre le mur entier : chaque panneau en prend sa part
+                for (let i = 0; i < uv.count; i++) { uv2[i * 2] = (u0 + uv.getX(i) * (u1 - u0)) / L; uv2[i * 2 + 1] = (y0 + uv.getY(i) * (y1 - y0)) / H; }
+                geo.setAttribute('uv2', new T.BufferAttribute(uv2, 2));
+                const m = new T.Mesh(geo, lit(lightName, new T.MeshBasicMaterial({ map: t })));
                 m.position.set((u0 + u1) / 2, (y0 + y1) / 2, 0);
-                m.receiveShadow = true;
+                m.name = 'coque-' + lightName;
                 f.add(m);
             };
             if (hole) { seg(0, hole.u0, 0, H); seg(hole.u1, L, 0, H); seg(hole.u0, hole.u1, 0, hole.y0); seg(hole.u0, hole.u1, hole.y1, H); } else seg(0, L, 0, H);
@@ -138,10 +164,6 @@
             sk.position.set(L / 2, 0.05, 0.003);
             sk.receiveShadow = true;
             f.add(sk);
-            // le pied du mur assombrit le sol sur une trentaine de centimètres
-            const ao = new T.Mesh(new T.PlaneGeometry(L, 0.34), shadeMat(edgeTex, 0.3));
-            ao.rotation.x = -Math.PI / 2; ao.position.set(L / 2, 0.005, 0.17); ao.renderOrder = 1;
-            f.add(ao);
             const w = { g, f, L, n: new T.Vector3(-dz / L, 0, dx / L), p: new T.Vector3(a[0], 0, a[1]) };
             walls.push(w);
             return w;
@@ -348,6 +370,7 @@
             D.nightTex = windowTex(true);
             D.pane = new T.Mesh(new T.PlaneGeometry(ww, hh), new T.MeshBasicMaterial({ map: D.dayTex, toneMapped: false }));
             D.pane.position.set(uc, yc, -Dp + 0.02);
+            D.pane.name = 'lum-vitre';
             f.add(D.pane);
             const zf = -Dp + 0.05;
             box(f, ww, 0.06, 0.07, D.frame, uc, y1 - 0.03, zf);
@@ -492,14 +515,17 @@
         /* =================== Plafond : flux laminaire, scialytiques, éclairage =================== */
         const ceil = grp(scene);
         (function ceiling() {
-            const cp = new T.Mesh(new T.PlaneGeometry(X1 - X0, Z1 - Z0), D.ceiling);
+            const cpGeo = new T.PlaneGeometry(X1 - X0, Z1 - Z0);
+            cpGeo.setAttribute('uv2', cpGeo.attributes.uv.clone());
+            const cp = new T.Mesh(cpGeo, D.ceiling);
             cp.rotation.x = Math.PI / 2;
             cp.position.y = H - 0.002;
+            cp.name = 'coque-plafond';
             ceil.add(cp);
             const light = new T.MeshBasicMaterial({ color: 0xf7f9ff });
             [[1.6, -2.7], [1.6, 1.4], [3.9, -2.7], [3.9, 1.4], [-4.5, 2.4], [-1.9, 2.6], [-4.6, -3.7], [1.6, 3.6]].forEach(([x, z]) => {
                 const m = new T.Mesh(new T.PlaneGeometry(0.6, 0.6), light);
-                m.rotation.x = Math.PI / 2; m.position.set(x, H - 0.006, z); ceil.add(m);
+                m.rotation.x = Math.PI / 2; m.position.set(x, H - 0.006, z); m.name = 'lum-plafonnier'; ceil.add(m);
             });
             // plafond soufflant au-dessus de la table : l'air filtré descend sur le champ
             const lx = -1.9, lz = -1.3, lw = 3.0, ld = 2.8;
@@ -511,7 +537,7 @@
                 for (let i = 0; i <= 3; i++) { g.beginPath(); g.moveTo(w * i / 3, 0); g.lineTo(w * i / 3, h); g.moveTo(0, h * i / 3); g.lineTo(w, h * i / 3); g.stroke(); }
             });
             const lam = new T.Mesh(new T.PlaneGeometry(lw, ld), new T.MeshBasicMaterial({ map: lamTex }));
-            lam.rotation.x = Math.PI / 2; lam.position.set(lx, H - 0.008, lz); ceil.add(lam);
+            lam.rotation.x = Math.PI / 2; lam.position.set(lx, H - 0.008, lz); lam.name = 'lum-flux'; ceil.add(lam);
             const skirt = glass('#dbe8f2', 0.14, { side: T.DoubleSide });
             const sk = grp(ceil); D.skirtGroup = sk;
             const sh = 0.4, sy = H - sh / 2;
@@ -537,7 +563,7 @@
                 g.quaternion.setFromUnitVectors(new T.Vector3(0, -1, 0), V(aim).sub(V(pos)).normalize());
                 cyl(g, r * 0.55, r, 0.09, D.domeShell, 0, 0, 0, 40);
                 const face = new T.Mesh(new T.CircleGeometry(r * 0.94, 40), new T.MeshBasicMaterial({ map: ledTex, toneMapped: false }));
-                face.rotation.x = Math.PI / 2; face.position.y = -0.046; g.add(face);
+                face.rotation.x = Math.PI / 2; face.position.y = -0.046; face.name = 'lum-scialytique'; g.add(face);
                 const rim = new T.Mesh(new T.TorusGeometry(r * 0.97, 0.012, 8, 40), D.domeRim);
                 rim.rotation.x = Math.PI / 2; rim.position.y = -0.046; g.add(rim);
                 cyl(g, 0.035, 0.03, 0.12, D.handle, 0, -0.1, 0, 18);
@@ -750,7 +776,7 @@
         (function perfusion() {
             // tabouret du perfusionniste
             const SX = 1.05, SZ = 1.15;
-            cyl(scene, 0.19, 0.19, 0.06, M.dark, SX, 0.45, SZ, 28);
+            cyl(scene, 0.19, 0.19, 0.06, M.leather, SX, 0.45, SZ, 28);
             cyl(scene, 0.025, 0.025, 0.4, M.chrome, SX, 0.24, SZ, 12);
             for (let i = 0; i < 5; i++) {
                 const a = i * Math.PI * 2 / 5;
@@ -762,8 +788,44 @@
             cart(pt, 0.6, 0.45, 0.85);
             rbox(pt, 0.26, 0.24, 0.24, 0.02, D.white, -0.13, 0.985, -0.05);
             screen(pt, 0.13, 0.09, drawSmall([['GDS', '#8b96a8', 0.2, 0.08, 0.3], ['pH 7,38', '#ffffff', 0.24, 0.08, 0.7]]), -0.13, 1.02, 0.0705, 192);
-            rbox(pt, 0.16, 0.08, 0.2, 0.015, D.grey, 0.15, 0.905, -0.06);
-            live(pt, 0.1, 0.045, (g, w, h, sim) => drawSmall([[sim && sim.act ? 'ACT · contrôlé' : 'ACT · en attente', sim && sim.act ? '#57d39b' : '#e7c63c', 0.36, 0.06, 0.68]])(g, w, h), 0.15, 0.91, 0.0405, 192);
+            // appareil d'ACT portatif : boîtier clair, écran à gauche, clavier à droite, fente à cuvette sur le côté
+            const act = grp(pt, 0.155, 0.925, -0.075); act.rotation.set(-0.38, -0.12, 0);
+            const shell = std('#e7e8e4', { roughness: 0.55 }); moulded(shell);
+            slab(act, 0.19, 0.095, 0.05, 0.014, shell, 0, 0, 0);
+            const front = printed(act, 0.178, 0.084, (g, w, h) => {
+                const R = (x, y, ww, hh, r, fill, stroke) => { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + ww, y, x + ww, y + hh, r); g.arcTo(x + ww, y + hh, x, y + hh, r); g.arcTo(x, y + hh, x, y, r); g.arcTo(x, y, x + ww, y, r); g.closePath(); if (fill) { g.fillStyle = fill; g.fill(); } if (stroke) { g.strokeStyle = stroke; g.lineWidth = 2; g.stroke(); } };
+                g.fillStyle = '#e9eae6'; g.fillRect(0, 0, w, h);
+                R(w * 0.02, h * 0.05, w * 0.96, h * 0.9, h * 0.07, '#dfe1dc', '#9aa0a3');
+                R(w * 0.615, h * 0.1, w * 0.345, h * 0.8, h * 0.05, null, '#9aa0a3');
+                g.fillStyle = '#2d6f8a'; g.font = font(700, h * 0.085); g.fillText('ACT', w * 0.17, h * 0.2);
+                g.fillStyle = '#5f6a70'; g.font = font(500, h * 0.045); g.fillText('COAGULATION', w * 0.255, h * 0.2);
+                R(w * 0.165, h * 0.27, w * 0.4, h * 0.4, h * 0.02, '#aeb6ae', '#7c8486');                 // emplacement de l'écran
+                g.fillStyle = '#7a8386'; g.font = font(500, h * 0.036); g.fillText('CHARGE', w * 0.055, h * 0.36);
+                g.beginPath(); g.arc(w * 0.09, h * 0.27, h * 0.014, 0, 7); g.fillStyle = '#9aa39a'; g.fill();
+                R(w * 0.045, h * 0.42, w * 0.085, h * 0.11, h * 0.015, '#1f6f8f'); g.fillStyle = '#fff'; g.font = font(700, h * 0.045); g.fillText('START', w * 0.052, h * 0.495);
+                ['NOTE', 'ID', 'QC', 'BASE', 'IMPR.'].forEach((t, i) => { const x = w * (0.045 + i * 0.108); R(x, h * 0.75, w * 0.092, h * 0.11, h * 0.012, '#c3c7c2', '#9aa0a3'); g.fillStyle = '#3a4246'; g.font = font(600, h * (t.length > 3 ? 0.04 : 0.055)); g.fillText(t, x + w * 0.012, h * 0.825); });
+                [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['ANN.', '0', 'ENT.']].forEach((row, r) => row.forEach((t, c) => {
+                    const x = w * (0.64 + c * 0.105), y = h * (0.15 + r * 0.185); R(x, y, w * 0.085, h * 0.12, h * 0.014, '#c3c7c2', '#9aa0a3');
+                    g.fillStyle = '#2e3639'; g.font = font(700, h * (t.length > 1 ? 0.045 : 0.085)); g.fillText(t, x + w * (t.length > 1 ? 0.008 : 0.028), y + h * 0.09);
+                }));
+            }, 0, 0, 0.0256, 768);
+            // l'écran à cristaux liquides : clair, texte sombre
+            live(act, 0.0705, 0.0335, (g, w, h, sim) => {
+                g.fillStyle = '#c9d2c8'; g.fillRect(0, 0, w, h);
+                g.fillStyle = '#1d2a2a'; g.font = font(600, h * 0.2); g.fillText('ACT', w * 0.07, h * 0.3);
+                g.font = font(700, h * 0.27); g.fillText(sim && sim.act ? 'Contrôlé' : 'En attente', w * 0.07, h * 0.72);
+            }, -0.0245, 0.0025, 0.0262, 256);
+            box(act, 0.006, 0.03, 0.012, M.black, 0.0935, 0.004, 0.004);                                  // fente à cuvette
+            box(act, 0.03, 0.004, 0.012, M.black, 0.062, 0.0465, 0.012);                                  // lecteur de code-barres
+            // une cuvette engagée dans la fente, et quelques autres à côté
+            const cuvette = (p, x, y, z, ry, band) => {
+                const c = grp(p, x, y, z); c.rotation.y = ry;
+                box(c, 0.082, 0.003, 0.028, glass('#f4f7fa', 0.72), 0, 0, 0).castShadow = false;
+                box(c, 0.03, 0.0034, 0.02, std(band, { roughness: 0.6 }), -0.012, 0, 0);
+                cyl(c, 0.009, 0.009, 0.004, glass('#ffffff', 0.6), 0.028, 0.001, 0, 14).castShadow = false;
+            };
+            const inSlot = grp(act, 0.118, 0.004, 0.004); inSlot.rotation.x = Math.PI / 2; cuvette(inSlot, 0, 0, 0, 0, '#3f8fd0');
+            [[0.02, 0.07, 0.25, '#3f8fd0'], [0.05, 0.1, -0.2, '#f1f3f4'], [0.0, 0.13, 0.5, '#9fc3e6']].forEach(([x, z, ry, band]) => cuvette(pt, x, 0.866, z, ry, band));
             const sheet = printed(pt, 0.21, 0.297, drawSheet, 0.1, 0.8645, 0.12, 256); sheet.rotation.x = -Math.PI / 2; sheet.rotation.z = 0.1;
             const pen = cyl(pt, 0.005, 0.005, 0.14, std('#2a55a8'), 0.2, 0.869, 0.1, 8); pen.rotation.z = Math.PI / 2; pen.rotation.y = 0.5;
             for (let i = 0; i < 3; i++) { const sy = cyl(pt, 0.008, 0.008, 0.09, glass('#ffffff', 0.7), -0.06 + i * 0.025, 0.872, 0.17, 10); sy.rotation.z = Math.PI / 2; sy.castShadow = false; }
@@ -918,16 +980,6 @@
             }).catch((e) => { fallback(); if (window.console) console.warn('Personnages non chargés : des silhouettes simples les remplacent.', e); });
         })();
 
-        /* =================== Ombres de contact =================== */
-        [[0.9, 0.35, 2.0, 1.25, 0.34], [-1.9, -1.3, 1.5, 1.1, 0.4], [-1.8, -1.3, 2.9, 1.6, 0.16], [-1.25, -2.95, 1.9, 1.1, 0.26], [-3.95, -2.25, 1.1, 1.05, 0.34, 0.55],
-            [-5.0, -1.35, 0.8, 0.95, 0.3], [2.15, -0.25, 1.05, 0.95, 0.34], [2.25, -2.0, 0.9, 0.9, 0.32], [2.55, 0.95, 0.95, 0.8, 0.22], [-0.1, -2.6, 0.9, 0.8, 0.2], [0.7, -3.35, 0.8, 0.75, 0.2],
-            [-2.85, -2.5, 0.8, 0.8, 0.26], [-0.1, -4.05, 1.1, 0.6, 0.3], [-3.5, -0.5, 0.75, 0.75, 0.16], [1.05, 1.15, 0.8, 0.8, 0.24], [-1.5, -0.45, 0.5, 0.5, 0.3], [-1.58, -2.3, 0.5, 0.5, 0.3],
-            [-0.9, -4.2, 0.75, 0.5, 0.3], [-5.1, 3.75, 0.65, 0.55, 0.3], [5.05, -4.05, 0.65, 0.55, 0.3], [-4.75, -3.05, 0.6, 0.6, 0.2]
-        ].forEach(([x, z, w, d, op, ry]) => contact(x, z, w, d, op, ry));
-        TEAM.forEach((m) => { if (m.pose !== 'assis') contact(m.x, m.z, 0.62, 0.62, 0.3); });
-        // les armoires, adossées aux murs
-        contact(5.25, -2.7, 0.9, 2.4, 0.3); contact(2.8, 4.25, 2.0, 0.9, 0.3);
-
         /* =================== Le désordre d'une vraie salle : clamps, câbles, étiquettes =================== */
         (function clutter() {
             // clamps à tubulure accrochés au cadre de la machine : il y en a toujours à portée de main
@@ -968,8 +1020,9 @@
         })();
 
         /* ---------- lumières propres au décor ---------- */
+        // le jour de la fenêtre sur les objets : même direction que le soleil du calcul de lumière (scripts/cec/cuire.py, SOLEIL)
         const winLight = new T.DirectionalLight(0xe4eeff, 0.32);
-        winLight.position.set(2.9, 4.0, -12);
+        winLight.position.set(5.1, 9.1, -7.2);
         winLight.target.position.set(1.0, 0.5, 0);
         scene.add(winLight); scene.add(winLight.target);
         const fill = new T.DirectionalLight(0xffffff, 0.18);
@@ -991,6 +1044,7 @@
                 D.pane.material.map = night ? D.nightTex : D.dayTex;
                 D.pane.material.needsUpdate = true;
                 winLight.intensity = night ? 0 : 0.32;
+                if (night !== nightNow) useLight(night);
             }
         };
     };

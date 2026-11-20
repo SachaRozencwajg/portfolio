@@ -31,6 +31,7 @@
         const asking = state.mode === 'quiz' || state.mode === 'scenario';
         stage.classList.toggle('is-quiz', asking);
         stage.classList.toggle('is-walk', state.walk);
+        hintEl.hidden = false;
         if (asking) hintEl.textContent = 'Cliquez sur le bon élément';
         else if (state.walk) hintEl.textContent = touch ? 'Joystick pour marcher · glissez pour regarder' : 'ZQSD ou flèches pour marcher · glissez pour regarder · cliquez au sol pour y aller';
         else hintEl.textContent = touch ? 'Glissez pour tourner · touchez un point' : 'Glissez ou flèches pour tourner autour · cliquez sur un point';
@@ -209,37 +210,63 @@
         endQuiz();
         if (state.sel) closeSelection();
         state.mode = 'scenario';
-        state.sc = { i: -1, score: 0, tries: 0, solved: false };
+        state.sc = { i: -1, score: 0, tries: 0, solved: false, bad: [], picked: false };
         if (world) world.setSim(SCENARIO.start);      // la salle revient avant la CEC : cœur battant, pompes à l'arrêt
-        renderScenario();
         renderModes();
+        renderScenario();
     }
     function endScenario() {
         if (state.mode !== 'scenario') return;
         state.mode = null;
         quizEl.hidden = true;
+        quizEl.classList.remove('quiz--brief', 'quiz--ask');
         setOffset();
         if (world) { world.resetSim(); world.unfocus(); }
     }
+    // Une étape : une réplique, un élément à désigner dans la salle, puis, souvent, une question à réponse unique.
+    const scTotal = () => SCENARIO.steps.reduce((n, st) => n + 1 + (st.qru ? 1 : 0), 0);
     function renderScenario(feedback, good) {
         const z = state.sc, n = SCENARIO.steps.length;
         const stop = '<button type="button" class="btn btn--ghost" id="scStop">Arrêter</button>';
         quizEl.hidden = false;
+        quizEl.classList.toggle('quiz--brief', z.i < 0);
+        quizEl.classList.remove('quiz--ask');
+        hintEl.hidden = true;                           // rien à désigner sur la fiche de départ ni sur le bilan
         if (z.i < 0) {
-            quizEl.innerHTML = `<p class="quiz__n">Scénario · ${SCENARIO.title}</p><p class="quiz__say">${SCENARIO.intro}</p>
+            // La situation de départ : une fiche de transmission, comme à l'entrée en salle
+            const P = SCENARIO.patient;
+            quizEl.innerHTML = `<p class="quiz__n">Scénario · ${SCENARIO.title}</p>
+                <p class="brief__who">${P.name} <span>${P.age}</span></p>
+                <dl class="brief__data">${P.data.map((d) => `<div><dt>${d[0]}</dt><dd>${d[1]}</dd></div>`).join('')}</dl>
+                <dl class="brief__rows">${SCENARIO.brief.map((r) => `<div${r.now ? ' class="is-now"' : ''}><dt>${r.label}</dt><dd><ul>${r.items.map((t) => `<li>${t}</li>`).join('')}</ul></dd></div>`).join('')}</dl>
+                <p class="brief__call">${SCENARIO.call}</p>
                 <div class="quiz__row"><button type="button" class="btn" id="scNext">Commencer</button>${stop}</div>`;
         } else if (z.i >= n) {
-            quizEl.innerHTML = `<p class="quiz__n">Scénario terminé</p><p class="quiz__q">${z.score} étape${z.score > 1 ? 's' : ''} sur ${n} réussie${z.score > 1 ? 's' : ''} du premier coup.</p><p class="quiz__say">${SCENARIO.end}</p>
+            const t = scTotal();
+            quizEl.innerHTML = `<p class="quiz__n">Scénario terminé</p><p class="quiz__q">${z.score} bonne${z.score > 1 ? 's' : ''} réponse${z.score > 1 ? 's' : ''} du premier coup sur ${t}.</p><p class="quiz__say">${SCENARIO.end}</p>
                 <div class="quiz__row"><button type="button" class="btn" id="scAgain">Rejouer</button><button type="button" class="btn btn--ghost" id="scStop">Fermer</button></div>`;
         } else {
-            const st = SCENARIO.steps[z.i];
-            quizEl.innerHTML = `<p class="quiz__n">Étape ${z.i + 1} sur ${n}</p><p class="quiz__say"><b>${st.who}</b> « ${st.say} »</p><p class="quiz__q">${st.q}</p>`
-                + (feedback ? `<p class="quiz__fb ${good ? 'is-good' : 'is-bad'}" role="status">${feedback}</p>` : '')
-                + `<div class="quiz__row">${z.solved ? `<button type="button" class="btn" id="scNext">${z.i === n - 1 ? 'Terminer' : 'Étape suivante'}</button>` : ''}${stop}</div>`;
+            const st = SCENARIO.steps[z.i], Q = st.qru, asking = z.solved && Q;       // l'élément est trouvé : place à la question
+            const done = z.solved && (!Q || z.picked);
+            if (asking) quizEl.classList.add('quiz--ask');       // la question prend la place : la salle n'est plus à désigner
+            let html = `<p class="quiz__n">Étape ${z.i + 1} sur ${n} <span class="quiz__ctx">· ${SCENARIO.patient.short}</span></p><p class="quiz__say"><b>${st.who}</b> « ${st.say} »</p>`;
+            if (!asking) html += `<p class="quiz__q">${st.q}</p>` + (feedback ? `<p class="quiz__fb ${good ? 'is-good' : 'is-bad'}" role="status">${feedback}</p>` : '');
+            else {
+                html += `<p class="quiz__fb is-good">${st.ok}</p><p class="quiz__q" id="scQ">${Q.q}</p>
+                    <div class="quiz__opts" role="group" aria-labelledby="scQ">${Q.options.map((o, k) => {
+                        const ok = z.picked && k === Q.good, ko = z.bad.indexOf(k) >= 0;
+                        return `<button type="button" class="opt${ok ? ' is-good' : ko ? ' is-bad' : ''}" data-opt="${k}"${z.picked || ko ? ' disabled' : ''}>${o}</button>`;
+                    }).join('')}</div>`
+                    + (z.picked ? `<div class="quiz__fb is-good" role="status">${Q.ok}</div>` : feedback ? `<p class="quiz__fb is-bad" role="status">${feedback}</p>` : '');
+            }
+            quizEl.innerHTML = html + `<div class="quiz__row">${done ? `<button type="button" class="btn" id="scNext">${z.i === n - 1 ? 'Terminer' : 'Étape suivante'}</button>` : ''}${stop}</div>`;
+            hintEl.textContent = asking ? (z.picked ? '' : 'Choisissez une réponse') : (z.solved ? '' : 'Cliquez sur le bon élément');
+            hintEl.hidden = !hintEl.textContent;
         }
         const next = $('scNext'), again = $('scAgain');
-        if (next) next.addEventListener('click', () => { z.i++; z.tries = 0; z.solved = false; if (world) world.unfocus(); renderScenario(); });
+        if (next) next.addEventListener('click', () => { z.i++; z.tries = 0; z.solved = false; z.bad = []; z.picked = false; if (world) world.unfocus(); renderScenario(); });
         if (again) again.addEventListener('click', () => { state.mode = null; startScenario(); });
+        quizEl.querySelectorAll('[data-opt]').forEach((b) => b.addEventListener('click', () => scenarioPick(+b.dataset.opt)));
         $('scStop').addEventListener('click', () => { endScenario(); renderModes(); });
         setOffset();
     }
@@ -252,12 +279,28 @@
             state.visited[id] = 1;
             saveVisited();
             renderChips();
-            if (world) { world.setSim(st.fx); world.focus(HS[id]); }     // la salle réagit : pompe, lignes, écrans
+            if (world) { if (st.fx) world.setSim(st.fx); world.focus(HS[id]); }     // la salle réagit : pompe, lignes, écrans
             renderScenario(st.ok, true);
         } else {
             z.tries++;
             renderScenario((st.near && st.near[id]) || `Ce n'est pas cela : vous avez choisi « ${HS[id].label.toLowerCase()} ». Essayez encore.`, false);
         }
+    }
+    // La question à réponse unique de l'étape : une erreur barre la proposition et laisse réessayer
+    function scenarioPick(k) {
+        const z = state.sc, st = SCENARIO.steps[z.i], Q = st && st.qru;
+        if (!Q || !z.solved || z.picked) return;
+        if (k === Q.good) {
+            z.picked = true;
+            if (!z.bad.length) z.score++;
+            if (world && Q.fx) world.setSim(Q.fx);
+            renderScenario();
+        } else {
+            if (z.bad.indexOf(k) < 0) z.bad.push(k);
+            renderScenario((Q.near && Q.near[k]) || "Ce n'est pas la bonne réponse. Essayez encore.", false);
+        }
+        const f = quizEl.querySelector('.opt:not(:disabled), #scNext');      // le clavier reste dans la question
+        if (f) f.focus();
     }
 
     /* =====================================================================
@@ -266,6 +309,7 @@
     let world = null;
     try { world = window.THREE ? buildWorld() : null; } catch (e) { world = null; if (window.console) console.error(e); }
     if (!world) stage.classList.add('nogl');
+    window.SALLE.world = world;                      // pour scripts/cec/exporter-scene.js
 
     function buildWorld() {
         const T = window.THREE;
@@ -331,17 +375,29 @@
         }
         const TX = {
             // métal brossé : de fines stries dans un seul sens
-            brushed: detailTex(256, (put, n) => { for (let y = 0; y < n; y++) { const row = 0.5 + (rndTx() - 0.5) * 0.5; for (let x = 0; x < n; x++) put(x, y, row + (rndTx() - 0.5) * 0.16); } }),
+            brushed: detailTex(256, (put, n) => { for (let y = 0; y < n; y++) { const row = 0.5 + (rndTx() - 0.5) * 0.5; for (let x = 0; x < n; x++) put(x, y, row + (rndTx() - 0.5) * 0.16); } }, [3, 5]),
             // plastique moulé : un grain fin
-            grain: detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.5 + (rndTx() - 0.5) * 0.55); }, [3, 3]),
+            grain: detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.5 + (rndTx() - 0.5) * 0.55); }, [9, 9]),
             // traces d'usage : des zones un peu plus mates ou plus brillantes
-            smudge: (() => { const a = blotches(256, 5), b = blotches(256, 13); return detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.62 + 0.26 * a(x, y) + 0.12 * b(x, y)); }); })(),
+            smudge: (() => { const a = blotches(256, 5), b = blotches(256, 13); return detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.62 + 0.26 * a(x, y) + 0.12 * b(x, y)); }, [1.3, 1.3]); })(),
             // non-tissé des champs et des casaques : un gaufrage régulier, et de larges plis
-            cloth: (() => { const a = blotches(256, 4), b = blotches(256, 9); return detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.5 + 0.22 * (a(x, y) - 0.5) + 0.2 * (b(x, y) - 0.5) + 0.07 * (((x >> 1) + (y >> 1)) % 2 ? 1 : -1)); }, [2, 2]); })()
+            cloth: (() => { const a = blotches(256, 4), b = blotches(256, 9); return detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.5 + 0.22 * (a(x, y) - 0.5) + 0.2 * (b(x, y) - 0.5) + 0.07 * (((x >> 1) + (y >> 1)) % 2 ? 1 : -1)); }, [4, 4]); })()
         };
         const brushed = (m, k) => { m.bumpMap = TX.brushed; m.bumpScale = 0.0009 * (k || 1); m.roughnessMap = TX.smudge; return m; };
         const moulded = (m, k) => { m.bumpMap = TX.grain; m.bumpScale = 0.0006 * (k || 1); m.roughnessMap = TX.smudge; return m; };
-        const woven = (m) => { m.bumpMap = TX.cloth; m.bumpScale = 0.004; return m; };
+        // Textures photographiques (Poly Haven, CC0), copiées dans textures/ : « par » = répétitions par mètre
+        const PHOTO_VERSION = '1';                       // à augmenter quand une image de textures/ change
+        const texLoader = new T.TextureLoader();
+        const photo = (name, par, color) => {
+            const t = texLoader.load('textures/' + name + '.webp?v=' + PHOTO_VERSION);
+            t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(par, par); t.anisotropy = 8;
+            if (color) t.encoding = T.sRGBEncoding;
+            return t;
+        };
+        TX.crepeRelief = photo('crepe-relief', 3.8);
+        TX.cuirRelief = photo('cuir-relief', 3.3); TX.cuirRugosite = photo('cuir-rugosite', 3.3);
+        // tissu des champs : le grain d'un crêpe fin, photographié
+        const woven = (m) => { m.normalMap = TX.crepeRelief; m.normalScale = new T.Vector2(0.9, 0.9); m.roughness = 0.9; return m; };
 
         // Matières.
         const M = {
@@ -361,6 +417,9 @@
         [M.white, M.dark, M.yellow, M.rubber].forEach((m) => moulded(m));
         M.white.roughness = 0.62; M.black.roughnessMap = TX.smudge; M.black.roughness = 0.5;
         [M.drape, M.drape2].forEach((m) => { woven(m); m.side = T.DoubleSide; });
+        // similicuir du matelas de table et du tabouret
+        M.leather = std('#1a1c21', { roughness: 1, normalMap: TX.cuirRelief, roughnessMap: TX.cuirRugosite });
+        M.leather.normalScale = new T.Vector2(0.8, 0.8);
         // Les boutons de couleur : un bouton par pompe
         const KNOB = { red: '#e5392f', blue: '#2f6fe5', green: '#35b04a', yellow: '#f2c81e' };
 
@@ -381,8 +440,19 @@
             p.add(mesh);
             return mesh;
         }
-        const box = (p, w, h, d, m, x, y, z) => put(p, new T.Mesh(new T.BoxGeometry(w, h, d), m), x, y, z);
-        const cyl = (p, rt, rb, h, m, x, y, z, seg) => put(p, new T.Mesh(new T.CylinderGeometry(rt, rb, h, seg || 24), m), x, y, z);
+        // Coordonnées de texture en mètres : une texture répétée garde la même finesse sur une grande pièce et sur une petite
+        function uvBox(geo, w, h, d) {
+            const uv = geo.attributes.uv, dims = [[d, h], [d, h], [w, d], [w, d], [w, h], [w, h]];
+            for (let f = 0; f < 6; f++) for (let i = 0; i < 4; i++) { const n = f * 4 + i; uv.setXY(n, uv.getX(n) * dims[f][0], uv.getY(n) * dims[f][1]); }
+            return geo;
+        }
+        function uvCyl(geo, rt, rb, h, seg) {
+            const uv = geo.attributes.uv, side = (seg + 1) * 2, around = Math.PI * (rt + rb), cap = 2 * Math.max(rt, rb);
+            for (let i = 0; i < uv.count; i++) { if (i < side) uv.setXY(i, uv.getX(i) * around, uv.getY(i) * h); else uv.setXY(i, uv.getX(i) * cap, uv.getY(i) * cap); }
+            return geo;
+        }
+        const box = (p, w, h, d, m, x, y, z) => put(p, new T.Mesh(uvBox(new T.BoxGeometry(w, h, d), w, h, d), m), x, y, z);
+        const cyl = (p, rt, rb, h, m, x, y, z, seg) => put(p, new T.Mesh(uvCyl(new T.CylinderGeometry(rt, rb, h, seg || 24), rt, rb, h, seg || 24), m), x, y, z);
         const sph = (p, r, m, x, y, z, ws, hs) => put(p, new T.Mesh(new T.SphereGeometry(r, ws || 20, hs || 14), m), x, y, z);
         const grp = (p, x, y, z) => { const g = new T.Group(); g.position.set(x || 0, y || 0, z || 0); p.add(g); return g; };
 
@@ -484,6 +554,7 @@
             const m = new T.Mesh(new T.BoxGeometry(w, h, d), new T.MeshBasicMaterial({ visible: false }));
             m.position.set(x, y, z);
             m.userData.id = id;
+            m.userData.horsLumiere = true;                 // n'existe pas pour le calcul de lumière (scripts/cec/)
             scene.add(m);
             proxies.push(m);
         }
@@ -497,13 +568,14 @@
                 pos.setZ(i, (amp || 0.022) * (0.15 + 0.85 * t) * wave);
             }
             geo.computeVertexNormals();
+            for (let i = 0; i < geo.attributes.uv.count; i++) geo.attributes.uv.setXY(i, geo.attributes.uv.getX(i) * w, geo.attributes.uv.getY(i) * h);
             const mesh = put(p, new T.Mesh(geo, m), x, y, z);
             mesh.rotation.y = ry || 0;
             return mesh;
         }
 
         /* =================== La salle et son équipement (decor.js) =================== */
-        const decor = window.SALLE_DECOR ? window.SALLE_DECOR({ T, scene, M, C, V, std, glass, glow, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG, TX, brushed, moulded, woven, drapePanel }) : null;
+        const decor = window.SALLE_DECOR ? window.SALLE_DECOR({ T, scene, M, C, V, std, glass, glow, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG, TX, brushed, moulded, woven, drapePanel, photo, onLight: () => roomReflections() }) : null;
 
         /* =================== Table d'opération et patient sous les champs =================== */
         (function table() {
@@ -511,8 +583,9 @@
             rbox(t, 0.85, 0.06, 0.62, 0.05, M.steel, 0, 0.03, 0);
             rbox(t, 0.42, 0.74, 0.36, 0.04, M.dark, 0, 0.4, 0);
             rbox(t, 2.05, 0.07, 0.62, 0.05, M.steel, 0, 0.805, 0);
-            rbox(t, 2.0, 0.08, 0.58, 0.05, M.black, 0, 0.88, 0);
+            rbox(t, 2.0, 0.08, 0.58, 0.05, M.leather, 0, 0.88, 0);
             const body = sph(t, 1, M.drape, 0.14, 1.03, 0, 28, 16); body.scale.set(0.9, 0.17, 0.33);
+            for (let i = 0, uv = body.geometry.attributes.uv; i < uv.count; i++) uv.setXY(i, uv.getX(i) * 2.6, uv.getY(i) * 1.1);
             rbox(t, 1.95, 0.02, 0.86, 0.04, M.drape, 0.14, 0.93, 0);
             drapePanel(t, 1.95, 0.5, M.drape, 0.14, 0.68, 0.432, 0, 0.024, 1);
             drapePanel(t, 1.95, 0.5, M.drape, 0.14, 0.68, -0.432, Math.PI, 0.024, 4);
@@ -1060,6 +1133,7 @@
         const ringGeo = new T.RingGeometry(0.15, 0.2, 40); ringGeo.rotateX(-Math.PI / 2);
         const marker = new T.Mesh(ringGeo, ringMat(0.9)), hover = new T.Mesh(ringGeo, ringMat(0.55));
         marker.visible = hover.visible = false; marker.renderOrder = hover.renderOrder = 2;
+        marker.userData.horsLumiere = hover.userData.horsLumiere = true;
         scene.add(marker); scene.add(hover);
 
         /* ---------- plan de la salle, avec sa position ---------- */
@@ -1376,6 +1450,7 @@
         wake();
 
         return {
+            scene, decor,
             focus, unfocus, zoom, setWalk, setSim, setPump,
             resetSim() { setSim(JSON.parse(JSON.stringify(SIM0))); },
             view(name) { setWalk(false); saved = null; fly(preset(name), 1.1); },
