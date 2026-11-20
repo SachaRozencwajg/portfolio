@@ -39,6 +39,9 @@ COPY --from=build-react /app/dist /usr/share/nginx/html/serious-game
 # VentiProtect ARDS : calculateur autonome (un seul fichier HTML, copié depuis le dépôt VentiProtect_ARDS)
 COPY ventiprotect/ /usr/share/nginx/html/ventiprotect/
 
+# Salle de CEC en 3D : page autonome, three.js r128 copié dans le dossier (aucune requête externe)
+COPY cec/ /usr/share/nginx/html/cec/
+
 # S'assurer que nginx peut lire les fichiers
 RUN chmod -R 755 /usr/share/nginx/html && \
     chown -R nginx:nginx /usr/share/nginx/html
