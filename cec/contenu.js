@@ -10,14 +10,14 @@
 
     // Vues proposées : cible, distance, azimut (0 = côté perfusionniste), angle depuis la verticale
     const VIEWS = {
-        ensemble: { target: [0.1, 0.95, -0.3], r: 6.6, az: 0.32, pol: 1.1 },
-        perfusion: { target: [0.72, 0.95, 0.35], r: 3.3, az: 0.12, pol: 1.2 },
+        ensemble: { target: [-0.5, 0.95, -0.5], r: 7.0, az: -0.5, pol: 1.08 },
+        perfusion: { target: [0.6, 0.95, 0.4], r: 3.5, az: -0.42, pol: 1.05 },
         chirurgie: { target: [-0.2, 0.9, -0.35], r: 5.4, az: 2.62, pol: 1.05 }
     };
 
     const HOTSPOTS = [
         {
-            id: 'champ', label: 'Le champ opératoire', anchor: c(-2.02, 1.36, -1.3), view: { r: 2.7, az: -0.25, pol: 1.0 },
+            id: 'champ', label: 'Le champ opératoire', anchor: c(-2.02, 1.36, -1.3), view: { r: 2.6, az: 1.35, pol: 0.95 },
             kicker: 'Le patient', title: 'Le champ opératoire',
             html: `<p class="lede">Tout part d'ici et tout y revient&nbsp;: le sang quitte l'oreillette droite et retourne dans l'aorte.</p>
 <h4>Le déroulement</h4>
@@ -28,7 +28,7 @@
 <p>Chaque étape s'annonce et se confirme à voix haute&nbsp;: «&nbsp;en CEC&nbsp;», «&nbsp;plein débit&nbsp;», «&nbsp;clampé&nbsp;», «&nbsp;déclampé&nbsp;», «&nbsp;CEC arrêtée&nbsp;».</p>`
         },
         {
-            id: 'veineuse', label: 'Ligne veineuse', anchor: c(-1.25, 1.02, -0.42), view: { r: 2.5, az: -0.1, pol: 1.05 },
+            id: 'veineuse', label: 'Ligne veineuse', anchor: c(-0.6, 1.0, -0.33), view: { r: 2.4, az: 0.3, pol: 1.05 },
             kicker: 'Du patient à la machine', title: 'La ligne veineuse',
             html: `<p class="lede">Le sang descend vers la machine par simple gravité&nbsp;: c'est un siphon.</p>
 <h4>Comment ça marche</h4>
@@ -58,6 +58,11 @@
             id: 'pompe', label: 'Pompe artérielle', anchor: h(-0.5, 0.72, 0.16), view: { r: 1.6, az: 0.25, pol: 1.2 },
             kicker: 'Le cœur de la machine', title: 'La pompe artérielle',
             html: `<p class="lede">Elle remplace le ventricule gauche et fixe le débit de perfusion.</p>
+<div class="seg" role="group" aria-label="Pompe montée sur la machine">
+<span class="seg__label">Sur la machine</span>
+<button type="button" data-pump="galets" aria-pressed="true">À galets</button>
+<button type="button" data-pump="centrifuge" aria-pressed="false">Centrifuge</button>
+</div>
 <h4>Comment ça marche</h4>
 <ul><li><b>Pompe à galets</b>&nbsp;: occlusive. Le débit ne dépend que de la vitesse de rotation et du calibre du tuyau, quelle que soit la résistance en aval.</li><li><b>Pompe centrifuge</b>&nbsp;: non occlusive. Le débit dépend de la précharge et de la postcharge&nbsp;: il faut un débitmètre, et un clamp à l'arrêt pour éviter le reflux.</li></ul>
 <p>Ici, la pompe est montée sur un mât, tout près de l'oxygénateur&nbsp;: des tuyaux plus courts, donc moins de volume d'amorçage et moins d'hémodilution.</p>
@@ -82,7 +87,7 @@ ${ref('Recommandations EACTS/EACTA/EBCP 2019 sur la CEC chez l\'adulte. Interact
 <h4>Côté anesthésie</h4>
 <p>La pression se règle après le débit&nbsp;: on vérifie le débit et la profondeur d'anesthésie, puis on recourt au vasoconstricteur ou au vasodilatateur.</p>
 <h4>Côté perfusion</h4>
-<ul><li>L'occlusion des galets se règle avant chaque cas&nbsp;: trop serrée, elle hémolyse&nbsp;; pas assez, le débit réel est inférieur au débit affiché.</li><li>Le calibre du tuyau saisi dans la machine doit être celui du tuyau monté.</li></ul>`
+<ul><li>L'occlusion des galets se règle avant chaque cas&nbsp;: trop serrée, elle hémolyse&nbsp;; pas assez, le débit réel est inférieur au débit affiché.</li><li>Le calibre du tuyau saisi dans la machine doit être celui du tuyau monté.</li><li>Avec une centrifuge, la ligne se clampe avant d'arrêter la pompe&nbsp;: sans clamp, le sang reflue du patient vers le réservoir.</li></ul>`
         },
         {
             id: 'oxy', label: 'Oxygénateur', anchor: h(-0.84, 0.28, 0.12), view: { r: 1.7, az: -0.5, pol: 1.3 },
@@ -164,6 +169,21 @@ ${ref('Ad N, et al. J Thorac Cardiovasc Surg 2018;155:1011-1018.', 'https://doi.
 <p>Le gaz s'ouvre et se vérifie avant le départ en CEC. Le balayage s'ajuste ensuite sur les gaz du sang.</p>`
         },
         {
+            id: 'act', label: 'Anticoagulation', anchor: c(2.66, 1.04, 0.93), view: { r: 1.9, az: 0.6, pol: 1.0 },
+            kicker: 'Sur la desserte du perfusionniste', title: "L'anticoagulation et l'ACT",
+            html: `<p class="lede">Sans anticoagulation, le sang coagule au contact du circuit&nbsp;: rien ne démarre avant le contrôle de l'ACT.</p>
+<h4>Comment ça marche</h4>
+<ul><li>L'héparine est injectée avant la canulation.</li><li>L'ACT, le temps de coagulation activé, se mesure en salle sur un échantillon de sang, quelques minutes après l'injection.</li><li>Il se contrôle ensuite à intervalles réguliers pendant la CEC, et l'héparine est répétée si besoin.</li><li>À la fin, la protamine neutralise l'héparine, une fois la CEC arrêtée.</li></ul>
+<p>Le seuil d'ACT exigé avant le départ suit le protocole de l'équipe.</p>
+${ref('Shore-Lesserson L, et al. Recommandations STS/SCA/AmSECT. J Extra Corpor Technol 2018;50:5-18.', 'https://pubmed.ncbi.nlm.nih.gov/29559750/', 'PubMed')}
+<h4>L'analyseur voisin</h4>
+<p>Il donne les gaz du sang, l'hémoglobine, le potassium, la glycémie et le lactate&nbsp;: de quoi régler le balayage, la FiO₂ et la transfusion.</p>
+<h4>Côté anesthésie</h4>
+<p>L'héparine s'injecte sur une voie veineuse sûre, et son heure s'annonce. Un ACT qui reste trop bas malgré l'injection fait évoquer une résistance à l'héparine.</p>
+<h4>Côté perfusion</h4>
+<ul><li>Aucun départ en CEC sans ACT contrôlé&nbsp;: c'est une ligne de la check-list.</li><li>Les aspirations de cardiotomie ne tournent qu'une fois le patient hépariné, et s'arrêtent dès que la protamine commence.</li></ul>`
+        },
+        {
             id: 'cockpit', label: 'Cockpit', anchor: h(-0.68, 1.1, 0.3), view: { r: 1.5, az: -0.3, pol: 1.1 },
             kicker: 'La commande centrale', title: 'Le cockpit',
             html: `<p class="lede">Un seul écran pour piloter la machine et lire les paramètres de perfusion.</p>
@@ -182,9 +202,6 @@ ${ref('Ad N, et al. J Thorac Cardiovasc Surg 2018;155:1011-1018.', 'https://doi.
 <ul><li>Le débit et la pression de ligne.</li><li>Le niveau du réservoir.</li><li>Les températures.</li><li>La SvO₂, reflet de l'équilibre entre l'apport et la consommation d'oxygène.</li></ul>
 <h4>Le capteur en ligne</h4>
 <p>Un capteur posé sur le circuit mesure les paramètres du sang sans prélèvement. Le moniteur en tire des indicateurs, dont l'apport en oxygène, pour une perfusion guidée par objectifs.</p>
-<h4>L'anticoagulation</h4>
-<p>Héparine avant la canulation, contrôlée par l'ACT, puis répétée pendant la CEC. Le seuil d'ACT exigé avant le départ suit le protocole de l'équipe.</p>
-${ref('Shore-Lesserson L, et al. Recommandations STS/SCA/AmSECT. J Extra Corpor Technol 2018;50:5-18.', 'https://pubmed.ncbi.nlm.nih.gov/29559750/', 'PubMed')}
 <h4>Côté anesthésie</h4>
 <p>Les gaz du sang restent la référence&nbsp;: le capteur en ligne donne la tendance entre deux prélèvements.</p>`
         },
@@ -202,7 +219,7 @@ ${ref('Shore-Lesserson L, et al. Recommandations STS/SCA/AmSECT. J Extra Corpor 
 <p>La check-list d'avant CEC vérifie la charge de la batterie et la présence de la manivelle.</p>`
         },
         {
-            id: 'thermo', label: 'Générateur thermique', anchor: c(3.95, 1.05, -0.9), view: { r: 2.6, az: -0.75, pol: 1.1 },
+            id: 'thermo', label: 'Générateur thermique', anchor: c(2.15, 1.05, -0.25), view: { r: 2.3, az: 0.95, pol: 0.95 },
             kicker: "Le circuit d'eau", title: 'Le générateur thermique',
             html: `<p class="lede">Il réchauffe et refroidit le sang, sans jamais le toucher.</p>
 <h4>Comment ça marche</h4>
@@ -211,7 +228,7 @@ ${ref('Shore-Lesserson L, et al. Recommandations STS/SCA/AmSECT. J Extra Corpor 
 <p>À Zurich, six patients ont développé une infection à Mycobacterium chimaera, révélée 1,5 à 3,6 ans après la chirurgie. La même souche a été retrouvée dans l'eau des générateurs thermiques et dans l'air de la salle quand ils fonctionnaient&nbsp;: la transmission se faisait par aérosol.</p>
 ${ref('Sax H, et al. Clin Infect Dis 2015;61:67-75.', 'https://doi.org/10.1093/cid/civ198')}
 <h4>Côté perfusion</h4>
-<p>L'eau et la désinfection suivent les consignes du fabricant. L'appareil se place loin du champ, sa sortie d'air tournée vers le mur, comme ici.</p>`
+<p>L'eau et la désinfection suivent les consignes du fabricant. Sa sortie d'air est tournée à l'opposé du champ opératoire, comme ici.</p>`
         },
         {
             id: 'anesth', label: 'Côté anesthésie', anchor: c(-3.6, 1.86, -2.76), view: { target: [-3.4, 1.2, -1.9], r: 3.6, az: 0.42, pol: 1.08 },
@@ -241,8 +258,44 @@ ${ref('Sax H, et al. Clin Infect Dis 2015;61:67-75.', 'https://doi.org/10.1093/c
         { q: 'Qu’est-ce qui fixe le débit de perfusion ?', a: 'pompe', ok: 'Oui : la pompe artérielle, réglée selon la surface corporelle du patient.', near: { cockpit: "Presque : on la commande d'ici, mais quel élément fait le débit ?" } },
         { q: 'En microplégie, où ajoute-t-on le potassium ?', a: 'cardio', ok: 'Oui : au pousse-seringue, sur la ligne de cardioplégie.', near: { aspi: "Pas loin : c'est une autre des pompes du plateau." } },
         { q: 'Où suit-on la SvO₂ en continu ?', a: 'moniteur', ok: 'Oui : sur le moniteur patient, grâce au capteur en ligne.', near: { cockpit: "Presque : c'est l'autre écran." } },
-        { q: 'Le courant est coupé. Où est le relais ?', a: 'secours', ok: 'Oui : la batterie, puis la manivelle si tout s\'arrête.' }
+        { q: 'Le courant est coupé. Où est le relais ?', a: 'secours', ok: 'Oui : la batterie, puis la manivelle si tout s\'arrête.' },
+        { q: "Où contrôle-t-on l'anticoagulation avant le départ en CEC ?", a: 'act', ok: "Oui : par l'ACT, sur la desserte du perfusionniste.", near: { moniteur: "Presque : cet écran suit la CEC, mais l'ACT se mesure sur un appareil à part." } }
     ];
 
-    window.SALLE = { VIEWS, HOTSPOTS, TOUR, QUIZ };
+    // Scénario : le départ en CEC. Chaque étape attend un clic sur le bon élément ; « fx » change l'état de la salle
+    // (cœur battant ou arrêté, ventilation, débit, pompes en marche, gaz, eau, sécurités, ACT).
+    const SCENARIO = {
+        title: 'Départ en CEC',
+        intro: "Le sternum est ouvert, le patient est ventilé, son cœur bat. La machine est amorcée, les pompes sont à l'arrêt. À vous de conduire le départ en CEC, étape par étape.",
+        start: { beating: true, pulsatile: true, vent: true, flow: 0, gas: false, armed: false, act: false, water: false, pumps: { art: false, cardio: false, aspi: false, decharge: false } },
+        steps: [
+            { who: 'Anesthésiste', say: 'Héparine injectée.', q: "Que contrôle-t-on avant d'aller plus loin ?", a: 'act',
+              ok: "L'ACT est contrôlé : l'anticoagulation est suffisante, le chirurgien peut canuler.", fx: { act: true },
+              near: { moniteur: "Cet écran suit la CEC, mais l'ACT se mesure sur un appareil à part.", anesth: "L'héparine est déjà injectée : il reste à vérifier son effet." } },
+            { who: 'Chirurgien', say: 'Canules en place.', q: "Avant de lancer la pompe, qu'ouvre-t-on pour que l'oxygénateur fasse son travail ?", a: 'gaz',
+              ok: 'Le gaz est ouvert : sans lui, la pompe renverrait au patient un sang veineux.', fx: { gas: true },
+              near: { oxy: "C'est bien lui qui oxygène, mais il lui faut du gaz : où l'ouvre-t-on ?" } },
+            { who: 'Perfusionniste', say: 'Check-list : les sécurités.', q: "Le réservoir peut se vider en quelques secondes. Où arme-t-on la sécurité qui arrêtera la pompe ?", a: 'reservoir',
+              ok: "Le capteur de niveau est armé. Le détecteur de bulles, sur la ligne artérielle, l'est aussi.", fx: { armed: true },
+              near: { filtre: "Le détecteur de bulles est ici, et il est armé lui aussi. Mais la question porte sur le niveau." } },
+            { who: 'Chirurgien', say: 'Vous pouvez partir en CEC.', q: 'Sur quel élément le perfusionniste agit-il pour lancer le débit ?', a: 'pompe',
+              ok: "La pompe démarre doucement pendant que le clamp veineux s'ouvre : le sang descend au réservoir, le débit monte. On surveille le niveau et la pression de ligne.", fx: { flow: 2.4, pumps: { art: true } },
+              near: { cockpit: "On la commande bien d'ici, mais quel élément fait le débit ?", veineuse: "Le clamp veineux s'ouvre en même temps, mais un autre élément lance le débit." } },
+            { who: 'Perfusionniste', say: 'Plein débit.', q: "Le cœur ne propulse plus rien. Que peut arrêter l'anesthésiste ?", a: 'anesth',
+              ok: "La ventilation est arrêtée : l'oxygénateur a pris le relais des poumons. La pression artérielle n'est plus pulsée.", fx: { flow: 4.6, vent: false, pulsatile: false },
+              near: { gaz: "Le gaz de l'oxygénateur reste ouvert : c'est une autre ventilation que l'on arrête." } },
+            { who: 'Chirurgien', say: 'On refroidit un peu.', q: 'Quel appareil change la température du sang ?', a: 'thermo',
+              ok: "Le générateur thermique fait circuler son eau dans l'échangeur de l'oxygénateur. Le sang et l'eau ne se touchent jamais.", fx: { water: true },
+              near: { oxy: "L'échangeur est bien ici, mais l'eau vient d'un autre appareil." } },
+            { who: 'Chirurgien', say: 'Aorte clampée. Cardioplégie.', q: 'Que met-on en route pour arrêter le cœur ?', a: 'cardio',
+              ok: "La cardioplégie est perfusée dans les coronaires : le cœur s'arrête en diastole, l'ECG devient plat.", fx: { beating: false, pumps: { cardio: true } },
+              near: { aspi: "Pas loin : c'est une autre pompe du plateau." } },
+            { who: 'Anesthésiste', say: "À l'ETO, le ventricule gauche se distend.", q: 'Quelle pompe le vide ?', a: 'aspi',
+              ok: 'La décharge vide le ventricule gauche, les aspirations gardent le champ sec. La CEC est installée.', fx: { pumps: { aspi: true, decharge: true } },
+              near: { pompe: "La pompe artérielle remplit le patient : celle que l'on cherche vide le cœur." } }
+        ],
+        end: "Vous avez conduit le départ en CEC. Dans la salle, tout tourne maintenant comme pendant l'intervention."
+    };
+
+    window.SALLE = { VIEWS, HOTSPOTS, TOUR, QUIZ, SCENARIO };
 })();

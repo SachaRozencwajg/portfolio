@@ -4,7 +4,7 @@
    Tout est construit en code avec three.js r128 : aucun modèle ni image externe. */
 (function () {
     'use strict';
-    const { VIEWS, HOTSPOTS, TOUR, QUIZ } = window.SALLE;
+    const { VIEWS, HOTSPOTS, TOUR, QUIZ, SCENARIO } = window.SALLE;
     const HS = {};
     HOTSPOTS.forEach((h) => { HS[h.id] = h; });
 
@@ -16,7 +16,7 @@
     const touch = window.matchMedia('(pointer: coarse)').matches;
     stage.classList.toggle('is-touch', touch);
 
-    const state = { sel: null, mode: null, tour: 0, quiz: null, visited: {}, walk: false };
+    const state = { sel: null, mode: null, tour: 0, quiz: null, sc: null, visited: {}, walk: false, pump: 'galets' };
     try { state.visited = JSON.parse(localStorage.getItem('salle-cec-vus') || '{}') || {}; } catch (e) { state.visited = {}; }
     const saveVisited = () => { try { localStorage.setItem('salle-cec-vus', JSON.stringify(state.visited)); } catch (e) { /* stockage indisponible */ } };
 
@@ -27,9 +27,11 @@
         $('tourBtn').setAttribute('aria-pressed', String(state.mode === 'tour'));
         $('quizBtn').setAttribute('aria-pressed', String(state.mode === 'quiz'));
         $('walkBtn').setAttribute('aria-pressed', String(state.walk));
-        stage.classList.toggle('is-quiz', state.mode === 'quiz');
+        $('scBtn').setAttribute('aria-pressed', String(state.mode === 'scenario'));
+        const asking = state.mode === 'quiz' || state.mode === 'scenario';
+        stage.classList.toggle('is-quiz', asking);
         stage.classList.toggle('is-walk', state.walk);
-        if (state.mode === 'quiz') hintEl.textContent = 'Cliquez sur le bon élément';
+        if (asking) hintEl.textContent = 'Cliquez sur le bon élément';
         else if (state.walk) hintEl.textContent = touch ? 'Joystick pour marcher · glissez pour regarder' : 'ZQSD ou flèches pour marcher · glissez pour regarder · cliquez au sol pour y aller';
         else hintEl.textContent = touch ? 'Glissez pour tourner · touchez un point' : 'Glissez ou flèches pour tourner autour · cliquez sur un point';
     }
@@ -66,7 +68,7 @@
         stage.classList.add('has-panel');
         panel.setAttribute('aria-hidden', 'false');
         panelBody.scrollTop = 0;
-        if (h.id === 'pompe') bindCalc();
+        if (h.id === 'pompe') { bindCalc(); bindPump(); }
         setOffset(true);
     }
 
@@ -95,10 +97,19 @@
         update();
     }
 
+    // Fiche de la pompe : montrer la machine avec une pompe à galets ou une pompe centrifuge
+    function bindPump() {
+        const btns = panelBody.querySelectorAll('[data-pump]');
+        const paint = () => btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.pump === state.pump)));
+        btns.forEach((b) => b.addEventListener('click', () => { state.pump = b.dataset.pump; if (world) world.setPump(state.pump); paint(); }));
+        paint();
+    }
+
     function select(id, fromList) {
         const h = HS[id];
         if (!h) return;
         if (state.mode === 'quiz') { quizAnswer(id); return; }
+        if (state.mode === 'scenario') { scenarioAnswer(id); return; }
         if (state.mode === 'tour') {
             const i = TOUR.findIndex((s) => s.id === id);
             if (i < 0) state.mode = null; else state.tour = i;
@@ -127,6 +138,7 @@
     function startTour() {
         if (state.mode === 'tour') { closeSelection(); return; }
         endQuiz();
+        endScenario();
         state.mode = 'tour';
         state.tour = 0;
         select(TOUR[0].id);
@@ -142,6 +154,7 @@
     /* ---------- Quiz ---------- */
     function startQuiz() {
         if (state.mode === 'quiz') { endQuiz(); renderModes(); return; }
+        endScenario();
         if (state.sel) closeSelection();
         state.mode = 'quiz';
         state.quiz = { i: 0, score: 0, tries: 0, solved: false };
@@ -152,6 +165,7 @@
         if (state.mode !== 'quiz') return;
         state.mode = null;
         quizEl.hidden = true;
+        setOffset();
         if (world) world.unfocus();
     }
     function renderQuiz(feedback, good) {
@@ -162,6 +176,7 @@
                 <div class="quiz__row"><button type="button" class="btn" id="quizAgain">Rejouer</button><button type="button" class="btn btn--ghost" id="quizStop">Fermer</button></div>`;
             $('quizAgain').addEventListener('click', () => { state.quiz = { i: 0, score: 0, tries: 0, solved: false }; if (world) world.unfocus(); renderQuiz(); });
             $('quizStop').addEventListener('click', () => { endQuiz(); renderModes(); });
+            setOffset();
             return;
         }
         quizEl.innerHTML = `<p class="quiz__n">Question ${z.i + 1} sur ${QUIZ.length}</p><p class="quiz__q">${QUIZ[z.i].q}</p>`
@@ -169,6 +184,7 @@
             + `<div class="quiz__row">${z.solved ? '<button type="button" class="btn" id="quizNext">Question suivante</button>' : ''}<button type="button" class="btn btn--ghost" id="quizStop">Arrêter</button></div>`;
         if (z.solved) $('quizNext').addEventListener('click', () => { z.i++; z.tries = 0; z.solved = false; if (world) world.unfocus(); renderQuiz(); });
         $('quizStop').addEventListener('click', () => { endQuiz(); renderModes(); });
+        setOffset();
     }
     function quizAnswer(id) {
         const z = state.quiz, q = QUIZ[z.i];
@@ -184,6 +200,63 @@
         } else {
             z.tries++;
             renderQuiz((q.near && q.near[id]) || `Non, ceci est : ${HS[id].label.toLowerCase()}. Essayez encore.`, false);
+        }
+    }
+
+    /* ---------- Scénario : le départ en CEC, étape par étape ---------- */
+    function startScenario() {
+        if (state.mode === 'scenario') { endScenario(); renderModes(); return; }
+        endQuiz();
+        if (state.sel) closeSelection();
+        state.mode = 'scenario';
+        state.sc = { i: -1, score: 0, tries: 0, solved: false };
+        if (world) world.setSim(SCENARIO.start);      // la salle revient avant la CEC : cœur battant, pompes à l'arrêt
+        renderScenario();
+        renderModes();
+    }
+    function endScenario() {
+        if (state.mode !== 'scenario') return;
+        state.mode = null;
+        quizEl.hidden = true;
+        setOffset();
+        if (world) { world.resetSim(); world.unfocus(); }
+    }
+    function renderScenario(feedback, good) {
+        const z = state.sc, n = SCENARIO.steps.length;
+        const stop = '<button type="button" class="btn btn--ghost" id="scStop">Arrêter</button>';
+        quizEl.hidden = false;
+        if (z.i < 0) {
+            quizEl.innerHTML = `<p class="quiz__n">Scénario · ${SCENARIO.title}</p><p class="quiz__say">${SCENARIO.intro}</p>
+                <div class="quiz__row"><button type="button" class="btn" id="scNext">Commencer</button>${stop}</div>`;
+        } else if (z.i >= n) {
+            quizEl.innerHTML = `<p class="quiz__n">Scénario terminé</p><p class="quiz__q">${z.score} étape${z.score > 1 ? 's' : ''} sur ${n} réussie${z.score > 1 ? 's' : ''} du premier coup.</p><p class="quiz__say">${SCENARIO.end}</p>
+                <div class="quiz__row"><button type="button" class="btn" id="scAgain">Rejouer</button><button type="button" class="btn btn--ghost" id="scStop">Fermer</button></div>`;
+        } else {
+            const st = SCENARIO.steps[z.i];
+            quizEl.innerHTML = `<p class="quiz__n">Étape ${z.i + 1} sur ${n}</p><p class="quiz__say"><b>${st.who}</b> « ${st.say} »</p><p class="quiz__q">${st.q}</p>`
+                + (feedback ? `<p class="quiz__fb ${good ? 'is-good' : 'is-bad'}" role="status">${feedback}</p>` : '')
+                + `<div class="quiz__row">${z.solved ? `<button type="button" class="btn" id="scNext">${z.i === n - 1 ? 'Terminer' : 'Étape suivante'}</button>` : ''}${stop}</div>`;
+        }
+        const next = $('scNext'), again = $('scAgain');
+        if (next) next.addEventListener('click', () => { z.i++; z.tries = 0; z.solved = false; if (world) world.unfocus(); renderScenario(); });
+        if (again) again.addEventListener('click', () => { state.mode = null; startScenario(); });
+        $('scStop').addEventListener('click', () => { endScenario(); renderModes(); });
+        setOffset();
+    }
+    function scenarioAnswer(id) {
+        const z = state.sc, st = SCENARIO.steps[z.i];
+        if (!st || z.solved) return;
+        if (id === st.a) {
+            z.solved = true;
+            if (z.tries === 0) z.score++;
+            state.visited[id] = 1;
+            saveVisited();
+            renderChips();
+            if (world) { world.setSim(st.fx); world.focus(HS[id]); }     // la salle réagit : pompe, lignes, écrans
+            renderScenario(st.ok, true);
+        } else {
+            z.tries++;
+            renderScenario((st.near && st.near[id]) || `Ce n'est pas cela : vous avez choisi « ${HS[id].label.toLowerCase()} ». Essayez encore.`, false);
         }
     }
 
@@ -248,7 +321,14 @@
         // Les boutons de couleur : un bouton par pompe
         const KNOB = { red: '#e5392f', blue: '#2f6fe5', green: '#35b04a', yellow: '#f2c81e' };
 
-        const flows = [], rotors = [], proxies = [];
+        const flows = [], rotors = [], proxies = [], lives = [];
+        const variants = { galets: [], centrifuge: [] };      // la pompe artérielle montée : chaque type a son modèle et ses tuyaux
+        let ledLevel = null;
+        // État de la salle : ce que montrent les écrans, quelles pompes tournent, quelles lignes coulent.
+        // Par défaut la CEC est installée, cœur arrêté ; le scénario « Départ en CEC » repart d'avant.
+        const SIM0 = { beating: false, pulsatile: false, vent: false, flow: 4.6, gas: true, armed: true, act: true, water: true, pumps: { art: true, cardio: true, aspi: true, decharge: true } };
+        const sim = JSON.parse(JSON.stringify(SIM0));
+        const fr2 = (v) => v.toFixed(2).replace('.', ',');
 
         /* ---------- formes ---------- */
         function put(p, mesh, x, y, z, noShadow) {
@@ -310,11 +390,12 @@
             const curve = new T.CatmullRomCurve3(pts.map(V), false, 'catmullrom', 0.5);
             const mesh = new T.Mesh(new T.TubeGeometry(curve, Math.max(20, pts.length * 14), radius, 10, false), m);
             mesh.castShadow = true;
+            mesh.userData.len = curve.getLength();
             p.add(mesh);
-            return curve.getLength();
+            return mesh;
         }
-        // Tuyau où l'on voit le sens du liquide : des tirets clairs qui avancent
-        function flowTube(p, pts, radius, colors, speed) {
+        // Tuyau où l'on voit le sens du liquide : des tirets clairs qui avancent. « key » : la ligne à laquelle il appartient
+        function flowTube(p, pts, radius, colors, speed, key) {
             const cv = document.createElement('canvas');
             cv.width = 64; cv.height = 4;
             const g = cv.getContext('2d');
@@ -323,19 +404,24 @@
             const tex = new T.CanvasTexture(cv);
             tex.encoding = T.sRGBEncoding;
             tex.wrapS = T.RepeatWrapping;
-            const len = tube(p, pts, radius, new T.MeshStandardMaterial({ map: tex, roughness: 0.35 }));
-            tex.repeat.set(Math.max(2, Math.round(len / 0.16)), 1);
-            flows.push({ tex, speed: speed / 0.16 });
+            const mesh = tube(p, pts, radius, new T.MeshStandardMaterial({ map: tex, roughness: 0.35 }));
+            tex.repeat.set(Math.max(2, Math.round(mesh.userData.len / 0.16)), 1);
+            flows.push({ tex, speed: speed / 0.16, key, k: 1 });
+            return mesh;
         }
-        function screen(p, w, h, draw, x, y, z, res) {
+        // Un écran. « isLive » : il est redessiné quand l'état de la salle change (son dessin reçoit « sim »)
+        function screen(p, w, h, draw, x, y, z, res, isLive) {
             const cv = document.createElement('canvas');
             cv.width = res || 256; cv.height = Math.round((res || 256) * h / w);
-            draw(cv.getContext('2d'), cv.width, cv.height);
+            const g = cv.getContext('2d');
+            draw(g, cv.width, cv.height, sim);
             const tex = new T.CanvasTexture(cv);
             tex.encoding = T.sRGBEncoding;
             tex.anisotropy = 4;
+            if (isLive) lives.push({ g, cv, tex, draw });
             return put(p, new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map: tex, toneMapped: false })), x, y, z, true);
         }
+        const live = (p, w, h, draw, x, y, z, res) => screen(p, w, h, draw, x, y, z, res, true);
         // Courbe de pression artérielle : montée systolique, incisure dicrote, décroissance
         function beat(t) {
             const main = Math.pow(t / 0.13, 1.25) * Math.exp(1.25 * (1 - t / 0.13));
@@ -358,7 +444,7 @@
         }
 
         /* =================== La salle et son équipement (decor.js) =================== */
-        const decor = window.SALLE_DECOR ? window.SALLE_DECOR({ T, scene, M, C, V, std, glass, glow, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, SANS, BG }) : null;
+        const decor = window.SALLE_DECOR ? window.SALLE_DECOR({ T, scene, M, C, V, std, glass, glow, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG }) : null;
 
         /* =================== Table d'opération et patient sous les champs =================== */
         (function table() {
@@ -451,10 +537,10 @@
             const mon = grp(hg, 0.02, 1.33, -0.13); mon.rotation.x = -0.05;
             slab(mon, 0.58, 0.36, 0.034, 0.014, M.black, 0, 0, 0);
             box(mon, 0.09, 0.09, 0.07, M.aluDark, 0.04, 0, -0.05);
-            screen(mon, 0.545, 0.315, (g, w, h) => {
+            live(mon, 0.545, 0.315, (g, w, h, sim) => {
                 g.fillStyle = BG; g.fillRect(0, 0, w, h);
                 g.fillStyle = '#161c24'; g.fillRect(0, 0, w, h * 0.13);
-                [['DÉBIT', '4,60'], ['PAM', '65'], ['SvO₂', '76'], ['T art.', '34,0']].forEach((q, i) => {
+                [['DÉBIT', fr2(sim.flow)], ['PAM', sim.pulsatile ? '80' : '65'], ['SvO₂', sim.flow > 0 ? '76' : '--'], ['T art.', sim.water ? '34,0' : '36,2']].forEach((q, i) => {
                     const x = w * (0.24 + i * 0.19);
                     g.fillStyle = '#8b96a8'; g.font = `500 ${Math.round(h * 0.03)}px ${SANS}`; g.fillText(q[0], x, h * 0.05);
                     g.fillStyle = '#fff'; g.font = `600 ${Math.round(h * 0.055)}px ${SANS}`; g.fillText(q[1], x, h * 0.11);
@@ -488,17 +574,27 @@
                 const ring = cyl(p, r, r, 0.016, std(hex, { roughness: 0.35, emissive: C(hex), emissiveIntensity: 0.25 }), x, y, z + 0.008, 24); ring.rotation.x = Math.PI / 2;
                 const cap = cyl(p, r * 0.62, r * 0.62, 0.02, M.aluDark, x, y, z + 0.011, 20); cap.rotation.x = Math.PI / 2;
             }
-            function pumpScreen(p, value, hex, x, y, z) {
-                screen(p, 0.09, 0.058, (g, w, h) => {
+            function pumpScreen(p, o, x, y, z) {
+                live(p, 0.09, 0.058, (g, w, h, sim) => {
+                    const on = sim.pumps[o.key];
                     g.fillStyle = BG; g.fillRect(0, 0, w, h);
-                    g.fillStyle = hex; g.fillRect(w * 0.08, h * 0.12, w * 0.18, h * 0.08);
-                    g.fillStyle = '#fff'; g.font = `600 ${Math.round(h * 0.46)}px ${SANS}`; g.fillText(value, w * 0.1, h * 0.68);
+                    g.fillStyle = on ? o.hex : '#3a4048'; g.fillRect(w * 0.08, h * 0.12, w * 0.18, h * 0.08);
+                    g.fillStyle = '#fff'; g.font = `600 ${Math.round(h * 0.46)}px ${SANS}`; g.fillText(fr2(on ? (o.key === 'art' ? sim.flow : o.value) : 0), w * 0.1, h * 0.68);
                     g.fillStyle = '#8b96a8'; g.font = `500 ${Math.round(h * 0.16)}px ${SANS}`; g.fillText('L/min', w * 0.12, h * 0.9);
                 }, x, y, z, 192);
             }
-            // Une pompe à galets : carter, galets sous un capot transparent, unité de commande (écran et bouton)
-            function pumpUnit(x, y, z, o) {
-                const g = grp(hg, x, y, z);
+            // L'unité de commande d'une pompe : écran, bouton, câble
+            function controlUnit(par, g, x, y, z, o) {
+                box(g, 0.05, 0.03, 0.05, M.aluDark, 0, 0.115, 0.1);
+                const cu = grp(g, 0, 0.118, 0.128); cu.rotation.x = -0.3;
+                slab(cu, 0.118, 0.175, 0.03, 0.014, M.black, 0, 0, 0);
+                pumpScreen(cu, o, 0, 0.04, 0.0155);
+                knob(cu, o.hex, 0, -0.045, 0.015);
+                tube(par, [[x - 0.02, y + 0.04, z + 0.15], [x - 0.03, y - 0.06, z + 0.17], [x - 0.02, y - 0.2, z + 0.12], [x, 0.36, z + 0.06]], 0.006, M.cable);
+            }
+            // Une pompe à galets : carter, galets sous un capot transparent, unité de commande
+            function pumpUnit(par, x, y, z, o) {
+                const g = grp(par, x, y, z);
                 cyl(g, 0.101, 0.101, 0.02, M.aluDark, 0, 0.01, 0, 36);
                 cyl(g, 0.098, 0.098, 0.23, M.alu, 0, 0.135, 0, 36);
                 cyl(g, 0.1, 0.1, 0.014, M.black, 0, 0.257, 0, 36);
@@ -508,35 +604,50 @@
                 cyl(rot, 0.024, 0.024, 0.028, M.white, 0.056, 0, 0, 18);
                 cyl(rot, 0.024, 0.024, 0.028, M.white, -0.056, 0, 0, 18);
                 cyl(rot, 0.016, 0.016, 0.034, std(o.hex, { roughness: 0.4 }), 0, 0, 0, 16);
-                rotors.push({ obj: rot, speed: o.speed });
+                rotors.push({ obj: rot, speed: o.speed, key: o.key, k: 1 });
                 const loop = put(g, new T.Mesh(new T.TorusGeometry(0.072, 0.0105, 10, 28, Math.PI * 1.25), o.loop), 0, 0.276, 0);
                 loop.rotation.set(-Math.PI / 2, 0, Math.PI * 0.875);
                 cyl(g, 0.1, 0.1, 0.034, M.clear, 0, 0.283, 0, 36).castShadow = false;
                 [-0.045, 0.045].forEach((dx) => box(g, 0.03, 0.022, 0.03, M.black, dx, 0.283, -0.096));
-                box(g, 0.05, 0.03, 0.05, M.aluDark, 0, 0.115, 0.1);
-                const cu = grp(g, 0, 0.118, 0.128); cu.rotation.x = -0.3;
-                slab(cu, 0.118, 0.175, 0.03, 0.014, M.black, 0, 0, 0);
-                pumpScreen(cu, o.value, o.hex, 0, 0.04, 0.0155);
-                knob(cu, o.hex, 0, -0.045, 0.015);
-                tube(hg, [[x - 0.02, y + 0.04, z + 0.15], [x - 0.03, y - 0.06, z + 0.17], [x - 0.02, y - 0.2, z + 0.12], [x, 0.36, z + 0.06]], 0.006, M.cable);
+                controlUnit(par, g, x, y, z, o);
+            }
+            // Une pompe centrifuge : moteur, tête jetable (cône transparent, rotor), unité de commande.
+            // Le sang entre dans l'axe, par le haut, et sort sur le côté.
+            function centriUnit(par, x, y, z, o) {
+                const g = grp(par, x, y, z);
+                cyl(g, 0.076, 0.076, 0.02, M.aluDark, 0, 0.01, 0, 32);
+                cyl(g, 0.07, 0.07, 0.15, M.alu, 0, 0.095, 0, 32);
+                cyl(g, 0.075, 0.075, 0.018, M.black, 0, 0.179, 0, 32);
+                cyl(g, 0.016, 0.058, 0.062, std('#3b6fe0', { roughness: 0.3, transparent: true, opacity: 0.72 }), 0, 0.222, 0, 28).castShadow = false;
+                const rot = grp(g, 0, 0.206, 0);
+                for (let i = 0; i < 3; i++) box(rot, 0.1, 0.026, 0.008, M.white, 0, 0, 0).rotation.y = i * Math.PI / 3;
+                rotors.push({ obj: rot, speed: 9, key: o.key, k: 1 });
+                cyl(g, 0.02, 0.066, 0.07, M.clear, 0, 0.224, 0, 28).castShadow = false;
+                cyl(g, 0.011, 0.011, 0.045, M.white, 0, 0.277, 0, 12);
+                cyl(g, 0.011, 0.011, 0.07, M.white, -0.08, 0.2, -0.03, 12).rotation.z = Math.PI / 2;
+                controlUnit(par, g, x, y, z, o);
             }
             const loopBlood = std('#8c2430', { roughness: 0.35 }), loopBlue = std('#3b6fe0', { roughness: 0.35 }), loopAmber = std('#e0a13a', { roughness: 0.35 });
-            pumpUnit(-0.3, 0.61, -0.03, { hex: KNOB.yellow, value: '0.25', loop: loopAmber, speed: 0.6 });   // cardioplégie
-            pumpUnit(-0.07, 0.61, -0.03, { hex: KNOB.blue, value: '0.40', loop: loopBlood, speed: 1.1 });    // aspiration
-            pumpUnit(0.16, 0.61, -0.03, { hex: KNOB.green, value: '0.30', loop: loopBlood, speed: 0.8 });    // décharge
+            pumpUnit(hg, -0.3, 0.61, -0.03, { hex: KNOB.yellow, value: 0.25, key: 'cardio', loop: loopAmber, speed: 0.6 });   // cardioplégie
+            pumpUnit(hg, -0.07, 0.61, -0.03, { hex: KNOB.blue, value: 0.4, key: 'aspi', loop: loopBlood, speed: 1.1 });    // aspiration
+            pumpUnit(hg, 0.16, 0.61, -0.03, { hex: KNOB.green, value: 0.3, key: 'decharge', loop: loopBlood, speed: 0.8 });    // décharge
 
             /* ---- côté gauche : mât bas, pompe artérielle près de l'oxygénateur, cockpit ---- */
             pipe(hg, [[-0.52, 0.23, -0.05], [-0.52, 0.92, -0.05]], 0.019, M.chrome);
             rbox(hg, 0.07, 0.09, 0.1, 0.012, M.aluDark, -0.52, 0.52, -0.01);
-            pumpUnit(-0.5, 0.4, 0.13, { hex: KNOB.red, value: '4.60', loop: loopBlue, speed: 2.2 });        // pompe artérielle
+            // pompe artérielle : à galets ou centrifuge, au même endroit (on passe de l'une à l'autre depuis sa fiche)
+            const artG = grp(hg), artC = grp(hg);
+            pumpUnit(artG, -0.5, 0.4, 0.13, { hex: KNOB.red, key: 'art', loop: loopBlue, speed: 2.2 });
+            centriUnit(artC, -0.5, 0.4, 0.13, { hex: KNOB.red, key: 'art' });
+            variants.galets.push(artG); variants.centrifuge.push(artC);
             // cockpit : l'écran de commande et ses quatre boutons, un par pompe
             pipe(hg, [[-0.52, 0.88, -0.05], [-0.52, 0.88, 0.12], [-0.66, 0.88, 0.22], [-0.66, 0.96, 0.22]], 0.015, M.chrome, 0.04);
             sph(hg, 0.024, M.aluDark, -0.52, 0.88, -0.05, 14, 10);
             const cp = grp(hg, -0.68, 1.0, 0.27); cp.rotation.order = 'YXZ'; cp.rotation.set(-0.4, 0.3, 0);
             slab(cp, 0.37, 0.31, 0.03, 0.02, M.black, 0, 0, 0);
-            screen(cp, 0.335, 0.2, (g, w, h) => {
+            live(cp, 0.335, 0.2, (g, w, h, sim) => {
                 g.fillStyle = BG; g.fillRect(0, 0, w, h);
-                g.fillStyle = '#fff'; g.font = `600 ${Math.round(h * 0.3)}px ${SANS}`; g.fillText('4,60', w * 0.05, h * 0.36);
+                g.fillStyle = '#fff'; g.font = `600 ${Math.round(h * 0.3)}px ${SANS}`; g.fillText(fr2(sim.flow), w * 0.05, h * 0.36);
                 g.fillStyle = '#8b96a8'; g.font = `500 ${Math.round(h * 0.07)}px ${SANS}`; g.fillText('L/min', w * 0.36, h * 0.36);
                 [['100 %', 0.05], ['65', 0.24], ['−16', 0.34]].forEach((q) => { g.fillStyle = '#fff'; g.font = `600 ${Math.round(h * 0.1)}px ${SANS}`; g.fillText(q[0], w * q[1], h * 0.6); });
                 g.fillStyle = '#2a3340';
@@ -562,7 +673,7 @@
             for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3; cyl(ox, 0.011, 0.011, 0.036, M.yellow, Math.cos(a) * 0.062, 0.9, Math.sin(a) * 0.062, 12); }
             cyl(ox, 0.019, 0.019, 0.05, M.yellow, 0, 0.905, -0.02, 14);
             box(ox, 0.03, 0.06, 0.03, M.black, 0.1, 0.6, 0);                                 // capteur de niveau
-            box(ox, 0.008, 0.008, 0.004, glow('#57d39b'), 0.1, 0.618, 0.016);
+            ledLevel = box(ox, 0.008, 0.008, 0.004, glow('#57d39b'), 0.1, 0.618, 0.016);
             // oxygénateur à fibres creuses et échangeur thermique
             cyl(ox, 0.07, 0.07, 0.2, M.fibres, 0, 0.39, 0, 28);
             cyl(ox, 0.086, 0.086, 0.21, M.clear, 0, 0.39, 0, 32).castShadow = false;
@@ -608,40 +719,47 @@
 
         /* =================== Le circuit : veineux en bleu, artériel en rouge, cardioplégie en ambre =================== */
         (function circuit() {
-            const BLUE = ['#3b6fe0', '#8fb0ff'], RED = ['#d6453d', '#ff9c94'], AMB = ['#d9952f', '#ffd98a'], DRK = ['#8c2430', '#c96a74'];
+            const BLUE = ['#3b6fe0', '#8fb0ff'], RED = ['#d6453d', '#ff9c94'], AMB = ['#d9952f', '#ffd98a'], DRK = ['#8c2430', '#c96a74'], GAS = ['#3aa76d', '#a9e4c5'], EAU = ['#7fa9bd', '#d3e6ee'];
+            // Sur le champ, les lignes partent vers les pieds du patient puis descendent vers la machine : la place du chirurgien reste libre.
             // ligne veineuse : de l'oreillette droite au réservoir
-            flowTube(scene, [[-1.92, 1.27, -1.25], [-1.7, 1.18, -0.92], [-1.25, 0.95, -0.42], [-0.7, 0.86, 0.02], H(-1.0, 0.9, -0.1), H(-0.9, 0.88, -0.06), H(-0.84, 0.8, -0.02)], 0.02, BLUE, 0.5);
-            box(scene, 0.07, 0.06, 0.07, M.dark, -0.4, 0.88, 0.135);                                    // clamp veineux
-            // réservoir → pompe artérielle → oxygénateur
-            flowTube(scene, [H(-0.78, 0.44, 0.07), H(-0.72, 0.42, 0.0), H(-0.63, 0.5, -0.03), H(-0.585, 0.64, 0.04), H(-0.5665, 0.676, 0.102)], 0.016, BLUE, 0.5);
-            flowTube(scene, [H(-0.4335, 0.676, 0.102), H(-0.423, 0.675, 0.04), H(-0.41, 0.58, -0.02), H(-0.47, 0.33, -0.01), H(-0.585, 0.26, 0.02), H(-0.67, 0.16, 0.04), H(-0.76, 0.15, 0.04)], 0.016, BLUE, 0.5);
+            flowTube(scene, [[-1.92, 1.27, -1.25], [-1.6, 1.25, -1.2], [-1.25, 1.2, -1.1], [-1.05, 1.12, -0.9], [-0.7, 0.98, -0.45], [-0.35, 0.9, 0.0], H(-1.0, 0.9, -0.1), H(-0.9, 0.88, -0.06), H(-0.84, 0.8, -0.02)], 0.02, BLUE, 0.5, 'art');
+            box(scene, 0.07, 0.06, 0.07, M.dark, -0.525, 0.94, -0.225);                                 // clamp veineux
+            // réservoir → pompe artérielle → oxygénateur : un jeu de tuyaux par type de pompe
+            variants.galets.push(
+                flowTube(scene, [H(-0.78, 0.44, 0.07), H(-0.72, 0.42, 0.0), H(-0.63, 0.5, -0.03), H(-0.585, 0.64, 0.04), H(-0.5665, 0.676, 0.102)], 0.016, BLUE, 0.5, 'art'),
+                flowTube(scene, [H(-0.4335, 0.676, 0.102), H(-0.423, 0.675, 0.04), H(-0.41, 0.58, -0.02), H(-0.47, 0.33, -0.01), H(-0.585, 0.26, 0.02), H(-0.67, 0.16, 0.04), H(-0.76, 0.15, 0.04)], 0.016, BLUE, 0.5, 'art'));
+            variants.centrifuge.push(
+                flowTube(scene, [H(-0.78, 0.44, 0.07), H(-0.74, 0.5, 0.14), H(-0.66, 0.68, 0.16), H(-0.56, 0.77, 0.14), H(-0.5, 0.76, 0.13), H(-0.5, 0.7, 0.13)], 0.016, BLUE, 0.5, 'art'),
+                flowTube(scene, [H(-0.615, 0.6, 0.1), H(-0.66, 0.57, 0.1), H(-0.68, 0.42, 0.08), H(-0.7, 0.24, 0.06), H(-0.76, 0.15, 0.04)], 0.016, BLUE, 0.5, 'art'),
+                box(scene, 0.05, 0.05, 0.05, M.black, HX - 0.68, 0.42, HZ + 0.08));                    // débitmètre : indispensable avec une centrifuge
             // oxygénateur → filtre → aorte
-            flowTube(scene, [H(-0.96, 0.33, 0.04), H(-1.0, 0.37, 0.05), H(-1.02, 0.47, 0.04)], 0.016, RED, 0.5);
-            flowTube(scene, [H(-1.06, 0.59, 0.04), H(-1.1, 0.76, -0.02), [-0.6, 1.04, -0.2], [-1.3, 1.16, -0.72], [-1.9, 1.26, -1.08], [-2.14, 1.27, -1.3]], 0.02, RED, 0.5);
+            flowTube(scene, [H(-0.96, 0.33, 0.04), H(-1.0, 0.37, 0.05), H(-1.02, 0.47, 0.04)], 0.016, RED, 0.5, 'art');
+            flowTube(scene, [H(-1.06, 0.59, 0.04), H(-1.1, 0.76, -0.02), [-0.5, 0.98, -0.15], [-0.85, 1.08, -0.6], [-1.1, 1.17, -0.95], [-1.35, 1.24, -1.2], [-1.75, 1.28, -1.32], [-2.14, 1.27, -1.3]], 0.02, RED, 0.5, 'art');
             box(scene, 0.06, 0.05, 0.06, M.dark, HX - 1.1, 0.76, HZ - 0.02);                            // détecteur de bulles
             // cardioplégie : poche → pompe → piège à bulles → racine de l'aorte
-            flowTube(scene, [H(-0.338, 1.485, -0.158), H(-0.34, 1.3, -0.27), H(-0.39, 1.1, -0.3), H(-0.385, 0.93, -0.16), H(-0.3665, 0.886, -0.058)], 0.011, AMB, 0.25);
+            flowTube(scene, [H(-0.338, 1.485, -0.158), H(-0.34, 1.3, -0.27), H(-0.39, 1.1, -0.3), H(-0.385, 0.93, -0.16), H(-0.3665, 0.886, -0.058)], 0.011, AMB, 0.25, 'cardio');
             tube(scene, [H(-0.47, 1.432, -0.19), H(-0.42, 1.36, -0.26), H(-0.36, 1.22, -0.28)], 0.005, M.amber);
-            flowTube(scene, [H(-0.2335, 0.886, -0.058), H(-0.22, 0.9, -0.15), H(-0.18, 0.93, -0.25), H(-0.16, 0.93, -0.275)], 0.011, AMB, 0.25);
-            flowTube(scene, [H(-0.16, 0.8, -0.275), H(-0.3, 0.74, -0.38), [-0.1, 0.9, -0.3], [-1.2, 1.12, -0.82], [-1.9, 1.26, -1.16], [-2.06, 1.28, -1.24]], 0.011, AMB, 0.25);
+            flowTube(scene, [H(-0.2335, 0.886, -0.058), H(-0.22, 0.9, -0.15), H(-0.18, 0.93, -0.25), H(-0.16, 0.93, -0.275)], 0.011, AMB, 0.25, 'cardio');
+            flowTube(scene, [H(-0.16, 0.8, -0.275), H(-0.3, 0.74, -0.38), [0.1, 0.85, -0.25], [-0.6, 1.02, -0.7], [-1.0, 1.15, -1.0], [-1.4, 1.24, -1.28], [-1.8, 1.28, -1.3], [-2.06, 1.28, -1.24]], 0.011, AMB, 0.25, 'cardio');
             // aspiration et décharge : du champ aux pompes, puis au réservoir
-            flowTube(scene, [[-1.9, 1.26, -1.42], [-1.4, 1.1, -1.0], [-0.4, 0.96, -0.5], H(-0.2, 0.9, -0.42), H(-0.14, 0.9, -0.15), H(-0.1365, 0.886, -0.058)], 0.011, DRK, 0.3);
-            flowTube(scene, [H(-0.0035, 0.886, -0.058), H(0.0, 0.905, -0.16), H(-0.1, 0.92, -0.34), H(-0.6, 0.9, -0.3), H(-0.8, 0.86, -0.1), H(-0.8, 0.8, -0.03)], 0.011, DRK, 0.3);
-            flowTube(scene, [[-2.0, 1.27, -1.4], [-1.35, 1.14, -1.06], [-0.2, 0.98, -0.55], H(0.1, 0.9, -0.4), H(0.095, 0.9, -0.15), H(0.0935, 0.886, -0.058)], 0.011, DRK, 0.3);
-            flowTube(scene, [H(0.2265, 0.886, -0.058), H(0.23, 0.905, -0.17), H(0.1, 0.95, -0.38), H(-0.55, 0.94, -0.36), H(-0.84, 0.88, -0.12), H(-0.88, 0.8, -0.02)], 0.011, DRK, 0.3);
+            flowTube(scene, [[-1.9, 1.26, -1.42], [-1.5, 1.24, -1.4], [-1.1, 1.17, -1.2], [-0.8, 1.05, -0.85], [-0.3, 0.95, -0.5], H(-0.2, 0.9, -0.42), H(-0.14, 0.9, -0.15), H(-0.1365, 0.886, -0.058)], 0.011, DRK, 0.3, 'aspi');
+            flowTube(scene, [H(-0.0035, 0.886, -0.058), H(0.0, 0.905, -0.16), H(-0.1, 0.92, -0.34), H(-0.6, 0.9, -0.3), H(-0.8, 0.86, -0.1), H(-0.8, 0.8, -0.03)], 0.011, DRK, 0.3, 'aspi');
+            flowTube(scene, [[-2.0, 1.27, -1.4], [-1.55, 1.26, -1.45], [-1.15, 1.18, -1.3], [-0.75, 1.06, -0.95], [-0.1, 0.98, -0.55], H(0.1, 0.9, -0.4), H(0.095, 0.9, -0.15), H(0.0935, 0.886, -0.058)], 0.011, DRK, 0.3, 'decharge');
+            flowTube(scene, [H(0.2265, 0.886, -0.058), H(0.23, 0.905, -0.17), H(0.1, 0.95, -0.38), H(-0.55, 0.94, -0.36), H(-0.84, 0.88, -0.12), H(-0.88, 0.8, -0.02)], 0.011, DRK, 0.3, 'decharge');
             // gaz : du mélangeur à l'oxygénateur
-            tube(scene, [H(-0.25, 0.97, -0.215), H(-0.34, 0.84, -0.22), H(-0.62, 0.52, -0.16), H(-0.8, 0.4, -0.11), H(-0.84, 0.37, -0.09)], 0.008, M.green);
-            // eau : du générateur thermique à l'échangeur
-            tube(scene, [[3.58, 0.45, -1.05], [3.25, 0.07, -1.0], [2.2, 0.05, -0.75], [1.2, 0.05, -0.4], [0.5, 0.05, -0.1], H(-0.9, 0.05, -0.2), H(-0.85, 0.1, -0.05)], 0.016, M.hose);
-            tube(scene, [[3.58, 0.45, -0.75], [3.2, 0.08, -0.72], [2.1, 0.05, -0.55], [1.1, 0.05, -0.3], [0.4, 0.05, -0.22], H(-0.98, 0.05, -0.22), H(-0.9, 0.1, -0.04)], 0.016, M.hose);
+            flowTube(scene, [H(-0.25, 0.97, -0.215), H(-0.34, 0.84, -0.22), H(-0.62, 0.52, -0.16), H(-0.8, 0.4, -0.11), H(-0.84, 0.37, -0.09)], 0.008, GAS, 0.35, 'gas');
+            // eau : du générateur thermique à l'échangeur, et retour
+            flowTube(scene, [[1.79, 0.45, -0.4], [1.62, 0.07, -0.42], [0.9, 0.05, -0.3], [0.3, 0.05, -0.22], H(-0.9, 0.05, -0.2), H(-0.85, 0.1, -0.05)], 0.016, EAU, 0.3, 'water');
+            flowTube(scene, [H(-0.9, 0.1, -0.04), H(-0.98, 0.05, -0.22), [0.3, 0.05, -0.12], [0.9, 0.05, -0.16], [1.62, 0.08, -0.14], [1.79, 0.45, -0.1]], 0.016, EAU, 0.3, 'water');
         })();
 
         /* ---------- zones cliquables ---------- */
         const P = (id, lx, y, lz, w, h, d) => proxy(id, HX + lx, y, HZ + lz, w, h, d);
         proxy('champ', -2.02, 1.2, -1.3, 0.6, 0.3, 0.5);
         proxy('anesth', -3.85, 1.0, -2.4, 0.95, 2.0, 0.95);
-        proxy('veineuse', -1.25, 0.98, -0.42, 0.55, 0.22, 0.5);
-        proxy('thermo', 3.95, 0.53, -0.9, 0.74, 1.04, 0.64);
+        proxy('veineuse', -0.62, 0.96, -0.36, 0.5, 0.22, 0.5);
+        proxy('thermo', 2.15, 0.53, -0.25, 0.74, 1.04, 0.64);
+        proxy('act', 2.58, 1.0, 0.93, 0.62, 0.36, 0.5);
         P('reservoir', -0.84, 0.6, 0.02, 0.24, 0.36, 0.24);
         P('oxy', -0.84, 0.24, 0.02, 0.22, 0.32, 0.22);
         P('filtre', -1.02, 0.56, 0.04, 0.12, 0.2, 0.12);
@@ -655,6 +773,16 @@
         P('moniteur', 0.02, 1.33, -0.13, 0.6, 0.38, 0.08);
         P('moniteur', 0.06, 1.06, -0.165, 0.14, 0.1, 0.1);
         P('secours', 0.4, 0.9, -0.02, 0.26, 1.12, 0.46);
+
+        /* ---------- état de la salle : lignes, pompes, écrans ---------- */
+        const lineOn = (key) => (key === 'art' ? (sim.pumps.art ? Math.max(0.3, sim.flow / 4.6) : 0) : key === 'gas' ? +sim.gas : key === 'water' ? +sim.water : +!!sim.pumps[key]);
+        function setSim(patch) {
+            Object.keys(patch).forEach((k) => { if (k === 'pumps') Object.assign(sim.pumps, patch.pumps); else sim[k] = patch[k]; });
+            lives.forEach((l) => { l.draw(l.g, l.cv.width, l.cv.height, sim); l.tex.needsUpdate = true; });
+            if (ledLevel) ledLevel.material.color.copy(C(sim.armed ? '#57d39b' : '#3a4048'));
+        }
+        function setPump(kind) { Object.keys(variants).forEach((k) => variants[k].forEach((m) => { m.visible = k === kind; })); }
+        setPump(state.pump);
 
         /* ---------- lumières ---------- */
         const hemi = new T.HemisphereLight(0xffffff, 0x8f97a8, 0.32);
@@ -749,14 +877,16 @@
             [1.9, 3.7, 4.03, 4.5],          // armoire fermée
             [-0.5, 0.3, -4.25, -3.85],      // support de sacs
             [-5.35, -4.85, 3.5, 4.0], [4.8, 5.3, -4.3, -3.8],   // cartons DASRI
-            [3.6, 4.3, -1.2, -0.6],         // générateur thermique
-            [-2.3, -1.8, -0.78, -0.46], [-2.1, -1.6, -2.21, -1.89]   // marchepieds
+            [1.8, 2.5, -0.55, 0.05],        // générateur thermique
+            [-1.15, -0.65, -4.36, -4.04]    // marchepied rangé
         ];
         const CIRCLES = [
             [2.55, 0.95, 0.38], [2.25, -2.0, 0.38], [-3.95, -2.25, 0.46], [-4.75, -3.05, 0.22], [-2.85, -2.5, 0.33],
-            [-3.5, -0.5, 0.27], [-0.1, -2.6, 0.36], [0.7, -3.35, 0.33], [-0.6, -0.5, 0.2], [-2.3, -2.05, 0.2]
+            [-3.5, -0.5, 0.27], [-0.1, -2.6, 0.36], [0.7, -3.35, 0.33], [-1.5, -0.45, 0.2], [-1.58, -2.3, 0.2],
+            // l'équipe : chirurgien, aide, instrumentiste, anesthésiste, perfusionniste sur son tabouret
+            [-2.02, -0.5, 0.26], [-1.95, -2.1, 0.26], [-1.2, -2.2, 0.26], [-3.55, -1.05, 0.26], [1.05, 1.2, 0.36]
         ];
-        const SEGS = [[-1.0, -0.85, -0.2, 0.15, 0.1], [-1.0, -0.9, 0.5, -0.25, 0.1]];
+        const SEGS = [[-1.05, -0.87, -0.3, 0.05, 0.14], [-0.85, -0.92, 0.65, -0.06, 0.12]];
         function push(p, cx, cz, m) {
             const dx = p.x - cx, dz = p.z - cz, d = Math.hypot(dx, dz);
             if (d >= m) return;
@@ -966,6 +1096,15 @@
             return { h, el: b, v: V(h.anchor), label: b.lastElementChild, cur: 'r', w: 0 };
         });
         const tmp = new T.Vector3(), wallTmp = new T.Vector3();
+        // Une personne placée entre la caméra et l'élément regardé le cacherait : on l'efface le temps de la fiche
+        function inSight(p) {
+            for (let i = 0; i <= 10; i++) {
+                tmp.lerpVectors(camera.position, cam.target, i / 12);
+                const dy = tmp.y - Math.max(0.4, Math.min(p.top, tmp.y));
+                if (Math.hypot(tmp.x - p.x, tmp.z - p.z, dy) < 0.5) return true;
+            }
+            return false;
+        }
         function placePins(w, hgt) {
             pins.forEach((p) => {
                 let show = !state.sel || state.sel === p.h.id;
@@ -1121,13 +1260,19 @@
                 camera.updateProjectionMatrix();
             }
             if (!reduce) {
-                flows.forEach((f) => { f.tex.offset.x -= f.speed * dt; });
-                rotors.forEach((r) => { r.obj.rotation.y -= r.speed * dt; });
+                const ks = Math.min(1, dt * 3);
+                flows.forEach((f) => { f.k += (lineOn(f.key) - f.k) * ks; f.tex.offset.x -= f.speed * f.k * dt; });
+                rotors.forEach((r) => { r.k += ((sim.pumps[r.key] ? 1 : 0) - r.k) * ks; r.obj.rotation.y -= r.speed * r.k * dt; });
             }
             const k = reduce ? 1 : Math.min(1, dt * 7);
             off.x += (off.tx - off.x) * k; off.y += (off.ty - off.y) * k;
             if (Math.abs(off.x) > 0.5 || Math.abs(off.y) > 0.5) camera.setViewOffset(W, Hh, off.x, off.y, W, Hh); else camera.clearViewOffset();
-            if (decor) { decor.walls.forEach((w) => { w.g.visible = wallTmp.copy(camera.position).sub(w.p).dot(w.n) > 0; }); decor.update(camera); }
+            if (decor) {
+                decor.walls.forEach((w) => { w.g.visible = wallTmp.copy(camera.position).sub(w.p).dot(w.n) > 0; });
+                decor.update(camera);
+                const hide = !walk.on && (state.sel || saved);
+                decor.people.forEach((p) => { p.g.visible = !(hide && inSight(p)); });
+            }
             renderer.render(scene, camera);
             placePins(W, Hh);
             drawMap();
@@ -1147,7 +1292,8 @@
         wake();
 
         return {
-            focus, unfocus, zoom, setWalk,
+            focus, unfocus, zoom, setWalk, setSim, setPump,
+            resetSim() { setSim(JSON.parse(JSON.stringify(SIM0))); },
             view(name) { setWalk(false); saved = null; fly(preset(name), 1.1); },
             reset() {
                 if (state.sel) { closeSelection(); return; }
@@ -1155,13 +1301,16 @@
                 saved = null; fly(preset(homeView()), 0.8);
             },
             // La fiche couvre une partie de l'image : on décale la vue pour que l'objet reste au centre de ce qui est libre
-            offset(open) {
-                if (!open) { off.tx = 0; off.ty = 0; return; }
-                if (narrow()) { off.tx = 0; off.ty = panel.offsetHeight / 2; } else { off.tx = (panel.offsetWidth + 12) / 2; off.ty = 0; }
+            offset() {
+                const card = panel.classList.contains('is-open') ? panel : (quizEl.hidden ? null : quizEl);
+                if (!card) { off.tx = 0; off.ty = 0; return; }
+                // fiche en bas sur un écran étroit, question en haut : la vue se décale vers la partie libre
+                if (narrow()) { off.tx = 0; off.ty = card === panel ? panel.offsetHeight / 2 : -(quizEl.offsetTop + quizEl.offsetHeight) / 2; }
+                else { off.tx = (card.offsetWidth + 12) / 2; off.ty = 0; }
             }
         };
     }
-    function setOffset(open) { if (world) world.offset(open); }
+    function setOffset() { if (world) world.offset(); }
 
     /* =====================================================================
        Boutons
@@ -1174,12 +1323,12 @@
     }));
     $('walkBtn').addEventListener('click', () => {
         if (!world) return;
-        if (state.mode === 'quiz') endQuiz();
         if (state.sel) closeSelection();
         world.setWalk(!state.walk);
     });
     $('tourBtn').addEventListener('click', startTour);
     $('quizBtn').addEventListener('click', startQuiz);
+    $('scBtn').addEventListener('click', startScenario);
     $('panelClose').addEventListener('click', closeSelection);
     $('tourPrev').addEventListener('click', () => tourStep(-1));
     $('tourNext').addEventListener('click', () => tourStep(1));

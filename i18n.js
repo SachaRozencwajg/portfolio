@@ -53,7 +53,7 @@ const I18N_EN = {
     "t113": "Open the calculator",
     "t166": "3D teaching tool",
     "t167": "The bypass room",
-    "t168": "A cardiopulmonary bypass room to explore, from above or on foot. Each part of the heart-lung machine opens a card: how it works, key figures, studies, and what it means for anaesthesia and for perfusion. Blood-path tour and quiz. In French.",
+    "t168": "A cardiopulmonary bypass room to explore, from above or on foot. Each part of the heart-lung machine opens a card: how it works, key figures, studies, and what it means for anaesthesia and for perfusion. Blood-path tour, quiz and a going-on-bypass scenario. In French.",
     "t169": "Cardiopulmonary bypass · Perfusion · Teaching",
     "t170": "Enter the room",
 
