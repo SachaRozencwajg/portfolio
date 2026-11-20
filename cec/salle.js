@@ -306,7 +306,44 @@
             pm.dispose();
         })();
 
-        // Matières. Celles du décor (sol, murs) changent avec le thème.
+        // Textures de détail, fabriquées une fois au chargement : elles cassent l'aspect lisse et parfait des matières.
+        // Chacune sert de relief (bumpMap) ou module la rugosité (roughnessMap) : aucune image à télécharger.
+        let seedTx = 5;
+        const rndTx = () => { seedTx = (seedTx * 16807) % 2147483647; return (seedTx - 1) / 2147483646; };
+        function detailTex(size, fill, repeat) {
+            const cv = document.createElement('canvas'); cv.width = cv.height = size;
+            const g = cv.getContext('2d'), im = g.createImageData(size, size), d = im.data;
+            fill((x, y, v) => { const i = (y * size + x) * 4, c = Math.max(0, Math.min(255, v * 255)); d[i] = d[i + 1] = d[i + 2] = c; d[i + 3] = 255; }, size);
+            g.putImageData(im, 0, 0);
+            const t = new T.CanvasTexture(cv); t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = 4;
+            if (repeat) t.repeat.set(repeat[0], repeat[1]);
+            return t;
+        }
+        // bruit lissé, périodique : des taches larges et douces
+        function blotches(size, cells) {
+            const grid = []; for (let i = 0; i < cells * cells; i++) grid.push(rndTx());
+            const at = (i, j) => grid[((j % cells) + cells) % cells * cells + ((i % cells) + cells) % cells];
+            return (x, y) => {
+                const fx = x / size * cells, fy = y / size * cells, i = Math.floor(fx), j = Math.floor(fy);
+                const u = fx - i, w = fy - j, su = u * u * (3 - 2 * u), sw = w * w * (3 - 2 * w);
+                return (at(i, j) * (1 - su) + at(i + 1, j) * su) * (1 - sw) + (at(i, j + 1) * (1 - su) + at(i + 1, j + 1) * su) * sw;
+            };
+        }
+        const TX = {
+            // métal brossé : de fines stries dans un seul sens
+            brushed: detailTex(256, (put, n) => { for (let y = 0; y < n; y++) { const row = 0.5 + (rndTx() - 0.5) * 0.5; for (let x = 0; x < n; x++) put(x, y, row + (rndTx() - 0.5) * 0.16); } }),
+            // plastique moulé : un grain fin
+            grain: detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.5 + (rndTx() - 0.5) * 0.55); }, [3, 3]),
+            // traces d'usage : des zones un peu plus mates ou plus brillantes
+            smudge: (() => { const a = blotches(256, 5), b = blotches(256, 13); return detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.62 + 0.26 * a(x, y) + 0.12 * b(x, y)); }); })(),
+            // non-tissé des champs et des casaques : un gaufrage régulier, et de larges plis
+            cloth: (() => { const a = blotches(256, 4), b = blotches(256, 9); return detailTex(256, (put, n) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) put(x, y, 0.5 + 0.22 * (a(x, y) - 0.5) + 0.2 * (b(x, y) - 0.5) + 0.07 * (((x >> 1) + (y >> 1)) % 2 ? 1 : -1)); }, [2, 2]); })()
+        };
+        const brushed = (m, k) => { m.bumpMap = TX.brushed; m.bumpScale = 0.0009 * (k || 1); m.roughnessMap = TX.smudge; return m; };
+        const moulded = (m, k) => { m.bumpMap = TX.grain; m.bumpScale = 0.0006 * (k || 1); m.roughnessMap = TX.smudge; return m; };
+        const woven = (m) => { m.bumpMap = TX.cloth; m.bumpScale = 0.004; return m; };
+
+        // Matières.
         const M = {
             floor: std('#b9c8ca', { roughness: 0.62, envMapIntensity: 0.45 }), wall: std('#e9eff0', { roughness: 0.95 }), trim: std('#b9c1d6'),
             alu: std('#dcdee1', { metalness: 0.62, roughness: 0.38, envMapIntensity: 1.25 }), aluDark: std('#a3a8af', { metalness: 0.6, roughness: 0.42 }),
@@ -318,6 +355,12 @@
             steel: std('#aab3c5', { metalness: 0.6, roughness: 0.4 }), green: std('#3aa76d', { roughness: 0.5 }), hose: std('#7fa9bd', { roughness: 0.6 }),
             cable: std('#1b1d22', { roughness: 0.6 }), accent: std('#5a67e0', { roughness: 0.5 })
         };
+        [M.alu, M.aluDark, M.steel].forEach((m) => brushed(m));
+        M.alu.roughness = 0.5; M.aluDark.roughness = 0.52; M.steel.roughness = 0.5;      // la carte de traces les ramène entre 0,3 et 0,5
+        M.chrome.roughnessMap = TX.smudge; M.chrome.roughness = 0.24;
+        [M.white, M.dark, M.yellow, M.rubber].forEach((m) => moulded(m));
+        M.white.roughness = 0.62; M.black.roughnessMap = TX.smudge; M.black.roughness = 0.5;
+        [M.drape, M.drape2].forEach((m) => { woven(m); m.side = T.DoubleSide; });
         // Les boutons de couleur : un bouton par pompe
         const KNOB = { red: '#e5392f', blue: '#2f6fe5', green: '#35b04a', yellow: '#f2c81e' };
 
@@ -400,11 +443,13 @@
             cv.width = 64; cv.height = 4;
             const g = cv.getContext('2d');
             g.fillStyle = colors[0]; g.fillRect(0, 0, 64, 4);
-            g.fillStyle = colors[1]; g.fillRect(8, 0, 20, 4);
+            const gr = g.createLinearGradient(4, 0, 34, 0);
+            gr.addColorStop(0, colors[0]); gr.addColorStop(0.5, colors[1]); gr.addColorStop(1, colors[0]);
+            g.globalAlpha = 0.8; g.fillStyle = gr; g.fillRect(4, 0, 30, 4); g.globalAlpha = 1;
             const tex = new T.CanvasTexture(cv);
             tex.encoding = T.sRGBEncoding;
             tex.wrapS = T.RepeatWrapping;
-            const mesh = tube(p, pts, radius, new T.MeshStandardMaterial({ map: tex, roughness: 0.35 }));
+            const mesh = tube(p, pts, radius, new T.MeshPhysicalMaterial({ map: tex, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.25 }));
             tex.repeat.set(Math.max(2, Math.round(mesh.userData.len / 0.16)), 1);
             flows.push({ tex, speed: speed / 0.16, key, k: 1 });
             return mesh;
@@ -443,8 +488,22 @@
             proxies.push(m);
         }
 
+        // Un pan de tissu qui tombe : des plis verticaux, de plus en plus marqués vers le bas
+        function drapePanel(p, w, h, m, x, y, z, ry, amp, seedK) {
+            const geo = new T.PlaneGeometry(w, h, Math.max(12, Math.round(w * 42)), 8), pos = geo.attributes.position, k = seedK || 0;
+            for (let i = 0; i < pos.count; i++) {
+                const px = pos.getX(i), t = 0.5 - pos.getY(i) / h;                       // 0 en haut, 1 en bas
+                const wave = Math.sin(px * 17 + k + 1.3 * Math.sin(px * 5.1 + k * 2)) + 0.45 * Math.sin(px * 41 + k * 3);
+                pos.setZ(i, (amp || 0.022) * (0.15 + 0.85 * t) * wave);
+            }
+            geo.computeVertexNormals();
+            const mesh = put(p, new T.Mesh(geo, m), x, y, z);
+            mesh.rotation.y = ry || 0;
+            return mesh;
+        }
+
         /* =================== La salle et son équipement (decor.js) =================== */
-        const decor = window.SALLE_DECOR ? window.SALLE_DECOR({ T, scene, M, C, V, std, glass, glow, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG }) : null;
+        const decor = window.SALLE_DECOR ? window.SALLE_DECOR({ T, scene, M, C, V, std, glass, glow, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG, TX, brushed, moulded, woven, drapePanel }) : null;
 
         /* =================== Table d'opération et patient sous les champs =================== */
         (function table() {
@@ -455,8 +514,9 @@
             rbox(t, 2.0, 0.08, 0.58, 0.05, M.black, 0, 0.88, 0);
             const body = sph(t, 1, M.drape, 0.14, 1.03, 0, 28, 16); body.scale.set(0.9, 0.17, 0.33);
             rbox(t, 1.95, 0.02, 0.86, 0.04, M.drape, 0.14, 0.93, 0);
-            box(t, 1.95, 0.46, 0.012, M.drape, 0.14, 0.7, 0.43);
-            box(t, 1.95, 0.46, 0.012, M.drape, 0.14, 0.7, -0.43);
+            drapePanel(t, 1.95, 0.5, M.drape, 0.14, 0.68, 0.432, 0, 0.024, 1);
+            drapePanel(t, 1.95, 0.5, M.drape, 0.14, 0.68, -0.432, Math.PI, 0.024, 4);
+            drapePanel(t, 0.86, 0.44, M.drape, 1.116, 0.71, 0, Math.PI / 2, 0.02, 7);                      // le pan du côté des pieds
             const head = sph(t, 0.115, M.drape2, -0.9, 1.04, 0, 20, 14); head.scale.set(1.1, 0.9, 0.95);
             // champ vertical entre la tête et le site opératoire
             box(t, 0.012, 0.56, 0.84, M.drape2, -0.66, 1.3, 0);
@@ -785,9 +845,9 @@
         setPump(state.pump);
 
         /* ---------- lumières ---------- */
-        const hemi = new T.HemisphereLight(0xffffff, 0x8f97a8, 0.32);
+        const hemi = new T.HemisphereLight(0xffffff, 0x8f97a8, 0.08);      // l'ambiance vient surtout des reflets de la salle
         scene.add(hemi);
-        const sun = new T.DirectionalLight(0xffffff, 0.7);
+        const sun = new T.DirectionalLight(0xffffff, 0.85);
         sun.position.set(4.5, 10, 6.5);
         sun.castShadow = true;
         sun.shadow.mapSize.set(2048, 2048);
@@ -798,7 +858,7 @@
         scene.add(sun);
 
         /* ---------- thème : la salle reste blanche ; le thème sombre, c'est la nuit derrière la fenêtre ---------- */
-        let mapColors = {};
+        let mapColors = {}, wasDark = null;
         function applyTheme() {
             const cs = getComputedStyle(stage);
             const v = (n) => cs.getPropertyValue(n).trim();
@@ -807,7 +867,9 @@
             if (/^#[0-9a-f]{6}$/i.test(bg)) { scene.background = C(bg); scene.fog.color.copy(scene.background); }
             const dark = v('--sc-dark') === '1';
             if (decor) decor.setNight(dark);
-            renderer.toneMappingExposure = dark ? 0.92 : 0.97;
+            if (dark !== wasDark && wasDark !== null && typeof roomReflections === 'function') { wasDark = dark; roomReflections(); }
+            wasDark = dark;
+            renderer.toneMappingExposure = dark ? 0.8 : 0.86;
         }
         applyTheme();
         new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class', 'style'] });
@@ -884,7 +946,7 @@
             [2.55, 0.95, 0.38], [2.25, -2.0, 0.38], [-3.95, -2.25, 0.46], [-4.75, -3.05, 0.22], [-2.85, -2.5, 0.33],
             [-3.5, -0.5, 0.27], [-0.1, -2.6, 0.36], [0.7, -3.35, 0.33], [-1.5, -0.45, 0.2], [-1.58, -2.3, 0.2],
             // l'équipe : chirurgien, aide, instrumentiste, anesthésiste, perfusionniste sur son tabouret
-            [-2.02, -0.5, 0.26], [-1.95, -2.1, 0.26], [-1.2, -2.2, 0.26], [-3.55, -1.05, 0.26], [1.05, 1.2, 0.36]
+            [-2.02, -0.62, 0.24], [-1.98, -1.99, 0.24], [-1.18, -2.1, 0.24], [-3.38, -1.78, 0.24], [1.05, 1.15, 0.4]
         ];
         const SEGS = [[-1.05, -0.87, -0.3, 0.05, 0.14], [-0.85, -0.92, 0.65, -0.06, 0.12]];
         function push(p, cx, cz, m) {
@@ -1286,6 +1348,28 @@
         if ('IntersectionObserver' in window) new IntersectionObserver((en) => { onScreen = en[0].isIntersecting; wake(); }, { rootMargin: '200px' }).observe(stage);
         document.addEventListener('visibilitychange', wake);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => pins.forEach((p) => { p.w = 0; }));
+
+        // Reflets : on photographie la salle elle-même (murs, sol, plafond et fenêtre, sans le matériel), depuis le dessus
+        // de la machine, pour que les métaux, les écrans et le sol reflètent ses plafonniers, sa fenêtre et ses murs.
+        function roomReflections() {
+            if (!decor) return;
+            const hidden = [];
+            try {
+                scene.children.forEach((o) => { if (!o.isLight && decor.shell.indexOf(o) < 0 && o.visible) { o.visible = false; hidden.push(o); } });
+                // une matière transparente fausserait la capture (son canal alpha y sert d'exposant) : on les écarte aussi
+                scene.traverse((o) => { if (o.isMesh && o.visible && o.material && o.material.transparent) { o.visible = false; hidden.push(o); } });
+                decor.walls.forEach((w) => { w.g.visible = true; });
+                scene.position.set(-0.4, -1.5, 0.2); scene.updateMatrixWorld(true);
+                const pm = new T.PMREMGenerator(renderer), env = pm.fromScene(scene, 0.02, 0.1, 40).texture;
+                if (scene.environment && scene.environment.dispose) scene.environment.dispose();
+                scene.environment = env;
+                pm.dispose();
+            } catch (e) { /* on garde les reflets génériques */ }
+            hidden.forEach((o) => { o.visible = true; });
+            scene.position.set(0, 0, 0); scene.updateMatrixWorld(true);
+            applyTheme();                                   // la capture efface le fond de la scène : on le rétablit
+        }
+        roomReflections();
 
         resize();
         setView(preset(homeView()));

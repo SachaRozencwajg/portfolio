@@ -63,6 +63,9 @@ Page autonome en français, voir `README.md`. Le contenu pédagogique est dans `
 sobre ; tout chiffre d'étude cite sa référence (DOI), aucun chiffre écrit de mémoire. Aucune marque de matériel
 dans les textes. Aucune requête externe : la politique de sécurité de `cec/index.html` l'interdit.
 Les scripts de `cec/` suivent la même règle de cache : changer leur `?v=` dans `cec/index.html`.
+Les personnages (`cec/modeles/`, bibliothèque Rocketbox, licence MIT) se refont avec `scripts/cec/` ; leur
+licence reste dans le dossier et les crédits sur la page. Un fichier de `cec/modeles/` modifié change de nom
+(ces fichiers n'ont pas de paramètre de version).
 
 ### Cache des CSS et JS
 
