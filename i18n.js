@@ -51,6 +51,11 @@ const I18N_EN = {
     "t111": "Lung-protective ventilation calculator for ARDS: tidal volume, driving pressure, mechanical power and oxygenation. An open-source educational tool, described in a published article (ACCPM, 2026). No data leaves the browser.",
     "t151": "ARDS · Ventilation · Open source",
     "t113": "Open the calculator",
+    "t166": "3D teaching tool",
+    "t167": "The bypass room",
+    "t168": "A cardiopulmonary bypass room to explore, from above or on foot. Each part of the heart-lung machine opens a card: how it works, key figures, studies, and what it means for anaesthesia and for perfusion. Blood-path tour and quiz. In French.",
+    "t169": "Cardiopulmonary bypass · Perfusion · Teaching",
+    "t170": "Enter the room",
 
     // Recherche et publications
     "t67": "Peer-reviewed publications in anaesthesia, critical care and artificial intelligence.",

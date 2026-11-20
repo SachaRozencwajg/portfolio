@@ -57,6 +57,13 @@ priment sur le texte d'origine des skills.
   est portée par l'attribut `data-en`, sans clé dans `i18n.js`. Ne jamais y mettre les coordonnées
   d'un organisateur.
 
+### Salle de CEC (`cec/`)
+
+Page autonome en français, voir `README.md`. Le contenu pédagogique est dans `cec/contenu.js`. Ton médical
+sobre ; tout chiffre d'étude cite sa référence (DOI), aucun chiffre écrit de mémoire. Aucune marque de matériel
+dans les textes. Aucune requête externe : la politique de sécurité de `cec/index.html` l'interdit.
+Les scripts de `cec/` suivent la même règle de cache : changer leur `?v=` dans `cec/index.html`.
+
 ### Cache des CSS et JS
 
 nginx sert les `.css` et `.js` avec un cache d'un an (`immutable`). Après toute modification de

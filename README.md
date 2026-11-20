@@ -95,12 +95,34 @@ date, même titre) est prise dans `data/conferences.json`, ce qui permet d'en so
 |---------|--------|-------------|
 | `/serious-game/` | Dossier `serious-game/` (React), construit par le `Dockerfile` | Modifier le code, puis déployer |
 | `/ventiprotect/` | Dossier `ventiprotect/` : un seul fichier HTML, copie de `web/index.html` du dépôt [VentiProtect_ARDS](https://github.com/SachaRozencwajg/VentiProtect_ARDS) | Recopier le fichier depuis ce dépôt, puis déployer |
+| `/cec/` | Dossier `cec/` : la salle de CEC en 3D, en JavaScript sans compilation | Modifier les fichiers, changer leur `?v=` dans `cec/index.html`, puis déployer |
 
 Le calculateur VentiProtect se modifie dans son propre dépôt, où se trouvent ses tests. Ici, on ne fait que
 recopier le fichier. `ventiprotect/og.png` est l'image affichée quand le lien est partagé. Le visuel de la
 carte de la page d'accueil a une version par thème du site : `ventiprotect-clair.webp` et `ventiprotect.webp`
 (sombre). Ce sont des captures de l'application, dans son thème clair ou sombre, avec les valeurs de son
 bouton « Exemple » : quatre indicateurs agrandis sur une grille 2 × 2, en 1200 × 654 px.
+
+### La salle de CEC (`cec/`)
+
+Une page autonome, en français, sans aucune requête vers un autre domaine (sa politique de sécurité
+l'interdit) : la bibliothèque 3D est copiée dans le dossier.
+
+| Fichier | Contenu |
+|---------|---------|
+| `cec/contenu.js` | Le texte : les vues proposées, les 14 fiches, le parcours du sang et le quiz. C'est le fichier à modifier pour enrichir le cours. |
+| `cec/decor.js` | La salle : murs, plafond, fenêtre, portes, et le matériel autour de la machine. |
+| `cec/salle.js` | La machine cœur-poumon, le circuit, la caméra, la visite à pied (collisions, plan, joystick) et l'interface. |
+| `cec/three.min.js` | three.js r128 (licence MIT), tel que publié sur npm. |
+| `cec/theme.js` | Applique le thème choisi sur l'accueil. |
+| `cec/index.html` | La page, ses styles et ses textes. `og.jpg` est l'image de partage. |
+
+Une fiche se compose d'un identifiant, d'un point d'ancrage dans la salle (coordonnées en mètres), d'une
+vue de caméra et d'un texte HTML. Chaque chiffre d'étude cite sa référence, avec son lien DOI. Après toute
+modification d'un script, changer son paramètre `?v=` dans `cec/index.html` (cache d'un an).
+
+Le visuel de la carte de l'accueil : `cec-clair.webp` (la salle de jour) et `cec.webp` (de nuit,
+assombrie), vue « Côté perfusionniste » sans l'interface, en 1200 × 654 px.
 
 ## Dernière mise à jour
 
