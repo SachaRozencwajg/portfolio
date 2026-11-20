@@ -110,12 +110,16 @@ l'interdit) : la bibliothèque 3D est copiée dans le dossier.
 
 | Fichier | Contenu |
 |---------|---------|
-| `cec/contenu.js` | Le texte : les vues proposées, les 14 fiches, le parcours du sang et le quiz. C'est le fichier à modifier pour enrichir le cours. |
-| `cec/decor.js` | La salle : murs, plafond, fenêtre, portes, et le matériel autour de la machine. |
-| `cec/salle.js` | La machine cœur-poumon, le circuit, la caméra, la visite à pied (collisions, plan, joystick) et l'interface. |
+| `cec/contenu.js` | Le texte : les vues proposées, les 15 fiches, le parcours du sang, le quiz et le scénario « Départ en CEC ». C'est le fichier à modifier pour enrichir le cours. |
+| `cec/decor.js` | La salle : murs, plafond, fenêtre, portes, le matériel autour de la machine et l'équipe. |
+| `cec/salle.js` | La machine cœur-poumon (pompe artérielle à galets ou centrifuge), le circuit, l'état de la salle (`sim`), la caméra, la visite à pied (collisions, plan, joystick) et l'interface. |
 | `cec/three.min.js` | three.js r128 (licence MIT), tel que publié sur npm. |
 | `cec/theme.js` | Applique le thème choisi sur l'accueil. |
 | `cec/index.html` | La page, ses styles et ses textes. `og.jpg` est l'image de partage. |
+
+Le scénario est une liste d'étapes : qui parle, la question, l'élément attendu, l'explication, et `fx`, ce
+qui change dans l'état de la salle (`sim` : cœur battant, ventilation, débit, pompes en marche, gaz, eau).
+Les écrans, les pompes et les lignes suivent cet état.
 
 Une fiche se compose d'un identifiant, d'un point d'ancrage dans la salle (coordonnées en mètres), d'une
 vue de caméra et d'un texte HTML. Chaque chiffre d'étude cite sa référence, avec son lien DOI. Après toute

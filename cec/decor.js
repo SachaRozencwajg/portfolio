@@ -1,12 +1,12 @@
 /* Décor de la salle de CEC : murs, sol, plafond, fenêtre, portes et l'équipement autour de la machine.
    Les murs restent blancs quel que soit le thème de la page : le thème sombre ne change que la vue par
-   la fenêtre (la nuit). Les écrans montrent l'état d'une CEC totale, cœur arrêté : ECG plat, pression
-   artérielle non pulsée, ventilation arrêtée. */
+   la fenêtre (la nuit). Les écrans suivent l'état de la salle (objet « sim » de salle.js) : par défaut une
+   CEC totale, cœur arrêté (ECG plat, pression non pulsée, ventilation arrêtée) ; le scénario repart d'avant. */
 (function () {
     'use strict';
 
     window.SALLE_DECOR = function (k) {
-        const { T, scene, M, V, std, glass, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, SANS, BG } = k;
+        const { T, scene, M, V, std, glass, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG } = k;
         const H = 3, X0 = -5.5, X1 = 5.5, Z0 = -4.5, Z1 = 4.5;
 
         // Hasard reproductible : la salle est la même à chaque chargement
@@ -147,39 +147,61 @@
             g.strokeStyle = '#57d39b'; g.lineWidth = Math.max(2, h / 200);
             g.beginPath(); g.moveTo(w * 0.05, h * 0.95); g.lineTo(w * 0.95, h * 0.95); g.stroke();
         }
-        function drawPatient(g, w, h) {
+        // Tracés : ECG, onde de pouls (pression artérielle, pléthysmographie), capnogramme
+        const ecg = (t) => 0.12 * Math.exp(-Math.pow((t - 0.16) / 0.035, 2)) + Math.exp(-Math.pow((t - 0.3) / 0.012, 2)) - 0.22 * Math.exp(-Math.pow((t - 0.325) / 0.012, 2)) + 0.26 * Math.exp(-Math.pow((t - 0.55) / 0.06, 2));
+        const pulse = (t) => Math.min(1, Math.pow(t / 0.13, 1.25) * Math.exp(1.25 * (1 - t / 0.13)) + 0.2 * Math.exp(-Math.pow((t - 0.46) / 0.05, 2)));
+        const capno = (t) => (t < 0.08 ? t / 0.08 : t < 0.45 ? 1 : t < 0.5 ? 1 - (t - 0.45) / 0.05 : 0);
+        function drawPatient(g, w, h, sim) {
+            sim = sim || {};
             g.fillStyle = BG; g.fillRect(0, 0, w, h);
-            const rows = [['II', '#57d39b', 'FC', '0'], ['PA', '#ff6b6b', 'PA', '66/63', '(65)'], ['PVC', '#7cc7ff', 'PVC', '3'], ['Pleth', '#e9e46a', 'SpO₂', '---'], ['CO₂', '#e6e6e6', 'EtCO₂', '0']];
-            const top = h * 0.03, lh = h * 0.84 / rows.length;
+            const cec = sim.flow > 0;
+            // dérivation, couleur, libellé, valeur, valeur entre parenthèses, tracé, amplitude, nombre de cycles
+            const rows = [
+                ['II', '#57d39b', 'FC', sim.beating ? '72' : '0', '', sim.beating ? ecg : null, 0.52, 5.2],
+                ['PA', '#ff6b6b', 'PA', sim.pulsatile ? '112/64' : '66/63', sim.pulsatile ? '(80)' : '(65)', sim.pulsatile ? pulse : null, 0.5, 5.2],
+                ['PVC', '#7cc7ff', 'PVC', cec ? '3' : '8', '', null, 0, 1],
+                ['Pleth', '#e9e46a', 'SpO₂', sim.pulsatile ? '99' : '---', '', sim.pulsatile ? pulse : null, 0.4, 5.2],
+                ['CO₂', '#e6e6e6', 'EtCO₂', sim.vent ? '35' : '0', '', sim.vent ? capno : null, 0.45, 2.2]
+            ];
+            const top = h * 0.03, lh = h * 0.84 / rows.length, x0 = w * 0.02, x1 = w * 0.66;
             rows.forEach((r, i) => {
-                const y0 = top + lh * i, mid = y0 + lh * 0.62;
-                g.strokeStyle = r[1]; g.lineWidth = Math.max(2, h / 220);
+                const y0 = top + lh * i, mid = y0 + lh * 0.66;
+                g.strokeStyle = r[1]; g.lineWidth = Math.max(2, h / 220); g.lineJoin = 'round';
                 g.beginPath();
-                for (let x = w * 0.02, first = true; x <= w * 0.66; x += 3, first = false) {
-                    const yy = mid + (i === 0 ? Math.sin(x * 0.7) * 1.2 : 0);
-                    if (first) g.moveTo(x, yy); else g.lineTo(x, yy);
+                for (let x = x0; x <= x1; x += 2) {
+                    const t = ((x - x0) / (x1 - x0) * r[7]) % 1;
+                    const yy = mid - (r[5] ? r[5](t) * lh * r[6] : (i === 0 ? Math.sin(x * 0.7) * 0.6 : 0));
+                    if (x === x0) g.moveTo(x, yy); else g.lineTo(x, yy);
                 }
                 g.stroke();
                 g.fillStyle = r[1];
                 g.font = font(500, lh * 0.22); g.fillText(r[0], w * 0.02, y0 + lh * 0.3); g.fillText(r[2], w * 0.7, y0 + lh * 0.3);
-                g.font = font(600, lh * 0.5); g.fillText(r[3], w * 0.7, y0 + lh * 0.86);
-                if (r[4]) { g.font = font(500, lh * 0.3); g.fillText(r[4], w * 0.885, y0 + lh * 0.86); }
+                g.font = font(600, lh * (i === 1 ? 0.42 : 0.5)); g.fillText(r[3], w * 0.7, y0 + lh * 0.86);
+                if (r[4]) { g.font = font(500, lh * 0.28); g.fillText(r[4], w * 0.895, y0 + lh * 0.86); }
                 g.fillStyle = '#1d242e'; g.fillRect(0, y0 + lh - 1, w, 1);
             });
             g.font = font(500, h * 0.05);
-            g.fillStyle = '#e7c63c'; g.fillText('T° 34,0', w * 0.02, h * 0.965);
-            g.fillStyle = '#8b96a8'; g.fillText('CEC en cours', w * 0.7, h * 0.965);
+            g.fillStyle = '#e7c63c'; g.fillText(sim.water ? 'T° 34,0' : 'T° 36,2', w * 0.02, h * 0.965);
+            g.fillStyle = '#8b96a8'; g.fillText(cec ? 'CEC en cours' : 'Avant la CEC', w * 0.7, h * 0.965);
         }
-        function drawVent(g, w, h) {
+        function drawVent(g, w, h, sim) {
+            const on = !!(sim && sim.vent);
             g.fillStyle = BG; g.fillRect(0, 0, w, h);
-            g.fillStyle = '#e7c63c'; g.font = font(600, h * 0.08); g.fillText('MAN / SPONT', w * 0.04, h * 0.11);
-            g.fillStyle = '#8b96a8'; g.font = font(500, h * 0.05); g.fillText('Ventilation arrêtée pendant la CEC', w * 0.04, h * 0.19);
-            [['Paw', '#e7c63c', 0.42], ['Débit', '#57d39b', 0.72]].forEach(([l, c, y]) => {
+            g.fillStyle = on ? '#57d39b' : '#e7c63c'; g.font = font(600, h * 0.08); g.fillText(on ? 'VOLUME CONTRÔLÉ' : 'MAN / SPONT', w * 0.04, h * 0.11);
+            g.fillStyle = '#8b96a8'; g.font = font(500, h * 0.05); g.fillText(on ? 'Ventilation en cours' : 'Ventilation arrêtée pendant la CEC', w * 0.04, h * 0.19);
+            const paw = (t) => (t < 0.33 ? 0.2 + 0.8 * t / 0.33 : t < 0.4 ? 1 - 0.8 * (t - 0.33) / 0.07 : 0.2);
+            const flo = (t) => (t < 0.33 ? 0.7 : t < 0.36 ? -1 : t < 0.85 ? -Math.exp(-(t - 0.36) / 0.1) : 0);
+            [['Paw', '#e7c63c', 0.42, paw, 0.19, 0.09], ['Débit', '#57d39b', 0.72, flo, 0.1, 0]].forEach(([l, c, y, f, amp, base]) => {
                 g.strokeStyle = '#1d242e'; g.lineWidth = 2; g.strokeRect(w * 0.04, h * (y - 0.13), w * 0.62, h * 0.24);
-                g.strokeStyle = c; g.beginPath(); g.moveTo(w * 0.04, h * y); g.lineTo(w * 0.66, h * y); g.stroke();
+                g.strokeStyle = c; g.lineJoin = 'round'; g.beginPath();
+                for (let x = 0.04; x <= 0.66; x += 0.004) {
+                    const yy = on ? h * (y + base) - f(((x - 0.04) / 0.62 * 3) % 1) * h * amp : h * y;
+                    if (x === 0.04) g.moveTo(w * x, yy); else g.lineTo(w * x, yy);
+                }
+                g.stroke();
                 g.fillStyle = c; g.font = font(500, h * 0.045); g.fillText(l, w * 0.055, h * (y - 0.07));
             });
-            [['VT', '---'], ['FR', '---'], ['PEP', '0']].forEach(([l, v], i) => {
+            (on ? [['VT', '450'], ['FR', '12'], ['PEP', '5']] : [['VT', '---'], ['FR', '---'], ['PEP', '0']]).forEach(([l, v], i) => {
                 const y = h * (0.33 + i * 0.22);
                 g.fillStyle = '#8b96a8'; g.font = font(500, h * 0.05); g.fillText(l, w * 0.72, y);
                 g.fillStyle = '#fff'; g.font = font(600, h * 0.1); g.fillText(v, w * 0.72, y + h * 0.1);
@@ -547,7 +569,7 @@
             cyl(s, 0.02, 0.02, 0.22, D.inox, 0.08, 1.46, -0.2, 12);
             const vs = grp(s, 0.08, 1.6, -0.14); vs.rotation.x = -0.12;
             slab(vs, 0.42, 0.31, 0.04, 0.014, M.black, 0, 0, 0);
-            screen(vs, 0.39, 0.28, drawVent, 0, 0, 0.0205, 512);
+            live(vs, 0.39, 0.28, drawVent, 0, 0, 0.0205, 512);
             // circuit patient jusqu'à la sonde d'intubation
             tube(scene, [[-4.12, 0.83, -1.89], [-3.92, 1.1, -1.66], [-3.45, 1.19, -1.44], [-3.05, 1.13, -1.34], [-2.93, 1.1, -1.31]], 0.021, D.circuit);
             tube(scene, [[-4.03, 0.83, -1.9], [-3.82, 1.08, -1.72], [-3.4, 1.16, -1.52], [-3.03, 1.12, -1.38], [-2.93, 1.1, -1.32]], 0.021, D.circuit);
@@ -574,7 +596,7 @@
             const mg = grp(scene, -3.6, 1.86, -2.78); mg.rotation.y = 0.5;
             rbox(mg, 0.2, 0.18, 0.06, 0.015, D.panel, 0, 0, -0.05);
             slab(mg, 0.5, 0.37, 0.05, 0.015, M.black, 0, 0, 0);
-            screen(mg, 0.465, 0.335, drawPatient, 0, 0, 0.0255, 768);
+            live(mg, 0.465, 0.335, drawPatient, 0, 0, 0.0255, 768);
 
             // échographe d'ETO
             const e = grp(scene, -2.85, 0, -2.5); e.rotation.y = 0.2;
@@ -670,8 +692,8 @@
             });
             [-0.38, 0.38].forEach((x) => [-0.17, 0.17].forEach((z) => { cyl(bh, 0.012, 0.012, 0.66, D.inox, x, 0.42, z, 8); caster(bh, x, z, 0.035); }));
 
-            // seaux à compresses et marchepieds
-            [[-0.6, -0.5], [-2.3, -2.05]].forEach(([x, z]) => {
+            // seaux à compresses, et un marchepied rangé contre le mur
+            [[-1.5, -0.45], [-1.58, -2.3]].forEach(([x, z]) => {
                 const b = grp(scene, x, 0, z);
                 for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2 + 0.4; caster(b, Math.cos(a) * 0.15, Math.sin(a) * 0.15, 0.03); }
                 cyl(b, 0.17, 0.17, 0.02, D.inox, 0, 0.08, 0, 24);
@@ -679,7 +701,7 @@
                 const lin = put(b, new T.Mesh(new T.TorusGeometry(0.17, 0.012, 8, 28), D.white), 0, 0.39, 0); lin.rotation.x = Math.PI / 2;
                 cyl(b, 0.158, 0.158, 0.004, std('#e9edf1', { roughness: 0.9 }), 0, 0.37, 0, 24);
             });
-            [[-2.05, -0.62, 0], [-1.85, -2.05, 0.1]].forEach(([x, z, ry]) => {
+            [[-0.9, -4.2, 0]].forEach(([x, z, ry]) => {
                 const st = grp(scene, x, 0, z); st.rotation.y = ry;
                 rbox(st, 0.5, 0.2, 0.32, 0.02, D.inox, 0, 0.1, 0);
                 box(st, 0.46, 0.006, 0.28, D.rubber, 0, 0.203, 0);
@@ -689,7 +711,7 @@
         /* =================== Côté perfusion =================== */
         (function perfusion() {
             // tabouret du perfusionniste
-            const SX = 1.75, SZ = 1.45;
+            const SX = 1.05, SZ = 1.2;
             cyl(scene, 0.17, 0.17, 0.06, M.dark, SX, 0.56, SZ, 28);
             cyl(scene, 0.025, 0.025, 0.5, M.chrome, SX, 0.29, SZ, 12);
             for (let i = 0; i < 5; i++) {
@@ -703,7 +725,7 @@
             rbox(pt, 0.26, 0.24, 0.24, 0.02, D.white, -0.13, 0.985, -0.05);
             screen(pt, 0.13, 0.09, drawSmall([['GDS', '#8b96a8', 0.2, 0.08, 0.3], ['pH 7,38', '#ffffff', 0.24, 0.08, 0.7]]), -0.13, 1.02, 0.0705, 192);
             rbox(pt, 0.16, 0.08, 0.2, 0.015, D.grey, 0.15, 0.905, -0.06);
-            screen(pt, 0.1, 0.045, drawSmall([['ACT · en cours', '#57d39b', 0.36, 0.06, 0.68]]), 0.15, 0.91, 0.0405, 192);
+            live(pt, 0.1, 0.045, (g, w, h, sim) => drawSmall([[sim && sim.act ? 'ACT · contrôlé' : 'ACT · en attente', sim && sim.act ? '#57d39b' : '#e7c63c', 0.36, 0.06, 0.68]])(g, w, h), 0.15, 0.91, 0.0405, 192);
             const sheet = printed(pt, 0.21, 0.297, drawSheet, 0.1, 0.8645, 0.12, 256); sheet.rotation.x = -Math.PI / 2; sheet.rotation.z = 0.1;
             const pen = cyl(pt, 0.005, 0.005, 0.14, std('#2a55a8'), 0.2, 0.869, 0.1, 8); pen.rotation.z = Math.PI / 2; pen.rotation.y = 0.5;
             for (let i = 0; i < 3; i++) { const sy = cyl(pt, 0.008, 0.008, 0.09, glass('#ffffff', 0.7), -0.06 + i * 0.025, 0.872, 0.17, 10); sy.rotation.z = Math.PI / 2; sy.castShadow = false; }
@@ -725,8 +747,8 @@
             cyl(cs, 0.07, 0.06, 0.1, std('#9c2a35', { roughness: 0.4 }), -0.2, 1.235, -0.08, 20);
             box(cs, 0.2, 0.3, 0.04, std('#e8b4b4', { roughness: 0.6, transparent: true, opacity: 0.8 }), 0.27, 0.6, 0.0);
 
-            // générateur thermique : la sortie d'air est tournée vers le mur, loin du champ
-            const th = grp(scene, 3.95, 0, -0.9); th.rotation.y = -Math.PI / 2;
+            // générateur thermique : à côté de la machine, sortie d'air à l'opposé du champ
+            const th = grp(scene, 2.15, 0, -0.25); th.rotation.y = -Math.PI / 2;
             [-0.24, 0.24].forEach((x) => [-0.28, 0.28].forEach((z) => caster(th, x, z, 0.045)));
             rbox(th, 0.6, 0.86, 0.7, 0.04, D.white, 0, 0.53, 0);
             rbox(th, 0.62, 0.05, 0.72, 0.04, M.dark, 0, 0.985, 0);
@@ -744,6 +766,44 @@
             });
         })();
 
+        /* =================== L'équipe : des silhouettes sans visage, en tenue de bloc =================== */
+        const people = [];
+        const PM = {
+            gown: std('#3f8f86', { roughness: 0.92 }), scrubs: std('#5d86b8', { roughness: 0.92 }), cap: std('#3f78b0', { roughness: 0.85 }),
+            mask: std('#bcd9ea', { roughness: 0.9 }), glove: std('#f2efe6', { roughness: 0.6 }), clog: std('#eef0f2', { roughness: 0.6 }),
+            skins: ['#e3bfa3', '#c99673', '#a8744f'].map((c) => std(c, { roughness: 0.8 }))
+        };
+        // La personne regarde vers +z de son repère. o : { sterile (casaque longue et gants), seated, skin, hands: deux points }
+        function person(x, z, ry, o) {
+            const g = grp(scene, x, 0, z); g.rotation.y = ry;
+            const cloth = o.sterile ? PM.gown : PM.scrubs, skin = PM.skins[o.skin || 0];
+            const hip = o.seated ? 0.62 : 0.92, sh = hip + 0.5, headY = sh + 0.2;
+            [-1, 1].forEach((sd) => {
+                const hx = sd * 0.09;
+                if (o.seated) tube(g, [[hx, hip, 0], [hx * 1.1, hip - 0.01, 0.38], [hx * 1.1, 0.1, 0.42]], 0.068, PM.scrubs);
+                else cyl(g, 0.072, 0.06, hip - 0.06, PM.scrubs, hx, (hip + 0.06) / 2, 0, 14);
+                rbox(g, 0.1, 0.07, 0.25, 0.03, PM.clog, hx * 1.1, 0.035, o.seated ? 0.47 : 0.04);
+            });
+            const th = sh - hip + (o.sterile ? 0.5 : 0.06);
+            const torso = cyl(g, 0.17, o.sterile ? 0.23 : 0.19, th, cloth, 0, sh - th / 2, 0, 22); torso.scale.z = 0.62;
+            const shoulders = sph(g, 0.2, cloth, 0, sh - 0.02, 0, 18, 10); shoulders.scale.set(1.12, 0.42, 0.62);
+            cyl(g, 0.05, 0.055, 0.1, skin, 0, sh + 0.06, 0, 12);
+            const head = sph(g, 0.105, skin, 0, headY, 0, 20, 14); head.scale.set(0.92, 1.08, 1);
+            const cap = put(g, new T.Mesh(new T.SphereGeometry(0.112, 20, 10, 0, Math.PI * 2, 0, Math.PI * 0.52), PM.cap), 0, headY + 0.012, -0.008); cap.scale.set(0.95, 1, 1.04);
+            const mask = sph(g, 0.085, PM.mask, 0, headY - 0.045, 0.045, 14, 10); mask.scale.set(0.95, 0.62, 0.8);
+            o.hands.forEach((hd, i) => {
+                const sd = i ? 1 : -1, shx = sd * 0.21;
+                tube(g, [[shx, sh - 0.03, 0], [shx + sd * 0.05 + (hd[0] - shx) * 0.35, (sh + hd[1]) / 2 - 0.1, hd[2] * 0.4 - 0.02], hd], 0.046, cloth);
+                sph(g, 0.048, o.sterile ? PM.glove : skin, hd[0], hd[1], hd[2], 12, 8);
+            });
+            people.push({ g, x, z, top: headY + 0.12 });
+        }
+        person(-2.02, -0.5, Math.PI, { sterile: true, skin: 0, hands: [[-0.12, 1.28, 0.5], [0.13, 1.3, 0.48]] });        // chirurgien, à droite du patient
+        person(-1.95, -2.1, 0, { sterile: true, skin: 1, hands: [[-0.13, 1.28, 0.44], [0.12, 1.3, 0.46]] });              // aide, en face
+        person(-1.2, -2.2, -0.5, { sterile: true, skin: 0, hands: [[-0.16, 1.15, 0.3], [0.14, 1.08, 0.26]] });            // instrumentiste
+        person(-3.55, -1.05, Math.PI / 2, { skin: 2, hands: [[-0.24, 0.98, 0.1], [0.22, 1.05, 0.2]] });                    // anesthésiste, à la tête
+        person(1.05, 1.2, Math.PI + 0.35, { seated: true, skin: 1, hands: [[-0.2, 0.98, 0.42], [0.18, 0.9, 0.5]] });     // perfusionniste, assis devant la machine
+
         /* ---------- lumières propres au décor ---------- */
         const winLight = new T.DirectionalLight(0xe4eeff, 0.32);
         winLight.position.set(2.9, 4.0, -12);
@@ -760,6 +820,7 @@
         return {
             walls,
             floor: fl,
+            people,
             // vu d'au-dessus, le cadre du flux laminaire barrerait l'image : on ne le montre que de plus bas que lui
             update(camera) { D.skirtGroup.visible = camera.position.y < H - 0.5; },
             setNight(night) {
