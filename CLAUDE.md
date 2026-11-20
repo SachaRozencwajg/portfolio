@@ -66,6 +66,12 @@ Les scripts de `cec/` suivent la même règle de cache : changer leur `?v=` dans
 Les personnages (`cec/modeles/`, bibliothèque Rocketbox, licence MIT) se refont avec `scripts/cec/` ; leur
 licence reste dans le dossier et les crédits sur la page. Un fichier de `cec/modeles/` modifié change de nom
 (ces fichiers n'ont pas de paramètre de version).
+La lumière du sol, des murs et du plafond est précalculée (`cec/lumiere/`, voir `scripts/cec/README.md`) : après
+avoir déplacé du matériel, une personne ou un mur, refaire le calcul et changer `BAKE.version` dans `cec/decor.js`.
+Les textures photographiques (`cec/textures/`) viennent de Poly Haven (CC0) ; si l'une change, changer `PHOTO_VERSION`
+dans `cec/salle.js`.
+Le scénario vise un interne d'anesthésie-réanimation déjà formé à la CEC ou un perfusionniste en formation : répliques
+de salle, vocabulaire du métier, questions qui ne nomment pas la réponse.
 
 ### Cache des CSS et JS
 
