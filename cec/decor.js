@@ -6,7 +6,7 @@
     'use strict';
 
     window.SALLE_DECOR = function (k) {
-        const { T, scene, M, V, std, glass, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG } = k;
+        const { T, scene, M, V, std, glass, put, box, cyl, sph, grp, rbox, slab, pipe, tube, screen, live, SANS, BG, TX, brushed, moulded, woven, drapePanel } = k;
         const H = 3, X0 = -5.5, X1 = 5.5, Z0 = -4.5, Z1 = 4.5;
 
         // Hasard reproductible : la salle est la même à chaque chargement
@@ -57,6 +57,14 @@
             packs: ['#ffffff', '#e6eef6', '#5b8fd1', '#9fc3e6', '#2f6fb5', '#dfe7dc', '#f1f1f1', '#7aa7d8'].map((c) => std(c, { roughness: 0.75 }))
         };
 
+        [D.inox, D.inoxDark, D.domeRim].forEach((m) => brushed(m));
+        D.inox.roughness = 0.42; D.inoxDark.roughness = 0.46;
+        [D.white, D.grey, D.panel, D.rail, D.frame, D.domeShell, D.yellow, D.worktop].forEach((m) => moulded(m));
+        D.white.roughness = 0.62; D.panel.roughness = 0.62;
+        D.cardboard.bumpMap = TX.cloth; D.cardboard.bumpScale = 0.002;
+        // le sol brille un peu, par endroits : il reflète les plafonniers
+        D.floor.roughness = 0.62; D.floor.roughnessMap = TX.smudge; D.floor.envMapIntensity = 0.5;
+
         // Sol PVC coulé, moucheté
         const floorTex = canvasTex(512, 512, (g, w, h) => {
             g.fillStyle = '#aeb7c1'; g.fillRect(0, 0, w, h);
@@ -72,6 +80,11 @@
             g.fillStyle = '#f3f4f2'; g.fillRect(0, 0, w, h);
             g.fillStyle = '#d2d6d9'; g.fillRect(0, 0, 3, h);
             g.fillStyle = 'rgba(0,0,0,0.035)'; g.fillRect(3, 0, 4, h);
+            // l'air ne circule pas dans les angles : un voile plus sombre près du plafond (haut de l'image) et du sol
+            const top = g.createLinearGradient(0, 0, 0, h * 0.14); top.addColorStop(0, 'rgba(60,66,78,0.16)'); top.addColorStop(1, 'rgba(60,66,78,0)');
+            g.fillStyle = top; g.fillRect(0, 0, w, h * 0.14);
+            const bot = g.createLinearGradient(0, h * 0.8, 0, h); bot.addColorStop(0, 'rgba(60,66,78,0)'); bot.addColorStop(1, 'rgba(60,66,78,0.2)');
+            g.fillStyle = bot; g.fillRect(0, h * 0.8, w, h * 0.2);
         }, true);
 
         /* =================== Sol et murs =================== */
@@ -79,6 +92,26 @@
         fl.rotation.x = -Math.PI / 2;
         fl.receiveShadow = true;
         scene.add(fl);
+
+        // Ombres de contact : tout ce qui est posé au sol l'assombrit un peu autour de lui. Sans elles, les objets flottent.
+        const blobTex = canvasTex(128, 128, (g, w, h) => {
+            const gr = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+            gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(0.55, 'rgba(0,0,0,0.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+            g.fillStyle = gr; g.fillRect(0, 0, w, h);
+        });
+        const edgeTex = canvasTex(8, 64, (g, w, h) => {
+            const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,1)');
+            g.fillStyle = gr; g.fillRect(0, 0, w, h);
+        });
+        const shadeMat = (tex, op) => new T.MeshBasicMaterial({ color: 0x1b2230, map: tex, transparent: true, opacity: op, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
+        const blobMats = {};
+        function contact(x, z, w, d, op, ry) {
+            const key = op || 0.3;
+            const m = new T.Mesh(new T.PlaneGeometry(w, d), blobMats[key] || (blobMats[key] = shadeMat(blobTex, key)));
+            m.rotation.set(-Math.PI / 2, 0, ry || 0); m.position.set(x, 0.004, z); m.renderOrder = 1;
+            scene.add(m);
+            return m;
+        }
 
         // Chaque mur a son repère : x le long du mur, z vers l'intérieur de la salle.
         // Ce qui est accroché au mur disparaît avec lui quand la caméra passe derrière.
@@ -94,7 +127,7 @@
                 t.needsUpdate = true;
                 t.repeat.set((u1 - u0) / 1.2, (y1 - y0) / H);
                 t.offset.set(u0 / 1.2, y0 / H);
-                const m = new T.Mesh(new T.PlaneGeometry(u1 - u0, y1 - y0), new T.MeshStandardMaterial({ map: t, roughness: 0.9 }));
+                const m = new T.Mesh(new T.PlaneGeometry(u1 - u0, y1 - y0), new T.MeshStandardMaterial({ map: t, roughness: 0.86, bumpMap: TX.grain, bumpScale: 0.0005 }));
                 m.position.set((u0 + u1) / 2, (y0 + y1) / 2, 0);
                 m.receiveShadow = true;
                 f.add(m);
@@ -105,6 +138,10 @@
             sk.position.set(L / 2, 0.05, 0.003);
             sk.receiveShadow = true;
             f.add(sk);
+            // le pied du mur assombrit le sol sur une trentaine de centimètres
+            const ao = new T.Mesh(new T.PlaneGeometry(L, 0.34), shadeMat(edgeTex, 0.3));
+            ao.rotation.x = -Math.PI / 2; ao.position.set(L / 2, 0.005, 0.17); ao.renderOrder = 1;
+            f.add(ao);
             const w = { g, f, L, n: new T.Vector3(-dz / L, 0, dx / L), p: new T.Vector3(a[0], 0, a[1]) };
             walls.push(w);
             return w;
@@ -653,7 +690,8 @@
             [-0.7, 0.7].forEach((x) => [-0.33, 0.33].forEach((z) => { cyl(bt, 0.016, 0.016, 0.8, D.inox, x, 0.5, z, 10); caster(bt, x, z, 0.04); }));
             rbox(bt, 1.5, 0.03, 0.72, 0.01, D.inox, 0, 0.9, 0);
             box(bt, 1.56, 0.012, 0.78, M.drape, 0, 0.922, 0);
-            [-1, 1].forEach((s) => { box(bt, 1.56, 0.42, 0.01, M.drape, 0, 0.71, s * 0.395); box(bt, 0.01, 0.42, 0.78, M.drape, s * 0.785, 0.71, 0); });
+            drapePanel(bt, 1.56, 0.46, M.drape, 0, 0.69, 0.396, 0, 0.02, 2); drapePanel(bt, 1.56, 0.46, M.drape, 0, 0.69, -0.396, Math.PI, 0.02, 5);
+            drapePanel(bt, 0.78, 0.46, M.drape, 0.786, 0.69, 0, Math.PI / 2, 0.018, 8); drapePanel(bt, 0.78, 0.46, M.drape, -0.786, 0.69, 0, -Math.PI / 2, 0.018, 11);
             rbox(bt, 0.5, 0.03, 0.3, 0.008, D.inox, -0.35, 0.943, -0.1);
             for (let i = 0; i < 9; i++) { const ins = box(bt, 0.17, 0.006, 0.01, D.inox, -0.35 + (i - 4) * 0.012, 0.962, -0.1 + (i % 3 - 1) * 0.06); ins.rotation.y = (i % 2 ? 0.08 : -0.06); }
             [[0.2, 0.15, 0.09], [0.42, -0.15, 0.07]].forEach(([x, z, r]) => cyl(bt, r, r * 0.75, 0.06, D.inox, x, 0.958, z, 24));
@@ -711,9 +749,9 @@
         /* =================== Côté perfusion =================== */
         (function perfusion() {
             // tabouret du perfusionniste
-            const SX = 1.05, SZ = 1.2;
-            cyl(scene, 0.17, 0.17, 0.06, M.dark, SX, 0.56, SZ, 28);
-            cyl(scene, 0.025, 0.025, 0.5, M.chrome, SX, 0.29, SZ, 12);
+            const SX = 1.05, SZ = 1.15;
+            cyl(scene, 0.19, 0.19, 0.06, M.dark, SX, 0.45, SZ, 28);
+            cyl(scene, 0.025, 0.025, 0.4, M.chrome, SX, 0.24, SZ, 12);
             for (let i = 0; i < 5; i++) {
                 const a = i * Math.PI * 2 / 5;
                 const leg = box(scene, 0.26, 0.025, 0.04, M.aluDark, SX + Math.cos(a) * 0.13, 0.06, SZ + Math.sin(a) * 0.13); leg.rotation.y = -a;
@@ -766,43 +804,168 @@
             });
         })();
 
-        /* =================== L'équipe : des silhouettes sans visage, en tenue de bloc =================== */
+        /* =================== L'équipe ===================
+           Des personnages réalistes et articulés (bibliothèque Rocketbox de Microsoft, licence MIT) : deux modèles,
+           des variantes de textures (casaque et gants, pyjamas, teints, calots) et une pose par personne.
+           Ils se chargent après la scène. En attendant, ou si le chargement échoue, des silhouettes simples tiennent leur place. */
         const people = [];
         const PM = {
-            gown: std('#3f8f86', { roughness: 0.92 }), scrubs: std('#5d86b8', { roughness: 0.92 }), cap: std('#3f78b0', { roughness: 0.85 }),
-            mask: std('#bcd9ea', { roughness: 0.9 }), glove: std('#f2efe6', { roughness: 0.6 }), clog: std('#eef0f2', { roughness: 0.6 }),
+            gown: std('#4f86a6', { roughness: 0.92 }), scrubs: std('#7fb39c', { roughness: 0.92 }), cap: std('#6f9fb5', { roughness: 0.85 }),
+            mask: std('#bcd9ea', { roughness: 0.9 }), glove: std('#e9e3d2', { roughness: 0.6 }), clog: std('#eef0f2', { roughness: 0.6 }),
             skins: ['#e3bfa3', '#c99673', '#a8744f'].map((c) => std(c, { roughness: 0.8 }))
         };
-        // La personne regarde vers +z de son repère. o : { sterile (casaque longue et gants), seated, skin, hands: deux points }
-        function person(x, z, ry, o) {
-            const g = grp(scene, x, 0, z); g.rotation.y = ry;
-            const cloth = o.sterile ? PM.gown : PM.scrubs, skin = PM.skins[o.skin || 0];
-            const hip = o.seated ? 0.62 : 0.92, sh = hip + 0.5, headY = sh + 0.2;
+        // Silhouette d'attente. La personne regarde vers +z de son repère.
+        function standIn(m) {
+            const g = grp(scene, m.x, 0, m.z); g.rotation.y = m.ry;
+            const sterile = m.model === 'b', seated = m.pose === 'assis';
+            const cloth = sterile ? PM.gown : PM.scrubs, skin = PM.skins[m.skin || 0];
+            const hip = seated ? 0.56 : 0.92, sh = hip + 0.5, headY = sh + 0.2;
             [-1, 1].forEach((sd) => {
                 const hx = sd * 0.09;
-                if (o.seated) tube(g, [[hx, hip, 0], [hx * 1.1, hip - 0.01, 0.38], [hx * 1.1, 0.1, 0.42]], 0.068, PM.scrubs);
+                if (seated) tube(g, [[hx, hip, 0], [hx * 1.1, hip - 0.01, 0.38], [hx * 1.1, 0.1, 0.42]], 0.068, PM.scrubs);
                 else cyl(g, 0.072, 0.06, hip - 0.06, PM.scrubs, hx, (hip + 0.06) / 2, 0, 14);
-                rbox(g, 0.1, 0.07, 0.25, 0.03, PM.clog, hx * 1.1, 0.035, o.seated ? 0.47 : 0.04);
+                rbox(g, 0.1, 0.07, 0.25, 0.03, PM.clog, hx * 1.1, 0.035, seated ? 0.47 : 0.04);
             });
-            const th = sh - hip + (o.sterile ? 0.5 : 0.06);
-            const torso = cyl(g, 0.17, o.sterile ? 0.23 : 0.19, th, cloth, 0, sh - th / 2, 0, 22); torso.scale.z = 0.62;
+            const th = sh - hip + (sterile ? 0.5 : 0.06);
+            const torso = cyl(g, 0.17, sterile ? 0.23 : 0.19, th, cloth, 0, sh - th / 2, 0, 22); torso.scale.z = 0.62;
             const shoulders = sph(g, 0.2, cloth, 0, sh - 0.02, 0, 18, 10); shoulders.scale.set(1.12, 0.42, 0.62);
             cyl(g, 0.05, 0.055, 0.1, skin, 0, sh + 0.06, 0, 12);
             const head = sph(g, 0.105, skin, 0, headY, 0, 20, 14); head.scale.set(0.92, 1.08, 1);
             const cap = put(g, new T.Mesh(new T.SphereGeometry(0.112, 20, 10, 0, Math.PI * 2, 0, Math.PI * 0.52), PM.cap), 0, headY + 0.012, -0.008); cap.scale.set(0.95, 1, 1.04);
             const mask = sph(g, 0.085, PM.mask, 0, headY - 0.045, 0.045, 14, 10); mask.scale.set(0.95, 0.62, 0.8);
-            o.hands.forEach((hd, i) => {
+            [[-0.13, hip + 0.36, 0.44], [0.13, hip + 0.36, 0.44]].forEach((hd, i) => {
                 const sd = i ? 1 : -1, shx = sd * 0.21;
                 tube(g, [[shx, sh - 0.03, 0], [shx + sd * 0.05 + (hd[0] - shx) * 0.35, (sh + hd[1]) / 2 - 0.1, hd[2] * 0.4 - 0.02], hd], 0.046, cloth);
-                sph(g, 0.048, o.sterile ? PM.glove : skin, hd[0], hd[1], hd[2], 12, 8);
+                sph(g, 0.048, sterile ? PM.glove : skin, hd[0], hd[1], hd[2], 12, 8);
             });
-            people.push({ g, x, z, top: headY + 0.12 });
+            return g;
         }
-        person(-2.02, -0.5, Math.PI, { sterile: true, skin: 0, hands: [[-0.12, 1.28, 0.5], [0.13, 1.3, 0.48]] });        // chirurgien, à droite du patient
-        person(-1.95, -2.1, 0, { sterile: true, skin: 1, hands: [[-0.13, 1.28, 0.44], [0.12, 1.3, 0.46]] });              // aide, en face
-        person(-1.2, -2.2, -0.5, { sterile: true, skin: 0, hands: [[-0.16, 1.15, 0.3], [0.14, 1.08, 0.26]] });            // instrumentiste
-        person(-3.55, -1.05, Math.PI / 2, { skin: 2, hands: [[-0.24, 0.98, 0.1], [0.22, 1.05, 0.2]] });                    // anesthésiste, à la tête
-        person(1.05, 1.2, Math.PI + 0.35, { seated: true, skin: 1, hands: [[-0.2, 0.98, 0.42], [0.18, 0.9, 0.5]] });     // perfusionniste, assis devant la machine
+
+        // Poses : listes de [os, axe du personnage ('x' = sa gauche, 'y' = le haut, 'z' = devant lui), degrés], du parent vers l'enfant
+        const arm = (s, add, flex, elbow, inward, wrist, twist) => {
+            const sg = s === 'L' ? 1 : -1;
+            return [[s + ' UpperArm', 'z', -add * sg], [s + ' UpperArm', 'x', -flex], [s + ' Forearm', 'x', -elbow], [s + ' Forearm', 'y', -inward * sg], [s + ' Hand', 'z', (twist || 0) * sg], [s + ' Hand', 'x', wrist || 0]];
+        };
+        const fingers = (s, curl) => ['1', '11', '12', '2', '21', '22', '3', '31', '32', '4', '41', '42'].map((f) => [s + ' Finger' + f, 'x', -curl]);
+        const POSES = {
+            // penché sur le champ, les deux mains au-dessus du site opératoire
+            champ: { list: [['Spine', 'x', 10], ['Spine1', 'x', 9], ['Spine2', 'x', 6], ['Neck', 'x', 14], ['Head', 'x', 16], ...arm('L', 30, 30, 76, 24, 12, 70), ...arm('R', 30, 36, 68, 20, 12, 70), ...fingers('L', 16), ...fingers('R', 20)] },
+            // en face : un peu moins penché, une main plus basse
+            aide: { list: [['Spine', 'x', 7], ['Spine1', 'x', 7], ['Neck', 'x', 12], ['Head', 'x', 14], ['Head', 'y', 8], ...arm('L', 30, 22, 84, 26, 10, 70), ...arm('R', 28, 40, 58, 14, 14, 70), ...fingers('L', 26), ...fingers('R', 14)] },
+            // droit, les mains jointes devant soi : l'attente, sans rien toucher de non stérile
+            attente: { list: [['Spine1', 'x', 3], ['Neck', 'x', 6], ['Head', 'x', 8], ['Head', 'y', 14], ...arm('L', 34, 8, 96, 42, 4, 60), ...arm('R', 34, 10, 92, 44, 4, 60), ...fingers('L', 22), ...fingers('R', 22)] },
+            // debout, détendu, le regard levé vers les écrans
+            veille: { list: [['Spine1', 'x', -2], ['Neck', 'x', -6], ['Head', 'x', -8], ['Head', 'y', -10], ...arm('L', 38, 6, 20, 8, 0, 0), ...arm('R', 36, 12, 30, 12, 0, 0), ...fingers('L', 22), ...fingers('R', 26)] },
+            // assis, les mains sur les boutons des pompes
+            assis: { lift: -0.33, list: [['Spine', 'x', 7], ['Spine1', 'x', 6], ['Neck', 'x', 5], ['Head', 'x', 6], ['L Thigh', 'x', -84], ['R Thigh', 'x', -80], ['L Thigh', 'y', 8], ['R Thigh', 'y', -10], ['L Calf', 'x', 80], ['R Calf', 'x', 86], ...arm('L', 30, 44, 44, 10, 14, 70), ...arm('R', 30, 32, 60, 6, 14, 70), ...fingers('L', 24), ...fingers('R', 28)] }
+        };
+        const AXES = { x: new T.Vector3(1, 0, 0), y: new T.Vector3(0, 1, 0), z: new T.Vector3(0, 0, 1) };
+        // À appliquer tant que le personnage n'a pas encore été tourné : ses axes sont alors ceux de la scène
+        function applyPose(o, pose) {
+            o.updateMatrixWorld(true);
+            const pw = new T.Quaternion(), bw = new T.Quaternion(), r = new T.Quaternion();
+            pose.list.forEach(([b, ax, deg]) => {
+                const bone = o.getObjectByName('Bip01_' + b.replace(/ /g, '_'));
+                if (!bone) return;
+                r.setFromAxisAngle(AXES[ax], deg * Math.PI / 180);
+                bone.parent.getWorldQuaternion(pw); bone.getWorldQuaternion(bw);
+                bone.quaternion.copy(pw.invert().multiply(r).multiply(bw));
+                bone.updateMatrixWorld(true);
+            });
+            if (pose.lift) o.getObjectByName('Bip01').position.y += pose.lift;
+        }
+
+        const TEAM = [
+            { role: 'chirurgien', model: 'b', x: -2.02, z: -0.62, ry: Math.PI, scale: 1.0, pose: 'champ', skin: 0, tex: { corps: 'corps-b-casaque', tete: 'tete-b-clair', coiffe: 'coiffe-b-bleu' } },
+            { role: 'aide', model: 'b', x: -1.98, z: -1.99, ry: 0, scale: 0.97, pose: 'aide', skin: 2, tex: { corps: 'corps-b-casaque', tete: 'tete-b-fonce', coiffe: 'coiffe-b-vert' } },
+            { role: 'instrumentiste', model: 'b', x: -1.18, z: -2.1, ry: -0.55, scale: 0.94, pose: 'attente', skin: 1, tex: { corps: 'corps-b-casaque', tete: 'tete-b-mat', coiffe: 'coiffe-b-mauve' } },
+            { role: 'anesthésiste', model: 'a', x: -3.38, z: -1.78, ry: Math.PI + 0.3, scale: 0.98, pose: 'veille', skin: 1, tex: { corps: 'corps-a-bleu', tete: 'tete-a-mat', coiffe: 'coiffe-a-bleu' } },
+            { role: 'perfusionniste', model: 'a', x: 1.05, z: 1.15, ry: Math.PI + 0.3, scale: 1.0, pose: 'assis', skin: 0, tex: { corps: 'corps-a-vert', tete: 'tete-a-clair', coiffe: 'coiffe-a-vert' } }
+        ];
+        TEAM.forEach((m) => { people.push({ g: grp(scene), x: m.x, z: m.z, top: m.pose === 'assis' ? 1.4 : 1.8 }); });
+        const fallback = () => TEAM.forEach((m, i) => { const v = people[i].g.visible; scene.remove(people[i].g); people[i].g = standIn(m); people[i].g.visible = v; });
+
+        (function realTeam() {
+            if (!T.GLTFLoader || !T.SkeletonUtils) { fallback(); return; }
+            const DIR = 'modeles/', loader = new T.GLTFLoader(), texLoader = new T.TextureLoader(), cache = {};
+            const texture = (name) => {
+                if (!cache[name]) { const t = texLoader.load(DIR + name + '.webp'); t.flipY = false; t.encoding = T.sRGBEncoding; t.anisotropy = 4; cache[name] = t; }
+                return cache[name];
+            };
+            const load = (k) => new Promise((ok, ko) => loader.load(DIR + 'soignant-' + k + '.gltf', (g) => ok(g.scene), undefined, ko));
+            Promise.all([load('a'), load('b')]).then(([a, b]) => {
+                const base = { a, b };
+                // les textures déjà chargées avec chaque modèle ne sont pas rechargées
+                const DEFAULTS = { a: { corps: 'corps-a-vert', tete: 'tete-a-clair', coiffe: 'coiffe-a-vert' }, b: { corps: 'corps-b-casaque', tete: 'tete-b-clair', coiffe: 'coiffe-b-bleu' } };
+                Object.keys(base).forEach((key) => base[key].traverse((n) => { if (n.isMesh && n.material.map && DEFAULTS[key][n.material.name]) cache[DEFAULTS[key][n.material.name]] = n.material.map; }));
+                TEAM.forEach((m, i) => {
+                    const o = T.SkeletonUtils.clone(base[m.model]);
+                    o.traverse((n) => {
+                        if (!n.isMesh) return;
+                        n.castShadow = true; n.receiveShadow = true; n.frustumCulled = false;      // la pose sort le maillage de sa boîte d'origine
+                        const mat = n.material.clone();
+                        if (m.tex[mat.name]) mat.map = texture(m.tex[mat.name]);
+                        mat.envMapIntensity = 0.4;
+                        n.material = mat;
+                    });
+                    applyPose(o, POSES[m.pose]);
+                    const g = grp(scene, m.x, 0, m.z); g.rotation.y = m.ry; g.scale.setScalar(m.scale);
+                    g.add(o);
+                    g.visible = people[i].g.visible;
+                    scene.remove(people[i].g);
+                    people[i].g = g;
+                });
+            }).catch((e) => { fallback(); if (window.console) console.warn('Personnages non chargés : des silhouettes simples les remplacent.', e); });
+        })();
+
+        /* =================== Ombres de contact =================== */
+        [[0.9, 0.35, 2.0, 1.25, 0.34], [-1.9, -1.3, 1.5, 1.1, 0.4], [-1.8, -1.3, 2.9, 1.6, 0.16], [-1.25, -2.95, 1.9, 1.1, 0.26], [-3.95, -2.25, 1.1, 1.05, 0.34, 0.55],
+            [-5.0, -1.35, 0.8, 0.95, 0.3], [2.15, -0.25, 1.05, 0.95, 0.34], [2.25, -2.0, 0.9, 0.9, 0.32], [2.55, 0.95, 0.95, 0.8, 0.22], [-0.1, -2.6, 0.9, 0.8, 0.2], [0.7, -3.35, 0.8, 0.75, 0.2],
+            [-2.85, -2.5, 0.8, 0.8, 0.26], [-0.1, -4.05, 1.1, 0.6, 0.3], [-3.5, -0.5, 0.75, 0.75, 0.16], [1.05, 1.15, 0.8, 0.8, 0.24], [-1.5, -0.45, 0.5, 0.5, 0.3], [-1.58, -2.3, 0.5, 0.5, 0.3],
+            [-0.9, -4.2, 0.75, 0.5, 0.3], [-5.1, 3.75, 0.65, 0.55, 0.3], [5.05, -4.05, 0.65, 0.55, 0.3], [-4.75, -3.05, 0.6, 0.6, 0.2]
+        ].forEach(([x, z, w, d, op, ry]) => contact(x, z, w, d, op, ry));
+        TEAM.forEach((m) => { if (m.pose !== 'assis') contact(m.x, m.z, 0.62, 0.62, 0.3); });
+        // les armoires, adossées aux murs
+        contact(5.25, -2.7, 0.9, 2.4, 0.3); contact(2.8, 4.25, 2.0, 0.9, 0.3);
+
+        /* =================== Le désordre d'une vraie salle : clamps, câbles, étiquettes =================== */
+        (function clutter() {
+            // clamps à tubulure accrochés au cadre de la machine : il y en a toujours à portée de main
+            const blue = std('#2f6fc0', { roughness: 0.4 });
+            function clamp(x, y, z, ry, swing) {
+                const g = grp(scene, x, y, z); g.rotation.set(0, ry, swing);
+                [-1, 1].forEach((sd) => {
+                    const jaw = cyl(g, 0.0035, 0.0035, 0.17, D.inox, sd * 0.007, -0.095, 0, 6); jaw.rotation.z = sd * 0.07;
+                    const ring = put(g, new T.Mesh(new T.TorusGeometry(0.014, 0.004, 6, 14), blue), sd * 0.017, -0.19, 0);
+                });
+                cyl(g, 0.006, 0.006, 0.012, D.inox, 0, -0.07, 0, 8).rotation.x = Math.PI / 2;
+            }
+            [[1.15, 1.6, 0.42, 0.2, 0.1], [1.15, 1.6, 0.34, -0.3, -0.12], [1.15, 1.6, 0.27, 0.5, 0.05], [0.84, 1.48, 0.13, 1.5, 0.08], [0.9, 1.48, 0.13, 1.7, -0.1]].forEach((c) => clamp(...c));
+            // le câble d'alimentation de la machine, jusqu'à la prise murale
+            tube(scene, [[1.32, 0.3, 0.1], [1.7, 0.03, 0.55], [2.6, 0.02, 1.4], [3.9, 0.02, 2.3], [5.2, 0.02, 2.75], [5.46, 0.2, 2.85], [5.47, 0.42, 2.85]], 0.011, M.cable);
+            tube(scene, [[1.3, 0.3, 0.2], [1.75, 0.03, 0.75], [2.9, 0.02, 1.2], [4.2, 0.02, 2.5], [5.3, 0.02, 2.95], [5.46, 0.2, 3.02], [5.47, 0.42, 3.02]], 0.008, M.cable);
+            [2.85, 3.02].forEach((z) => { const pl = slab(scene, 0.09, 0.09, 0.02, 0.008, D.white, 5.488, 0.44, z); pl.rotation.y = -Math.PI / 2; });
+            // les câbles du poste d'anesthésie, vers le bras plafonnier
+            tube(scene, [[-4.18, 0.5, -2.46], [-4.5, 0.06, -2.75], [-4.72, 0.05, -2.95], [-4.75, 0.9, -2.98]], 0.01, M.cable);
+            tube(scene, [[-3.6, 1.7, -2.84], [-3.9, 1.55, -2.98], [-4.4, 1.5, -3.02], [-4.66, 1.62, -3.0]], 0.006, M.cable);
+            // étiquettes : identification du matériel et contrôle périodique
+            const tag = (p, w, h, x, y, z, ry, draw) => { const m = printed(p, w, h, draw, x, y, z, 128); m.rotation.y = ry; return m; };
+            const idTag = (text) => (g, w, h) => { g.fillStyle = '#f4d23c'; g.fillRect(0, 0, w, h); g.fillStyle = '#20242b'; g.font = font(700, h * 0.5); g.fillText(text, w * 0.08, h * 0.68); };
+            const check = (g, w, h) => { g.fillStyle = '#f6f6f2'; g.fillRect(0, 0, w, h); g.fillStyle = '#2f8f55'; g.fillRect(0, 0, w, h * 0.3); g.fillStyle = '#20242b'; g.font = font(600, h * 0.2); g.fillText('Contrôle', w * 0.08, h * 0.58); g.fillText('11 / 2026', w * 0.08, h * 0.86); };
+            tag(scene, 0.11, 0.035, 1.3, 1.27, 0.571, 0, idTag('CEC 2'));
+            tag(scene, 0.06, 0.045, 1.24, 1.18, 0.571, 0, check);
+            tag(scene, 0.1, 0.035, 2.502, 0.9, -0.42, Math.PI / 2, idTag('THERMO 1'));
+            tag(scene, 0.06, 0.045, 2.502, 0.83, -0.4, Math.PI / 2, check);
+            // une poche de soluté sur la potence haute de la machine, avec sa ligne vers le réservoir
+            const bag = rbox(scene, 0.12, 0.2, 0.03, 0.012, glass('#eef4fb', 0.5), 1.1, 1.8, 0.2); bag.castShadow = false;
+            rbox(scene, 0.105, 0.11, 0.022, 0.01, glass('#d5e6f5', 0.55), 1.1, 1.762, 0.2).castShadow = false;
+            tag(scene, 0.08, 0.07, 1.1, 1.83, 0.2165, 0, (g, w, h) => { g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h); g.fillStyle = '#2a55a8'; g.fillRect(0, 0, w, h * 0.22); g.fillStyle = '#20242b'; g.font = font(600, h * 0.2); g.fillText('Soluté', w * 0.08, h * 0.52); g.fillText('500 mL', w * 0.08, h * 0.8); });
+            cyl(scene, 0.004, 0.004, 0.06, D.inox, 1.1, 1.93, 0.2, 5);
+            cyl(scene, 0.011, 0.011, 0.05, glass('#ffffff', 0.5), 1.1, 1.66, 0.2, 10).castShadow = false;
+            tube(scene, [[1.1, 1.635, 0.2], [1.0, 1.3, 0.05], [0.5, 1.02, 0.02], [0.1, 0.9, 0.2], [0.06, 0.78, 0.36]], 0.0035, glass('#ffffff', 0.55));
+            // le ticket de l'ACT, scotché sur le bord du moniteur
+            const ticket = printed(scene, 0.045, 0.13, (g, w, h) => { g.fillStyle = '#fbfbf6'; g.fillRect(0, 0, w, h); g.fillStyle = '#3a3f47'; for (let i = 0; i < 9; i++) g.fillRect(w * 0.12, h * (0.08 + i * 0.095), w * (0.4 + ((i * 7) % 5) * 0.08), h * 0.022); }, 1.215, 1.27, 0.245, 96); ticket.rotation.set(0.06, 0, -0.05);
+        })();
 
         /* ---------- lumières propres au décor ---------- */
         const winLight = new T.DirectionalLight(0xe4eeff, 0.32);
@@ -819,6 +982,7 @@
 
         return {
             walls,
+            shell: [fl, ceil].concat(walls.map((w) => w.g)),        // la pièce nue, pour la capture des reflets
             floor: fl,
             people,
             // vu d'au-dessus, le cadre du flux laminaire barrerait l'image : on ne le montre que de plus bas que lui
